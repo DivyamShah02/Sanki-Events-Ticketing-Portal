@@ -1,4 +1,5 @@
 from django.db import models
+from storages.backends.s3boto3 import S3Boto3Storage
 
 
 class AssignedTicket(models.Model):
@@ -12,6 +13,7 @@ class AssignedTicket(models.Model):
 
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
+    event_id = models.CharField(max_length=10)
     event_date_id = models.CharField(max_length=10)
     seller_id = models.CharField(max_length=10)
     
@@ -21,11 +23,11 @@ class Ticket(models.Model):
     customer_name = models.CharField(max_length=255)
     customer_email = models.EmailField()
     customer_number = models.CharField(max_length=20)
-    customer_payment_ss = models.CharField(max_length=255)
+    customer_payment_ss = models.ImageField(upload_to='screen_shots/', storage=S3Boto3Storage(), null=True, blank=True)
     
     approved = models.BooleanField(default=False)
     mail_sent = models.BooleanField(default=False)
-    ticket_sent_codes = models.CharField(max_length=255)
+    ticket_sent_codes = models.CharField(max_length=255, default='')
 
     def __str__(self):
         return f"Ticket {self.ticket_id} - {self.customer_name}"

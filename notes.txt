@@ -1,0 +1,67 @@
+Sanki Events Portal APIs
+
+---- User ----
+XX -> creation
+XX -> updation
+XX -> login
+XX -> logout
+XX -> change password
+XX -> decativate
+XX -> get all users
+XX -> get user data (logged in)
+XX -> get user data (custom user user_id provided in data)
+
+---- Events ----
+XX -> Event creation -- event dates table rows
+XX -> Event updation
+XX -> Event deletion
+XX -> ticket count update api (event date level)
+XX -> get all events
+XX -> get event details - event dates details
+-> get all tickets sold of a particular event
+
+---- tickets ----
+XX -> ticket buy
+XX -> ticket approve (add amount)
+-> ticket sent (send on mail from s3)
+XX -> get all tickets on the basis of event dates id & seller id
+XX -> get all tickets on the basis of events & seller id
+
+---- assigned tickets ----
+XX -> ticket assignment -- reseller_id, event_date_id, assigned ticket count
+XX -> get assigned tickets -- event_date_id && reseller_id, event_date_id
+XX -> re-assign tickets -- reseller_id, event_date_id, assigned ticket count
+
+
+---- dashboard (hod) api to be called ----
+-> get user data (logged in)
+-> get all events
+-> get all users
+
+---- Event level page for hod (api to be called) ----
+-> get event details - event dates details
+-> get all tickets sold of a particular event
+
+---- Event date level page for hod (api to be called) ----
+-> get all ticketes sold for particular event date
+-> get all resllers
+-> get all tickets sold by resller of particular event date
+-> get assigend tickets data of resller and event date
+-> assign new tickets to resller
+
+---- user level page for hod (api to be called) ----
+-> get reseller data (get user data)
+-> get all tickets on the basis of events & seller id
+
+---- dashboard (re-seller) api to be called ----
+-> get user data (logged in)
+-> get all events (where he has tickets assigned)
+
+---- Event level page for hod (api to be called) ----
+-> get event details - event dates details
+-> get all tickets sold of a particular event by him
+
+---- Event date level page for re-seller ----
+-> get event details - event dates details
+-> get all tickets sold of a particular event date by him
+-> assigned tickets data

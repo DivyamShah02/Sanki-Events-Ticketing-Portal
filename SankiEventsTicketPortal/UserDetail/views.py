@@ -7,8 +7,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 
-from .serializers import UserSerializer
-from .models import User
+from .serializers import *
+from .models import *
 
 import random
 import string
@@ -21,6 +21,31 @@ logger = None
 
 class UserViewSet(viewsets.ViewSet):
     
+    @handle_exceptions
+    @check_authentication
+    def list(self, request):
+        user_id = request.query_params.get('user_id')  # Use query_params for GET requests
+        if not user_id:
+            return Response(
+                        {
+                            "success": False,
+                            "user_not_logged_in": False,
+                            "user_unauthorized": False,
+                            "data": None,
+                            "error": "Missing user_id."
+                        }, status=status.HTTP_400_BAD_REQUEST)
+
+        user_data_obj = get_object_or_404(User, user_id=user_id)
+        user_data = UserSerializer(user_data_obj).data
+        return Response(
+                    {
+                        "success": True,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,
+                        "data": user_data,
+                        "error": None
+                    }, status=status.HTTP_200_OK)
+
     @handle_exceptions
     @check_authentication(required_role='admin')
     def create(self, request):
@@ -36,8 +61,8 @@ class UserViewSet(viewsets.ViewSet):
                 'reseller': 'RE'
             }
 
-            email_already_user = User.objects.filter(email=email).first()
-            contact_number_already_user = User.objects.filter(contact_number=contact_number).first()
+            email_already_user = User.objects.filter(is_active=True, email=email).first()
+            contact_number_already_user = User.objects.filter(is_active=True, contact_number=contact_number).first()
 
             if email_already_user or contact_number_already_user:
                 return Response(
@@ -97,35 +122,88 @@ class UserViewSet(viewsets.ViewSet):
                         }, status=status.HTTP_201_CREATED)
 
     @handle_exceptions
-    @check_authentication
-    def list(self, request):
-        user_id = request.query_params.get('user_id')  # Use query_params for GET requests
+    @check_authentication(required_role='admin')
+    def update(self, request):        
+        user_id = request.data.get('user_id')
         if not user_id:
             return Response(
-                        {
-                            "success": False,
-                            "user_not_logged_in": False,
-                            "user_unauthorized": False,
-                            "data": None,
-                            "error": "Missing user_id."
-                        }, status=status.HTTP_400_BAD_REQUEST)
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "User ID not provided."
+                }, status=status.HTTP_400_BAD_REQUEST)
 
-        user_data_obj = get_object_or_404(User, user_id=user_id)
-        user_data = UserSerializer(user_data_obj).data
+        user_obj = User.objects.get(user_id=user_id)
+        if not user_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": True,
+                    "data": None,
+                    "error": "User not found.."
+                }, status=status.HTTP_403_FORBIDDEN)
+
+        user_obj.name = request.data.get('name', user_obj.name)
+        user_obj.contact_number = request.data.get('contact_number', user_obj.contact_number)
+        user_obj.email = request.data.get('email', user_obj.email)
+        user_obj.save()
+
         return Response(
-                    {
-                        "success": True,
-                        "user_not_logged_in": False,
-                        "user_unauthorized": False,
-                        "data": user_data,
-                        "error": None
-                    }, status=status.HTTP_200_OK)
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": {"user_id": user_id},
+                "error": None
+            }, status=status.HTTP_200_OK
+        )
+
+    @handle_exceptions
+    @check_authentication(required_role='admin')
+    def delete(self, request):        
+        user_id = request.data.get('user_id')
+        if not user_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "user_id not provided."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        user_obj = User.objects.get(user_id=user_id)
+        if not user_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": True,
+                    "data": None,
+                    "error": "User not found."
+                }, status=status.HTTP_403_FORBIDDEN)
+
+        user_obj.is_active = False
+        user_obj.save()
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": {"user_id": user_id},
+                "error": None
+            }, status=status.HTTP_200_OK
+        )
 
     def generate_user_id(self, role_code):
         while True:
             user_id = ''.join(random.choices(string.digits, k=10))
             user_id = role_code + user_id
-            if not User.objects.filter(user_id=user_id).exists():
+            if not User.objects.filter(is_active=True, user_id=user_id).exists():
                 return user_id
 
 
@@ -147,7 +225,7 @@ class LoginApiViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        user = User.objects.filter(email=email).first()
+        user = User.objects.filter(is_active=True, email=email).first()
         if not user:
             return Response(
                 {
@@ -191,6 +269,51 @@ class LogoutApiViewSet(viewsets.ViewSet):
             print(e)
             return HttpResponse('DONE')
             return redirect('dashboard-list')
+
+
+class UserListViewSet(viewsets.ViewSet):
+    @check_authentication()
+    @handle_exceptions
+    def list(self, request):
+        users_obj = User.objects.all()
+        user_data = UserSerializer(users_obj).data
+        
+        data = {
+            'user_data': user_data,
+            'len_user_data': len(user_data)
+        }
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
+class UserDetailViewSet(viewsets.ViewSet):
+    @handle_exceptions
+    @check_authentication
+    def create(self, request):
+        custom_user = request.data.get('custom_user')
+        if not custom_user:
+            user_data = UserSerializer(request.user).data
+        
+        else:
+            user_obj = User.objects.filter(user_id=custom_user).first()
+            user_data = UserSerializer(user_obj).data
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": user_data,
+                "error": None
+            }, status=status.HTTP_200_OK
+        )
 
 
 def login_to_account(request):

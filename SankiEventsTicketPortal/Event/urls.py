@@ -4,7 +4,11 @@ from .views import *
 
 
 router = DefaultRouter()
-# router.register(r'user-api', UserViewSet, basename='user-api')
+router.register(r'event-api', EventViewSet, basename='event-api')
+router.register(r'all-events-api', EventListViewSet, basename='all-events-api')
+router.register(r'event-data-api', EventDetailViewSet, basename='event-data-api')
+
+router.register(r'update-ticket-api', TicketUpdateViewSet, basename='update-ticket-api')
 
 urlpatterns = [
     path('', include(router.urls))

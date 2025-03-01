@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from utils.encrypt_decrypt import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -96,3 +97,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = base64_to_text('QUtJQTVJSk9YQlFVVEVFNU9NSkI=')
+AWS_SECRET_ACCESS_KEY = base64_to_text('TlIwblU5T0oyQ0lkQm1nRkFXMEk4RTRiT01na3NEVXVPQnJJTU5iNQ==')
+AWS_STORAGE_BUCKET_NAME = 'sankievents'
+AWS_S3_SIGNATURE_NAME = 's3v4'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_QUERYSTRING_AUTH = False
+
+
+# S3 Media Files Configuration
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+
+# Cache Control (Optional, for performance)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
