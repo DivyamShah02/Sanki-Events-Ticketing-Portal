@@ -2,7 +2,7 @@ import requests
 
 base_url = 'http://127.0.0.1:8000/'
 
-def create_user():
+def create_admin_user():
     url = base_url + 'user/user-api/'
 
     data = {
@@ -16,6 +16,22 @@ def create_user():
     response = requests.post(url, data=data)
 
     return response
+
+def create_user():
+    url = base_url + 'user/user-api/'
+
+    data = {
+        'name': 'Divyam Shah',
+        'password':'12345',
+        'contact_number': '9054413199',
+        'email': 'divyam@dynamiclabz.net',
+        'role': 'hod',  
+    }
+
+    response = requests.post(url, data=data)
+
+    return response
+
 
 def login_user():
     url = base_url + 'user/login-api/'
@@ -33,8 +49,12 @@ def login_user():
 if __name__ == '__main__':
     print('Hello')
 
-    create_user_respone = create_user()
-    print(create_user_respone.text)
+    # create_admin_user_respone = create_admin_user()
+    # print(create_admin_user_respone.text)
 
-    # login_user_respone = login_user()
-    # print(login_user_respone.text)
+    # create_user_respone = create_user()
+    # print(create_user_respone.text)
+
+
+    login_user_respone = login_user()
+    print(login_user_respone.text)

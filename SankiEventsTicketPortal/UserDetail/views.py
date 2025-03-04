@@ -47,7 +47,7 @@ class UserViewSet(viewsets.ViewSet):
                     }, status=status.HTTP_200_OK)
 
     @handle_exceptions
-    @check_authentication(required_role='admin')
+    # @check_authentication(required_role='admin')
     def create(self, request):
             name = request.data.get('name')
             password = request.data.get('password')

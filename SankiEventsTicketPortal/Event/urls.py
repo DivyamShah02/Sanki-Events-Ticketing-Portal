@@ -5,6 +5,7 @@ from .views import *
 
 router = DefaultRouter()
 router.register(r'event-api', EventViewSet, basename='event-api')
+router.register(r'event-ticket-api', EventTicketsViewSet, basename='event-ticket-api')
 router.register(r'all-events-api', EventListViewSet, basename='all-events-api')
 router.register(r'event-data-api', EventDetailViewSet, basename='event-data-api')
 

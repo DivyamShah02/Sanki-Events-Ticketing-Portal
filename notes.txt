@@ -10,6 +10,7 @@ XX -> decativate
 XX -> get all users
 XX -> get user data (logged in)
 XX -> get user data (custom user user_id provided in data)
+-> get user on the basis of role
 
 ---- Events ----
 XX -> Event creation -- event dates table rows
@@ -18,7 +19,7 @@ XX -> Event deletion
 XX -> ticket count update api (event date level)
 XX -> get all events
 XX -> get event details - event dates details
--> get all tickets sold of a particular event
+XX -> get all tickets sold of a particular event
 
 ---- tickets ----
 XX -> ticket buy

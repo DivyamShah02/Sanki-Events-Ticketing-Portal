@@ -9,7 +9,9 @@ from utils.decorators import *
 
 from .models import *
 from .serializers import *
-from utils.handle_s3_bucket import create_event_folders_s3
+from utils.handle_s3_bucket import *
+from UserDetail.models import *
+from UserDetail.serializers import *
 
 
 class EventViewSet(viewsets.ViewSet):
@@ -31,7 +33,7 @@ class EventViewSet(viewsets.ViewSet):
                 "user_unauthorized": False,
                 "data": None,
                 "error": "Missing required fields."
-            }, status=status.HTTP_201_CREATED)
+            }, status=status.HTTP_400_BAD_REQUEST)
         
         event_id = self.generate_event_id()
         hod_id = request.user.user_id
@@ -208,6 +210,126 @@ class EventViewSet(viewsets.ViewSet):
             }, status=status.HTTP_200_OK)
 
 
+class EventTicketsViewSet(viewsets.ViewSet):
+    
+    @check_authentication()
+    @handle_exceptions
+    def create(self, request):
+        event_date_id = request.data.get('event_date_id')
+        if not event_date_id:
+            return Response(
+                    {
+                        "success": False,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,                            
+                        "data": None,
+                        "error": "event_date_id required."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        event_id = request.data.get('event_id')
+        if not event_id:
+            return Response(
+                    {
+                        "success": False,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,                            
+                        "data": None,
+                        "error": "event_id required."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        event_date_data = EventDate.objects.filter(event_date_id=event_date_id).first()
+        event_data = Event.objects.filter(event_id=event_id).first()
+        
+        s3_bucket_folder = event_data.s3_bucket_folder
+        event_date = datetime(event_date_data.date).strftime("%Y-%m-%d")
+
+        ind = 0
+        document_paths = []
+        while True:
+            if f'files[{ind}]' in request.FILES:
+                document_paths.append(request.FILES[f'files[{ind}]'])
+                ind+=1
+            else:
+                break
+
+        event_date_folder = f"{s3_bucket_folder}/{event_date}"
+        total_files_uploaded, error_files = upload_ticket_to_s3_event_folder(uploaded_files=document_paths, event_folder=event_date_folder)
+
+        data = {
+            'total_files_uploaded': total_files_uploaded,
+            'error_files': error_files
+        }
+
+        return Response(
+                {
+                    "success": True,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,                        
+                    "data": data,
+                    "error": None
+                },
+                status=status.HTTP_200_OK
+            )        
+
+    @check_authentication()
+    @handle_exceptions
+    def list(self, request):
+        event_id = request.GET.get('event_id')
+        if not event_id:
+            return Response(
+                    {
+                        "success": False,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,                            
+                        "data": None,
+                        "error": "event_id required."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        event_date_id = request.GET.get('event_date_id')
+        if event_date_id:
+            event_date_data = EventDate.objects.filter(event_date_id=event_date_id).first()
+            event_data = Event.objects.filter(event_id=event_id).first()
+            
+            s3_bucket_folder = event_data.s3_bucket_folder
+            event_date = datetime(event_date_data.date).strftime("%Y-%m-%d")
+            event_date_folder = f"{s3_bucket_folder}/{event_date}"
+            
+            total_tickets = get_number_of_tickets_in_event_folder(folder_name=event_date_folder)
+
+        else:        
+            event_data = Event.objects.filter(event_id=event_id).first()
+            event_date_data = EventDate.objects.filter(event_id=event_id)
+            
+            total_tickets = 0
+            
+            s3_bucket_folder = event_data.s3_bucket_folder
+            for event_date in event_date_data:
+                date = datetime(event_date.date).strftime("%Y-%m-%d")
+                event_date_folder = f"{s3_bucket_folder}/{date}"
+                total_tickets += get_number_of_tickets_in_event_folder(folder_name=event_date_folder)
+
+        data = {
+            'total_tickets': total_tickets,
+        }
+
+        return Response(
+                {
+                    "success": True,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,                        
+                    "data": data,
+                    "error": None
+                },
+                status=status.HTTP_200_OK
+            )        
+
+
 class EventListViewSet(viewsets.ViewSet):
     @check_authentication()
     @handle_exceptions
@@ -323,6 +445,55 @@ class TicketUpdateViewSet(viewsets.ViewSet):
                 "user_not_logged_in": False,
                 "user_unauthorized": False,
                 "data": {"event_date_id": event_date_id, "ticket_count": ticket_count},
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
+class HodDashboardDetailsViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    @check_authentication(required_role='hod')
+    def list(self, request):
+        events_obj = Event.objects.all()
+        events_data = HodDashboardEventSerializer(events_obj).data
+
+        reseller_obj = User.objects.filter(role='reseller')
+        reseller_data = HodDashboardUserSerializer(reseller_obj).data
+        
+        all_ticket_obj = Ticket.objects.all()
+        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj).data
+
+        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj).data
+
+        all_tickets_sold = 0
+        all_tickets_sold_amount = 0
+
+        for ticket_sold in all_ticket_data_qty_amt:
+            all_tickets_sold+=ticket_sold['qty']
+            all_tickets_sold_amount+=ticket_sold['amount']
+
+
+        data = {
+            'events_data': events_data,
+            'len_events_data': len(events_data),
+
+            'reseller_data': reseller_data,
+            'len_reseller_data': len(reseller_data),
+
+            'all_ticket_data': all_ticket_data,
+            'len_all_ticket_data': len(all_ticket_data),
+
+            'all_tickets_sold': all_tickets_sold,
+            'all_tickets_sold_amount': all_tickets_sold_amount,
+        }
+
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
                 "error": None
             }, status=status.HTTP_200_OK)
 
