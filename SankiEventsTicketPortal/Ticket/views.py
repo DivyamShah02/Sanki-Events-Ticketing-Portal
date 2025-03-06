@@ -74,7 +74,7 @@ class TicketViewSet(viewsets.ViewSet):
     def generate_ticket_id(self):
         while True:
             ticket_id = ''.join(random.choices(string.digits, k=10))
-            if not User.objects.filter(is_active=True, ticket_id=ticket_id).exists():
+            if not Ticket.objects.filter(ticket_id=ticket_id).exists():
                 return ticket_id
 
     @handle_exceptions

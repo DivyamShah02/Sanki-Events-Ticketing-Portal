@@ -23,5 +23,5 @@ class EventDate(models.Model):
     number_of_tickets = models.IntegerField()
 
     def __str__(self):
-        return f"{self.event.event_name} - {self.date}"
+        return f"{self.event_date_id} - {self.date}"
 

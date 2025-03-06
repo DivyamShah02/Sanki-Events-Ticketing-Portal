@@ -17,7 +17,7 @@ from UserDetail.serializers import *
 class EventViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    @check_authentication(required_role='hod')
+    # @check_authentication(required_role='hod')
     def create(self, request):
         event_name = request.data.get('event_name')
         event_details = request.data.get('event_details')
@@ -36,7 +36,8 @@ class EventViewSet(viewsets.ViewSet):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         event_id = self.generate_event_id()
-        hod_id = request.user.user_id
+        # hod_id = request.user.user_id
+        hod_id = 'HO6870923320'
         event_dates = []
 
         start_date, end_date = event_date_range.split(" | ")
@@ -452,18 +453,18 @@ class TicketUpdateViewSet(viewsets.ViewSet):
 class HodDashboardDetailsViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    @check_authentication(required_role='hod')
+    # @check_authentication(required_role='hod')
     def list(self, request):
         events_obj = Event.objects.all()
-        events_data = HodDashboardEventSerializer(events_obj).data
+        events_data = HodDashboardEventSerializer(events_obj, many=True).data
 
         reseller_obj = User.objects.filter(role='reseller')
-        reseller_data = HodDashboardUserSerializer(reseller_obj).data
+        reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
         
         all_ticket_obj = Ticket.objects.all()
-        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj).data
+        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj, many=True).data
 
-        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj).data
+        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
         all_tickets_sold = 0
         all_tickets_sold_amount = 0
@@ -496,4 +497,54 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
                 "data": data,
                 "error": None
             }, status=status.HTTP_200_OK)
+
+
+class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    # @check_authentication(required_role='hod')
+    def list(self, request):
+        events_obj = Event.objects.all()
+        events_data = HodDashboardEventSerializer(events_obj, many=True).data
+
+        reseller_obj = User.objects.filter(role='reseller')
+        reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
+        
+        all_ticket_obj = Ticket.objects.all()
+        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj, many=True).data
+
+        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
+
+        all_tickets_sold = 0
+        all_tickets_sold_amount = 0
+
+        for ticket_sold in all_ticket_data_qty_amt:
+            all_tickets_sold+=ticket_sold['qty']
+            all_tickets_sold_amount+=ticket_sold['amount']
+
+
+        data = {
+            'events_data': events_data,
+            'len_events_data': len(events_data),
+
+            'reseller_data': reseller_data,
+            'len_reseller_data': len(reseller_data),
+
+            'all_ticket_data': all_ticket_data,
+            'len_all_ticket_data': len(all_ticket_data),
+
+            'all_tickets_sold': all_tickets_sold,
+            'all_tickets_sold_amount': all_tickets_sold_amount,
+        }
+
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
 

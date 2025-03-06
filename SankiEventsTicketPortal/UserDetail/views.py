@@ -272,11 +272,11 @@ class LogoutApiViewSet(viewsets.ViewSet):
 
 
 class UserListViewSet(viewsets.ViewSet):
-    @check_authentication()
+    # @check_authentication()
     @handle_exceptions
     def list(self, request):
         users_obj = User.objects.all()
-        user_data = UserSerializer(users_obj).data
+        user_data = UserSerializer(users_obj, many=True).data
         
         data = {
             'user_data': user_data,
