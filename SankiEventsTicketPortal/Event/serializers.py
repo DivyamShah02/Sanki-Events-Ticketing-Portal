@@ -20,7 +20,7 @@ class HodDashboardEventSerializer(serializers.ModelSerializer):
 
         if 'event_id' in representation:
             all_envents_tickets_sold_obj = Ticket.objects.filter(event_id=representation['event_id'], approved=True)
-            all_envents_tickets_sold = QtyAmountTicketSerializer(all_envents_tickets_sold_obj).data
+            all_envents_tickets_sold = QtyAmountTicketSerializer(all_envents_tickets_sold_obj, many=True).data
 
             total_event_ticket_sold = 0
             total_event_ticket_sold_amount = 0

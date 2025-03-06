@@ -15,7 +15,7 @@ class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
     event_id = models.CharField(max_length=10)
     event_date_id = models.CharField(max_length=10)
-    seller_id = models.CharField(max_length=10)
+    seller_id = models.CharField(max_length=12)
     
     qty = models.IntegerField()
     amount = models.IntegerField()

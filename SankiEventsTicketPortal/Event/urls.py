@@ -11,6 +11,8 @@ router.register(r'event-data-api', EventDetailViewSet, basename='event-data-api'
 
 router.register(r'update-ticket-api', TicketUpdateViewSet, basename='update-ticket-api')
 
+router.register(r'hod-dashboard-api', HodDashboardDetailsViewSet, basename='hod-dashboard-api')
+
 urlpatterns = [
     path('', include(router.urls))
 ]
