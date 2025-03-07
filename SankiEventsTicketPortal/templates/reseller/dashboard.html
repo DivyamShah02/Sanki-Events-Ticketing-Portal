@@ -201,110 +201,79 @@
       <!-- [Mobile Media Block end] -->
       <div class="ms-auto">
         <ul class="list-unstyled">
-          <li class="dropdown pc-h-item">
-            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-              aria-haspopup="false" aria-expanded="false">
-              <i class="ti ti-mail"></i>
-            </a>
-            <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
-              <div class="dropdown-header d-flex align-items-center justify-content-between">
-                <h5 class="m-0">Message</h5>
-                <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-x text-danger"></i></a>
-              </div>
-              <div class="dropdown-divider"></div>
-              <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative"
-                style="max-height: calc(100vh - 215px)">
-                <div class="list-group list-group-flush w-100">
-                  <a class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-                      </div>
-                      <div class="flex-grow-1 ms-1">
-                        <span class="float-end text-muted">3:00 AM</span>
-                        <p class="text-body mb-1">It's <b>Cristina danny's</b> birthday today.</p>
-                        <span class="text-muted">2 min ago</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar">
-                      </div>
-                      <div class="flex-grow-1 ms-1">
-                        <span class="float-end text-muted">6:00 PM</span>
-                        <p class="text-body mb-1"><b>Aida Burg</b> commented your post.</p>
-                        <span class="text-muted">5 August</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <img src="../assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar">
-                      </div>
-                      <div class="flex-grow-1 ms-1">
-                        <span class="float-end text-muted">2:45 PM</span>
-                        <p class="text-body mb-1"><b>There was a failure to your setup.</b></p>
-                        <span class="text-muted">7 hours ago</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <img src="../assets/images/user/avatar-4.jpg" alt="user-image" class="user-avtar">
-                      </div>
-                      <div class="flex-grow-1 ms-1">
-                        <span class="float-end text-muted">9:10 PM</span>
-                        <p class="text-body mb-1"><b>Cristina Danny </b> invited to join <b> Meeting.</b></p>
-                        <span class="text-muted">Daily scrum meeting time</span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div class="dropdown-divider"></div>
-              <div class="text-center py-2">
-                <a href="#!" class="link-primary">View all</a>
-              </div>
-            </div>
-          </li>
+         
           <li class="dropdown pc-h-item header-user-profile">
-            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-              aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-              <span>Stebin Ben</span>
+            <a
+              class="pc-head-link dropdown-toggle arrow-none me-0"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="false"
+              data-bs-auto-close="outside"
+              aria-expanded="false"
+            >
+              
+              <span><i class="ti ti-user "></i>{{user.username }}</span>
             </a>
-            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+            <div
+              class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"
+            >
               <div class="dropdown-header">
                 <div class="d-flex mb-1">
                   <div class="flex-shrink-0">
-                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+                    
                   </div>
                   <div class="flex-grow-1 ms-3">
-                    <h6 class="mb-1">Stebin Ben</h6>
-                    <span>UI/UX Designer</span>
+                    <h5 class="mb-1">{{user.username }}</h5>
+                    <h6>{{user.role}}</h6>
                   </div>
-                  <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+                  <a href="#!" class="pc-head-link bg-transparent"
+                    ><i class="ti ti-power text-danger"></i
+                  ></a>
                 </div>
               </div>
-              <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
+              <ul
+                class="nav drp-tabs nav-fill nav-tabs"
+                id="mydrpTab"
+                role="tablist"
+              >
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1"
-                    type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i>
-                    Profile</button>
+                  <button
+                    class="nav-link active"
+                    id="drp-t1"
+                    data-bs-toggle="tab"
+                    data-bs-target="#drp-tab-1"
+                    type="button"
+                    role="tab"
+                    aria-controls="drp-tab-1"
+                    aria-selected="true"
+                  >
+                    <i class="ti ti-user"></i> Profile
+                  </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="drp-t2" data-bs-toggle="tab" data-bs-target="#drp-tab-2" type="button"
-                    role="tab" aria-controls="drp-tab-2" aria-selected="false"><i class="ti ti-settings"></i>
-                    Setting</button>
+                  <button
+                    class="nav-link"
+                    id="drp-t2"
+                    data-bs-toggle="tab"
+                    data-bs-target="#drp-tab-2"
+                    type="button"
+                    role="tab"
+                    aria-controls="drp-tab-2"
+                    aria-selected="false"
+                  >
+                    <i class="ti ti-settings"></i> Setting
+                  </button>
                 </li>
               </ul>
               <div class="tab-content" id="mysrpTabContent">
-                <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1"
-                  tabindex="0">
+                <div
+                  class="tab-pane fade show active"
+                  id="drp-tab-1"
+                  role="tabpanel"
+                  aria-labelledby="drp-t1"
+                  tabindex="0"
+                >
                   <a href="#!" class="dropdown-item">
                     <i class="ti ti-edit-circle"></i>
                     <span>Edit Profile</span>
@@ -326,7 +295,13 @@
                     <span>Logout</span>
                   </a>
                 </div>
-                <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
+                <div
+                  class="tab-pane fade"
+                  id="drp-tab-2"
+                  role="tabpanel"
+                  aria-labelledby="drp-t2"
+                  tabindex="0"
+                >
                   <a href="#!" class="dropdown-item">
                     <i class="ti ti-help"></i>
                     <span>Support</span>
@@ -353,7 +328,6 @@
           </li>
         </ul>
       </div>
-
     </div>
   </header>
   <!-- [ Header ] end -->
@@ -384,36 +358,37 @@
       <!-- [ Main Content ] start -->
       <div class="row">
         <!-- [ sample-page ] start -->
-        <div class="col-md-6 col-xl-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
-              <h4 class="mb-3">120 <span class="badge bg-light-primary border border-primary"><i
-                    class="ti ti-trending-up"></i> 5%</span></h4>
-              <p class="mb-0 text-muted text-sm">You made an extra <span class="text-primary">50</span> this year
-              </p>
+        <div class="row">
+          <!-- Total Events -->
+          <div class="col-md-6 col-xl-4">
+            <div class="card" id="total-events-card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
+                <h4 class="mb-3" id="total-events">Loading...</h4>
+              </div>
             </div>
           </div>
-        </div>
         
-        <div class="col-md-6 col-xl-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-2 f-w-400 text-muted">Total Tickets Sold</h6>
-              <h4 class="mb-3">15007 <span class="badge bg-light-warning border border-warning"><i
-                    class="ti ti-trending-up"></i> 27.4%</span></h4>
-              <p class="mb-0 text-muted text-sm">You made an extra <span class="text-warning">1,943</span> this year</p>
+          
+        
+          <!-- Total Tickets Sold -->
+          <div class="col-md-6 col-xl-4">
+            <div class="card" id="total-tickets-card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Tickets Sold</h6>
+                <h4 class="mb-3" id="total-tickets-sold">Loading...</h4>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-              <h4 class="mb-3">₹4,35,078 <span class="badge bg-light-success border border-success"><i
-                    class="ti ti-trending-up"></i> 27.4%</span></h4>
-              <p class="mb-0 text-muted text-sm">You made an extra <span class="text-success">₹20,395</span> this year
-              </p>
+        
+        
+          <div class="col-md-6 col-xl-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                <h4 class="mb-3" id="total-sales">Loading...</h4>
+                
+              </div>
             </div>
           </div>
         </div>
@@ -777,7 +752,201 @@
   <script src="../../static/assets/js/pcoded.js"></script>
   <script src="../../static/assets/js/plugins/feather.min.js"></script>
 
- 
+   <!--scripts for dynamic data-->
+   <script>
+    async function fetchData() {
+      try {
+        const response = await fetch("/event/hod-dashboard-api"); // API endpoint
+        const result = await response.json();
+        const data = result.data; // Extract actual data object
+
+        document.getElementById(
+          "total-events"
+        ).innerHTML = `${data.len_events_data} <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i> </span>`;
+        
+        document.getElementById(
+          "total-tickets-sold"
+        ).innerHTML = `${data.all_tickets_sold} <span class="badge bg-light-warning border border-warning"><i class="ti ti-trending-up"></i></span>`;
+       
+        document.getElementById(
+          "total-sales"
+        ).innerHTML = `₹${data.all_tickets_sold_amount} <span class="badge bg-light-success border border-success"><i class="ti ti-trending-up"></i></span>`;
+       
+
+        // Global variables to store event with max revenue
+        let maxEventAmount = 0;
+        let maxEvent = null;
+
+        let maxResellerAmount = 0;
+        let maxReseller = null;
+
+        // Populate events list dynamically
+        const eventsList = document.getElementById("events-list");
+        eventsList.innerHTML = "";
+        data.events_data.forEach((event) => {
+          if (event.total_event_ticket_sold_amount > maxEventAmount) {
+            maxEventAmount = event.total_event_ticket_sold_amount;
+            maxEvent = event;
+          }
+          const eventItem = `
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
+                                    <i class="ti ti-message-circle f-18"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">${event.event_name}</h6>
+                                <p class="mb-0 text-muted">${event.event_date_range} | ${event.event_venue}</p>
+                            </div>
+                            <div class="flex-shrink-0 text-end">
+                                <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount}</h6>
+                                <p class="mb-0 text-muted">
+                                    <span class="font-bold">Tickets Sold:</span> ${event.total_event_ticket_sold}
+                                </p>
+                            </div>
+                        </div>
+                    </a>`;
+          eventsList.innerHTML += eventItem;
+        });
+
+        // Populate resellers list dynamically
+        const resellersList = document.getElementById("resellers-list");
+        resellersList.innerHTML = "";
+        data.reseller_data.forEach((reseller) => {
+          if (reseller.total_tickets_sold_seller_amount > maxResellerAmount) {
+            maxResellerAmount = reseller.total_tickets_sold_seller_amount;
+            maxReseller = reseller;
+          }
+          const resellerItem = `
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
+                            <i class="ti ti-message-circle f-18"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">${reseller.name}</h6>
+                    </div>
+                    <div class="flex-shrink-0 text-end">
+                        <h6 class="mb-1">
+                            <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount}
+                        </h6>
+                        <p class="mb-0 text-muted">
+                            <span class="font-bold">Tickets Sold:</span> ${reseller.total_tickets_sold_seller}
+                        </p>
+                    </div>
+                </div>
+            </a>`;
+          resellersList.innerHTML += resellerItem;
+        });
+
+        //best Seller
+        if (maxEvent) {
+          document.getElementById("event-best-seller-name").innerText =
+            maxEvent.event_name;
+          document.getElementById("event-best-seller-date").innerText =
+            maxEvent.event_date_range;
+          document.getElementById(
+            "event-best-seller-sales"
+          ).innerText = `₹${maxEvent.total_event_ticket_sold_amount}`;
+          document.getElementById("event-best-seller-description").innerText =
+            maxEvent.event_details;
+          document.getElementById("event-best-seller-venue").innerText =
+            maxEvent.event_venue;
+          document.getElementById("event-best-seller-tickets").innerText =
+            maxEvent.total_event_ticket_sold;
+        }
+
+        //best Reseller 
+        if (maxReseller) {
+          document.getElementById("reseller-best-seller-name").innerText =
+            maxReseller.name;
+          document.getElementById("reseller-best-seller-date").innerText =
+            maxReseller.date_joined;
+          document.getElementById(
+            "reseller-best-seller-sales"
+          ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount}`;
+          document.getElementById("reseller-best-seller-description").innerText =
+            maxReseller.email;
+          document.getElementById("reseller-best-seller-contact").innerText =
+            maxReseller.contact_number;
+          document.getElementById("reseller-best-seller-tickets").innerText =
+            maxReseller.total_tickets_sold_seller;
+        }
+
+        // Populate ticket sales table dynamically
+        const ticketTableBody = document.getElementById(
+          "ticket-sales-table-body"
+        );
+        ticketTableBody.innerHTML = "";
+        data.all_ticket_data.forEach((ticket) => {
+          const statusClass =
+            ticket.status.toLowerCase() === "approved"
+              ? "text-success"
+              : "text-danger";
+          const ticketRow = `
+            <tr>
+                <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
+                <td>${ticket.event_name}</td>
+                <td>${ticket.qty}</td>
+                <td>
+                     <span class="d-flex align-items-center gap-2">
+                              <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
+                      </span>
+                </td>
+                <td class="text-end">₹${ticket.amount}</td>
+            </tr>`;
+          ticketTableBody.innerHTML += ticketRow;
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    window.onload = fetchData;
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Select the cards
+      const totalEventsCard = document.getElementById("total-events-card");
+      const totalTicketsCard = document.getElementById("total-tickets-card");
+  
+      // Select the sections
+      const eventsSection = document.getElementById("events-section");
+      const ticketsSection = document.getElementById("tickets-section");
+  
+      
+      
+      // Function to hide all sections
+      function hideAllSections() {
+        eventsSection.style.display = "none";
+        usersSection.style.display = "none";
+        ticketsSection.style.display = "none";
+      }
+  
+      // Make Events Section visible by default
+      eventsSection.style.display = "flex";
+     
+
+      // Event Listeners for each card
+      totalEventsCard.addEventListener("click", function () {
+        hideAllSections();
+        eventsSection.style.display = "flex"; // Show Events Section
+       
+      });
+  
+  
+      totalTicketsCard.addEventListener("click", function () {
+        hideAllSections();
+        ticketsSection.style.display = "block"; // Show Tickets List
+
+      });
+    });
+  </script>
+  
 </body>
 <!-- [Body] end -->
 
