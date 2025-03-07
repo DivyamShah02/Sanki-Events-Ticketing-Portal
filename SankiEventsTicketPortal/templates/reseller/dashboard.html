@@ -51,7 +51,7 @@
       <div class="m-header">
         <a href="../dashboard/index.html" class="b-brand text-primary">
           <!-- ========   Change your logo from here   ============ -->
-          <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
+          <img src="../../static/assets/img/sanki_logo.png" class=" mt-4 w-50" alt="logo">
         </a>
       </div>
       <div class="navbar-content">
@@ -393,332 +393,123 @@
           </div>
         </div>
 
-        
-        <div class="col-md-12 col-xl-8">
+        <div id="events-section" class=" row" >
+          <div class="col-sm-12 col-xl-8 ">
             <h5 class="mb-3">All Events</h5>
-            <div class="card">
-              <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action">
+            <div class="card h-100">
+              <div class="list-group overflow-y-scroll" id="events-list"></div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-xl-4">
+            
+            <h5 class="mt-1 text-start">Best Seller</h5>
+            <div class="mt-1">
+              <div class="card text-start">
+                <div class="card-header">
                   <div class="d-flex">
                     <div class="flex-shrink-0">
-                      <div class="avtar avtar-s rounded-circle text-success bg-light-success">
+                      <div
+                        class="avtar avtar-s rounded-circle text-success bg-light-success"
+                      >
                         <i class="ti ti-gift f-18"></i>
                       </div>
+                      <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                      <h6 class="mb-1">Rangilo Re Navratri 2024 | NESCO
-                      </h6>
-                      <p class="mb-0 text-muted">08-October-2024 | Mumbai</P>
+                    <div class="flex-grow-1 mx-3">
+                      <h6 class="mb-1" id="event-best-seller-name"></h6>
+                      <p
+                        class="text-muted text-sm mb-0"
+                        id="event-best-seller-date"
+                      ></p>
                     </div>
-                    <div class="flex-shrink-0 text-end">
-                      <h6 class="mb-1">+ ₹10,430</h6>
-                      <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 180</P>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                        <i class="ti ti-message-circle f-18"></i>
+                    <div class="dropdown">
+                      <a
+                        class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
+                        href="#"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="ti ti-dots-vertical f-18"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="#">Preview</a>
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
                       </div>
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                      <h6 class="mb-1">Navratri With Falguni Pathak</h6>
-                      <p class="mb-0 text-muted">06-October-2024 | Mumbai</P>
-                    </div>
-                    <div class="flex-shrink-0 text-end">
-                      <h6 class="mb-1">+ ₹33,302</h6>
-                      <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 502</P>
-                    </div>
                   </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <div class="avtar avtar-s rounded-circle text-danger bg-light-danger">
-                        <i class="ti ti-settings f-18"></i>
+                </div>
+                <div class="card-body">
+                  <p class="mb-4" id = "event-best-seller-description"></p>
+                  </p>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                        
+                          <h6 class="" id="event-best-seller-sales">
+                          </h6>
+                  
                       </div>
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                      <h6 class="mb-1">Millionaire India Tour | Honey Singh</h6>
-                      <p class="mb-0 text-muted">14-Mar-2025 | Pune</P>
-                    </div>
-                    <div class="flex-shrink-0 text-end">
-                      <h6 class="mb-1">+ ₹20,682</h6>
-                      <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 15</P>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                          <i class="ti ti-gift f-18"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1">Rangilo Re Navratri 2024 | NESCO
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
+                        <h6 class="" id="event-best-seller-tickets"></h6>
+                        
                         </h6>
-                        <p class="mb-0 text-muted">08-October-2024 | Mumbai</P>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                        <h6 class="mb-1">+ ₹10,430</h6>
-                        <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 180</P>
                       </div>
                     </div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div class="avtar avtar-s rounded-circle text-danger bg-light-danger">
-                          <i class="ti ti-settings f-18"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1">Millionaire India Tour | Honey Singh</h6>
-                        <p class="mb-0 text-muted">14-Mar-2025 | Pune</P>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                        <h6 class="mb-1">+ ₹20,682</h6>
-                        <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 15</P>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                          <i class="ti ti-message-circle f-18"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1">Navratri With Falguni Pathak</h6>
-                        <p class="mb-0 text-muted">06-October-2024 | Mumbai</P>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                        <h6 class="mb-1">+ ₹33,302</h6>
-                        <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 502</P>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                          <i class="ti ti-message-circle f-18"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1">Navratri With Falguni Pathak</h6>
-                        <p class="mb-0 text-muted">06-October-2024 | Mumbai</P>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                        <h6 class="mb-1">+ ₹33,302</h6>
-                        <p class="mb-0 text-muted"><span class="font-bold">Tickets Sold:</span> 502</P>
-                      </div>
-                    </div>
-                  </a>
-            
+                  </div>
+
+                </div>
+                <div class="card-footer">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
+                    <button
+                      class="btn btn-sm btn-outline-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#user-modal"
+                    >
+                      Preview
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        
-        <div class="col-md-12 col-xl-4">
-          <h5 class="mb-3">Income Overview</h5>
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-2 f-w-400 text-muted">This Week Statistics</h6>
-              <h3 class="mb-3">₹7,650</h3>
-              <div id="income-overview-chart"></div>
-            </div>
-          </div>
+
         </div>
-
-
         
-       
-          <div class="col-md-12 col-xl-12">
+        <div id="tickets-section" style="display:none" >
+          <div class="col-md-12 col-xl-12" id>
             <h5 class="mb-3">Ticket Status</h5>
             <div class="card tbl-card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-borderless mb-0">
-                            <thead>
-                                <tr>
-                                    <th>CUSTOMER NAME</th>
-                                    <th>EVENT NAME</th>
-                                    <th>QUANTITY</th>
-                                    <th>STATUS</th>
-                                    <th class="text-end">TOTAL AMOUNT</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Amit Sharma</a></td>
-                                    <td>Bollywood Nights</td>
-                                    <td>45</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-danger f-10"></i>
-                                            <select class="form-select">
-                                                <option selected>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹7,540</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Raj Verma</a></td>
-                                    <td>Sunburn Goa</td>
-                                    <td>78</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-success f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option selected>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹6,220</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Suresh Patil</a></td>
-                                    <td>EDM Festival</td>
-                                    <td>32</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-danger f-10"></i>
-                                            <select class="form-select">
-                                                <option selected>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹8,350</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Neha Gupta</a></td>
-                                    <td>Navratri Garba</td>
-                                    <td>65</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-success f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option selected>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹4,870</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Vikram Singh</a></td>
-                                    <td>Music Fiesta</td>
-                                    <td>22</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-primary f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option selected>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹5,690</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Meena Rao</a></td>
-                                    <td>Comedy Night</td>
-                                    <td>58</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-danger f-10"></i>
-                                            <select class="form-select">
-                                                <option selected>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹9,420</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Kunal Joshi</a></td>
-                                    <td>Hip-Hop Live</td>
-                                    <td>41</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-success f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option selected>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹3,210</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Priya Kapoor</a></td>
-                                    <td>Jazz Concert</td>
-                                    <td>30</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-primary f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option selected>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹6,750</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Ramesh Iyer</a></td>
-                                    <td>Classical Night</td>
-                                    <td>18</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-danger f-10"></i>
-                                            <select class="form-select">
-                                                <option selected>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹2,890</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="text-muted">Anjali Mehta</a></td>
-                                    <td>Rock Revolution</td>
-                                    <td>77</td>
-                                    <td>
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fas fa-circle text-primary f-10"></i>
-                                            <select class="form-select">
-                                                <option>Unapproved</option>
-                                                <option>Approved</option>
-                                                <option selected>Ticket Sent</option>
-                                            </select>
-                                        </span>
-                                    </td>
-                                    <td class="text-end">₹8,110</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-borderless mb-0">
+                    <thead>
+                      <tr>
+                        <th>CUSTOMER NAME</th>
+                        <th>EVENT NAME</th>
+                        <th>QUANTITY</th>
+                        <th>STATUS</th>
+                        <th class="text-end">TOTAL AMOUNT</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ticket-sales-table-body">
+                      <!-- Dynamic ticket sales data will be populated here -->
+                    </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
         
        
@@ -777,8 +568,6 @@
         let maxEventAmount = 0;
         let maxEvent = null;
 
-        let maxResellerAmount = 0;
-        let maxReseller = null;
 
         // Populate events list dynamically
         const eventsList = document.getElementById("events-list");
@@ -811,38 +600,6 @@
           eventsList.innerHTML += eventItem;
         });
 
-        // Populate resellers list dynamically
-        const resellersList = document.getElementById("resellers-list");
-        resellersList.innerHTML = "";
-        data.reseller_data.forEach((reseller) => {
-          if (reseller.total_tickets_sold_seller_amount > maxResellerAmount) {
-            maxResellerAmount = reseller.total_tickets_sold_seller_amount;
-            maxReseller = reseller;
-          }
-          const resellerItem = `
-            <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex">
-                    <div class="flex-shrink-0">
-                        <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                            <i class="ti ti-message-circle f-18"></i>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-1">${reseller.name}</h6>
-                    </div>
-                    <div class="flex-shrink-0 text-end">
-                        <h6 class="mb-1">
-                            <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount}
-                        </h6>
-                        <p class="mb-0 text-muted">
-                            <span class="font-bold">Tickets Sold:</span> ${reseller.total_tickets_sold_seller}
-                        </p>
-                    </div>
-                </div>
-            </a>`;
-          resellersList.innerHTML += resellerItem;
-        });
-
         //best Seller
         if (maxEvent) {
           document.getElementById("event-best-seller-name").innerText =
@@ -860,22 +617,7 @@
             maxEvent.total_event_ticket_sold;
         }
 
-        //best Reseller 
-        if (maxReseller) {
-          document.getElementById("reseller-best-seller-name").innerText =
-            maxReseller.name;
-          document.getElementById("reseller-best-seller-date").innerText =
-            maxReseller.date_joined;
-          document.getElementById(
-            "reseller-best-seller-sales"
-          ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount}`;
-          document.getElementById("reseller-best-seller-description").innerText =
-            maxReseller.email;
-          document.getElementById("reseller-best-seller-contact").innerText =
-            maxReseller.contact_number;
-          document.getElementById("reseller-best-seller-tickets").innerText =
-            maxReseller.total_tickets_sold_seller;
-        }
+    
 
         // Populate ticket sales table dynamically
         const ticketTableBody = document.getElementById(
@@ -923,7 +665,6 @@
       // Function to hide all sections
       function hideAllSections() {
         eventsSection.style.display = "none";
-        usersSection.style.display = "none";
         ticketsSection.style.display = "none";
       }
   
