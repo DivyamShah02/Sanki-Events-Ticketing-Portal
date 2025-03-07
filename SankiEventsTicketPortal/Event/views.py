@@ -17,15 +17,18 @@ from UserDetail.serializers import *
 class EventViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    # @check_authentication(required_role='hod')
+    @check_authentication(required_role='hod')
     def create(self, request):
         event_name = request.data.get('event_name')
         event_details = request.data.get('event_details')
         event_venue = request.data.get('event_venue')
         event_date_range = request.data.get('event_date_range')
+        event_address = request.data.get('event_address')
+        city = request.data.get('city')
+        state = request.data.get('state')
         digital_pass = request.data.get('digital_pass', False)
         
-        if not (event_name and event_details and event_venue and event_date_range):
+        if (event_name and event_details and event_venue and event_date_range and event_address and city and state) is None:
             return Response(
             {
                 "success": False,
@@ -36,8 +39,8 @@ class EventViewSet(viewsets.ViewSet):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         event_id = self.generate_event_id()
-        # hod_id = request.user.user_id
-        hod_id = 'HO6870923320'
+        hod_id = request.user.user_id
+        # hod_id = 'HO6870923320'
         event_dates = []
 
         start_date, end_date = event_date_range.split(" | ")
@@ -63,6 +66,9 @@ class EventViewSet(viewsets.ViewSet):
             event_details=event_details,
             event_venue=event_venue,
             event_date_range=event_date_range,
+            event_address=event_address,
+            city=city,
+            state=state,
             digital_pass=digital_pass,
             s3_bucket_folder=s3_bucket_folder
         )
@@ -475,10 +481,10 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
 
 
         data = {
-            'events_data': events_data,
+            'events_data': events_data[::-1],
             'len_events_data': len(events_data),
 
-            'reseller_data': reseller_data,
+            'reseller_data': reseller_data[::-1],
             'len_reseller_data': len(reseller_data),
 
             'all_ticket_data': all_ticket_data,

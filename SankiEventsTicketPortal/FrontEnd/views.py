@@ -11,14 +11,31 @@ from django.http import HttpResponse
 from utils.decorators import *
 
 
+class HomeViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login-list')
+        
+        else:
+            return redirect('dashboard-list')
+
+
+class LoginViewSet(viewsets.ViewSet):
+    def list(self, request):
+        return render(request, 'login.html')
+
+
 class DashboardFrontEndViewSet(viewsets.ViewSet):
     def list(self, request):
         user = request.user
         if not user.is_authenticated:
+            return redirect('login-list')
             return HttpResponse('Not logged in')
-        # if user.role == 'hod':
-        if user.role == 'admin':
+        # if user.role == 'admin':
+        if user.role == 'hod':
             return render(request, 'hod/dashboard.html')
         
         elif user.role == 'reseller':
             return render(request, 'reseller/dashboard.html')
+

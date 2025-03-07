@@ -4,6 +4,10 @@ from .views import *
 
 
 router = DefaultRouter()
+
+router.register(r'', HomeViewSet, basename='home')
+
+router.register(r'login', LoginViewSet, basename='login')
 router.register(r'dashboard', DashboardFrontEndViewSet, basename='dashboard')
 
 urlpatterns = [
