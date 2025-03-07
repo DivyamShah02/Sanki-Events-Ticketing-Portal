@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- [Head] start -->
+
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description"
+    content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
+  <meta name="keywords"
+    content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
+  <meta name="author" content="CodedThemes">
+
+  <!-- [Favicon] icon -->
+  
+  <link rel="icon" href="/static/assets/img/sanki_logo.png" type="image/x-icon">
+
+  <!-- [Google Font] Family -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link">
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="../../static/assets/fonts/tabler-icons.min.css">
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="../../static/assets/fonts/feather.css">
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="../../static/assets/fonts/fontawesome.css">
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="../../static/assets/fonts/material.css">
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="../../static/assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../../static/assets/css/style-preset.css">
+
+</head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
+
+<body @@bodySetup>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <a href="../dashboard/index.html" class="b-brand text-primary">
+          <!-- ========   Change your logo from here   ============ -->
+          <img src="../../static/assets/img/sanki_logo.png"class=" mt-4 w-50" alt="logo">
+        </a>
+      </div>
+      <div class="navbar-content mt-4">
+        <ul class="pc-navbar">
+          <li class="pc-item">
+            <a href="../dashboard/index.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+              <span class="pc-mtext">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- <li class="pc-item pc-caption">
+            <label>UI Components</label>
+            <i class="ti ti-dashboard"></i>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/bc_typography.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-typography"></i></span>
+              <span class="pc-mtext">Typography</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/bc_color.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+              <span class="pc-mtext">Color</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/icon-tabler.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+              <span class="pc-mtext">Icons</span>
+            </a>
+          </li> -->
+
+          <li class="pc-item pc-caption">
+            <label>Pages</label>
+            <i class="ti ti-news"></i>
+          </li>
+          <li class="pc-item">
+            <a href="../pages/login.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-lock"></i></span>
+              <span class="pc-mtext">Login</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../pages/register.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">Register</span>
+            </a>
+          </li>
+
+          <li class="pc-item pc-caption">
+            <label>Actions</label>
+            <i class="ti ti-settings"></i>
+        </li>
+        <li class="pc-item">
+            <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createEventModal">
+                <span class="pc-micon"><i class="ti ti-calendar"></i></span>
+                <span class="pc-mtext">Create Event</span>
+            </a>
+        </li>        
+        <li class="pc-item">
+          <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createResellerModal">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">New Reseller</span>
+          </a>
+         </li>
+      
+        
+
+         
+        
+
+          <li class="pc-item pc-caption">
+            <label>Other</label>
+            <i class="ti ti-brand-chrome"></i>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+                class="pc-mtext">Menu
+                levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
+              <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
+                      data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                  <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                          data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
+                      data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                  <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                          data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="pc-item">
+            <a href="../other/sample-page.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+              <span class="pc-mtext">Sample page</span>
+            </a>
+          </li>
+        </ul>
+    
+      </div>
+    </div>
+  </nav>
+<!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- Create Event Modal -->
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="mb-3">
+                        <label for="eventName" class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventVenue" class="form-label">Event Venue</label>
+                        <input type="text" class="form-control" id="eventVenue" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="eventDateRange" class="form-label col-12">Event Date Range</label>
+                        <input type="text" id="eventDateRange" class="form-control" placeholder="Select date range" readonly>
+                        <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="eventCity" class="form-label">Event City</label>
+                        <input type="text" class="form-control" id="eventCity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventState" class="form-label">Event State</label>
+                        <input type="text" class="form-control" id="eventState" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventAddress" class="form-label">Event Address</label>
+                        <textarea class="form-control" id="eventAddress" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDetails" class="form-label">Event Details</label>
+                        <textarea class="form-control" id="eventDetails" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="digitalPass">
+                        <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#eventDateRange').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: false,
+        showDropdowns: true,
+         // Ensures selection is within a month
+        opens: 'right',
+        locale: {
+            format: 'YYYY-MM-DD',
+            cancelLabel: 'Clear'
+        }
+    });
+
+    $('#eventDateRange').on('apply.daterangepicker', function(ev, picker) {
+       
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' | ' + picker.endDate.format('DD-MM-YYYY'));
+        
+    });
+
+    $('#eventDateRange').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+});
+</script>
+
+<!-- Create Reseller Modal -->
+<div class="modal fade" id="createResellerModal" tabindex="-1" aria-labelledby="createResellerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="createResellerModalLabel">Create New Reseller</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="resellerForm">
+                  <!-- Profile Photo Upload -->
+                  <div class="mb-3 text-center">
+                      <label for="resellerPhoto" class="form-label d-block">Upload Photo</label>
+                      <input type="file" class="form-control" id="resellerPhoto" accept="image/*" required>
+                  </div>
+
+                  <!-- Role -->
+                  <div class="mb-3">
+                      <label for="resellerRole" class="form-label">Role</label>
+                      <input type="text" class="form-control" id="resellerRole" required>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="mb-3">
+                      <label for="resellerEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="resellerEmail" required>
+                  </div>
+
+                  <!-- Name -->
+                  <div class="mb-3">
+                      <label for="resellerName" class="form-label">Full Name</label>
+                      <input type="text" class="form-control" id="resellerName" required>
+                  </div>
+
+                  <!-- Number -->
+                  <div class="mb-3">
+                      <label for="resellerNumber" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="resellerNumber" required>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="mb-3">
+                      <label for="resellerPassword" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="resellerPassword" required>
+                  </div>
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Create Reseller</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+                    
+                      
+
+
+
+
+  <!-- [ Sidebar Menu ] end -->
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header top-0">
+    <div class="header-wrapper">
+      <!-- [Mobile Media Block] start -->
+      <div class="me-auto pc-mob-drp">
+        <ul class="list-unstyled">
+          <!-- ======= Menu collapse Icon ===== -->
+          <li class="pc-h-item pc-sidebar-collapse">
+            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="pc-h-item pc-sidebar-popup">
+            <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="dropdown pc-h-item d-inline-flex d-md-none">
+            <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <i class="ti ti-search"></i>
+            </a>
+            <div class="dropdown-menu pc-h-dropdown drp-search">
+              <form class="px-3">
+                <div class="form-group mb-0 d-flex align-items-center">
+                  <i data-feather="search"></i>
+                  <input type="search" class="form-control border-0 shadow-none" placeholder="Search here. . .">
+                </div>
+              </form>
+            </div>
+          </li>
+          <li class="pc-h-item mt-2 d-none d-md-inline-flex">
+            <form class="header-search">
+              <i data-feather="search" class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search here. . .">
+            </form>
+          </li>
+        </ul>
+      </div>
+      <!-- [Mobile Media Block end] -->
+      <div class="ms-auto">
+        <ul class="list-unstyled">
+          
+          
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+              <span>Stebin Ben</span>
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+              <div class="dropdown-header">
+                <div class="d-flex mb-1">
+                  <div class="flex-shrink-0">
+                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="mb-1">Stebin Ben</h6>
+                    <span>UI/UX Designer</span>
+                  </div>
+                  <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+                </div>
+              </div>
+              <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1"
+                    type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i>
+                    Profile</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="drp-t2" data-bs-toggle="tab" data-bs-target="#drp-tab-2" type="button"
+                    role="tab" aria-controls="drp-tab-2" aria-selected="false"><i class="ti ti-settings"></i>
+                    Setting</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="mysrpTabContent">
+                <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1"
+                  tabindex="0">
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-edit-circle"></i>
+                    <span>Edit Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-user"></i>
+                    <span>View Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-clipboard-list"></i>
+                    <span>Social Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-wallet"></i>
+                    <span>Billing</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-power"></i>
+                    <span>Logout</span>
+                  </a>
+                </div>
+                <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-help"></i>
+                    <span>Support</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-user"></i>
+                    <span>Account Settings</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-lock"></i>
+                    <span>Privacy Center</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-messages"></i>
+                    <span>Feedback</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-list"></i>
+                    <span>History</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </header>
+  <!DOCTYPE html>
+<html lang="en">
+<!-- [Head] start -->
+
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description"
+    content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
+  <meta name="keywords"
+    content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
+  <meta name="author" content="CodedThemes">
+
+  <!-- [Favicon] icon -->
+  
+  <link rel="icon" href="/static/assets/img/sanki_logo.png" type="image/x-icon">
+
+  <!-- [Google Font] Family -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link">
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="../../static/assets/fonts/tabler-icons.min.css">
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="../../static/assets/fonts/feather.css">
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="../../static/assets/fonts/fontawesome.css">
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="../../static/assets/fonts/material.css">
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="../../static/assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../../static/assets/css/style-preset.css">
+
+</head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
+
+<body @@bodySetup>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <a href="../dashboard/index.html" class="b-brand text-primary">
+          <!-- ========   Change your logo from here   ============ -->
+          <img src="../../static/assets/img/sanki_logo.png"class=" mt-4 w-50" alt="logo">
+        </a>
+      </div>
+      <div class="navbar-content mt-4">
+        <ul class="pc-navbar">
+          <li class="pc-item">
+            <a href="../dashboard/index.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+              <span class="pc-mtext">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- <li class="pc-item pc-caption">
+            <label>UI Components</label>
+            <i class="ti ti-dashboard"></i>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/bc_typography.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-typography"></i></span>
+              <span class="pc-mtext">Typography</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/bc_color.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+              <span class="pc-mtext">Color</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../elements/icon-tabler.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+              <span class="pc-mtext">Icons</span>
+            </a>
+          </li> -->
+
+          <li class="pc-item pc-caption">
+            <label>Pages</label>
+            <i class="ti ti-news"></i>
+          </li>
+          <li class="pc-item">
+            <a href="../pages/login.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-lock"></i></span>
+              <span class="pc-mtext">Login</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="../pages/register.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">Register</span>
+            </a>
+          </li>
+
+          <li class="pc-item pc-caption">
+            <label>Actions</label>
+            <i class="ti ti-settings"></i>
+        </li>
+        <li class="pc-item">
+            <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createEventModal">
+                <span class="pc-micon"><i class="ti ti-calendar"></i></span>
+                <span class="pc-mtext">Create Event</span>
+            </a>
+        </li>        
+        <li class="pc-item">
+          <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createResellerModal">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">New Reseller</span>
+          </a>
+         </li>
+      
+        
+
+         
+        
+
+          <li class="pc-item pc-caption">
+            <label>Other</label>
+            <i class="ti ti-brand-chrome"></i>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+                class="pc-mtext">Menu
+                levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
+              <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
+                      data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                  <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                          data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
+                      data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                  <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                  <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                          data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                      <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="pc-item">
+            <a href="../other/sample-page.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+              <span class="pc-mtext">Sample page</span>
+            </a>
+          </li>
+        </ul>
+    
+      </div>
+    </div>
+  </nav>
+<!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- Create Event Modal -->
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="mb-3">
+                        <label for="eventName" class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventVenue" class="form-label">Event Venue</label>
+                        <input type="text" class="form-control" id="eventVenue" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="eventDateRange" class="form-label col-12">Event Date Range</label>
+                        <input type="text" id="eventDateRange" class="form-control" placeholder="Select date range" readonly>
+                        <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="eventCity" class="form-label">Event City</label>
+                        <input type="text" class="form-control" id="eventCity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventState" class="form-label">Event State</label>
+                        <input type="text" class="form-control" id="eventState" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventAddress" class="form-label">Event Address</label>
+                        <textarea class="form-control" id="eventAddress" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDetails" class="form-label">Event Details</label>
+                        <textarea class="form-control" id="eventDetails" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="digitalPass">
+                        <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#eventDateRange').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: false,
+        showDropdowns: true,
+         // Ensures selection is within a month
+        opens: 'right',
+        locale: {
+            format: 'YYYY-MM-DD',
+            cancelLabel: 'Clear'
+        }
+    });
+
+    $('#eventDateRange').on('apply.daterangepicker', function(ev, picker) {
+       
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' | ' + picker.endDate.format('DD-MM-YYYY'));
+        
+    });
+
+    $('#eventDateRange').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+});
+</script>
+
+<!-- Create Reseller Modal -->
+<div class="modal fade" id="createResellerModal" tabindex="-1" aria-labelledby="createResellerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="createResellerModalLabel">Create New Reseller</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="resellerForm">
+                  <!-- Profile Photo Upload -->
+                  <div class="mb-3 text-center">
+                      <label for="resellerPhoto" class="form-label d-block">Upload Photo</label>
+                      <input type="file" class="form-control" id="resellerPhoto" accept="image/*" required>
+                  </div>
+
+                  <!-- Role -->
+                  <div class="mb-3">
+                      <label for="resellerRole" class="form-label">Role</label>
+                      <input type="text" class="form-control" id="resellerRole" required>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="mb-3">
+                      <label for="resellerEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="resellerEmail" required>
+                  </div>
+
+                  <!-- Name -->
+                  <div class="mb-3">
+                      <label for="resellerName" class="form-label">Full Name</label>
+                      <input type="text" class="form-control" id="resellerName" required>
+                  </div>
+
+                  <!-- Number -->
+                  <div class="mb-3">
+                      <label for="resellerNumber" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="resellerNumber" required>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="mb-3">
+                      <label for="resellerPassword" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="resellerPassword" required>
+                  </div>
+
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Create Reseller</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+  <!-- [ Sidebar Menu ] end -->
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header top-0">
+    <div class="header-wrapper">
+      <!-- [Mobile Media Block] start -->
+      <div class="me-auto pc-mob-drp">
+        <ul class="list-unstyled">
+          <!-- ======= Menu collapse Icon ===== -->
+          <li class="pc-h-item pc-sidebar-collapse">
+            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="pc-h-item pc-sidebar-popup">
+            <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="dropdown pc-h-item d-inline-flex d-md-none">
+            <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <i class="ti ti-search"></i>
+            </a>
+            <div class="dropdown-menu pc-h-dropdown drp-search">
+              <form class="px-3">
+                <div class="form-group mb-0 d-flex align-items-center">
+                  <i data-feather="search"></i>
+                  <input type="search" class="form-control border-0 shadow-none" placeholder="Search here. . .">
+                </div>
+              </form>
+            </div>
+          </li>
+          <li class="pc-h-item mt-2 d-none d-md-inline-flex">
+            <form class="header-search">
+              <i data-feather="search" class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search here. . .">
+            </form>
+          </li>
+        </ul>
+      </div>
+      <!-- [Mobile Media Block end] -->
+      <div class="ms-auto">
+        <ul class="list-unstyled">
+          
+          
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+              <span>Stebin Ben</span>
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+              <div class="dropdown-header">
+                <div class="d-flex mb-1">
+                  <div class="flex-shrink-0">
+                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="mb-1">Stebin Ben</h6>
+                    <span>UI/UX Designer</span>
+                  </div>
+                  <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+                </div>
+              </div>
+              <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1"
+                    type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i>
+                    Profile</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="drp-t2" data-bs-toggle="tab" data-bs-target="#drp-tab-2" type="button"
+                    role="tab" aria-controls="drp-tab-2" aria-selected="false"><i class="ti ti-settings"></i>
+                    Setting</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="mysrpTabContent">
+                <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1"
+                  tabindex="0">
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-edit-circle"></i>
+                    <span>Edit Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-user"></i>
+                    <span>View Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-clipboard-list"></i>
+                    <span>Social Profile</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-wallet"></i>
+                    <span>Billing</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-power"></i>
+                    <span>Logout</span>
+                  </a>
+                </div>
+                <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-help"></i>
+                    <span>Support</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-user"></i>
+                    <span>Account Settings</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-lock"></i>
+                    <span>Privacy Center</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-messages"></i>
+                    <span>Feedback</span>
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    <i class="ti ti-list"></i>
+                    <span>History</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </header>
+  
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Profile</a></li>
+                <li class="breadcrumb-item" aria-current="page">User List</li>
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <!-- [ breadcrumb ] end -->
+
+      <!-- [ Main Content ] start -->
+      <div class="row">
+        <!-- [ sample-page ] start -->
+        <div class="col-sm-12">
+          <div class="card table-card">
+            <div class="card-body">
+              <div class="text-end p-4 pb-0 row justify-content-between text-left">
+                <div class="page-header-title col-6 col-md-10 text-left">
+                  <h2 class="mb-0 text-start">User List</h2>
+                </div>
+                <a href="Ticket Id" class="col-6 col-md-2 btn btn-primary  align-item-center" data-bs-toggle="modal" data-bs-target="#user-edit_add-modal">
+                  <i class="ti ti-plus f-18"></i> Add User
+                </a>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover" id="pc-dt-simple">
+                  <thead>
+                    <tr>
+                    
+                      <th>#</th>
+                      <th>User Name</th>
+                      <th>Contact</th>
+                      <th>Event Name</th>
+                      <th>Quantity</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      
+                      <td>179</td>
+                      <td>
+                        <h5 class="mb-0">Addie Bass</h5>
+                        <p class="text-muted f-12 mb-0">mareva@gmail.com</p>
+                      </td>
+                      <td> 849-6968</td>
+                      <td>Tech Conference</td>
+                      <td>45</td>
+                      <td>United Kingdom</td>
+                      <td><span class="badge bg-light-success rounded-pill f-12">Approved</span></td>
+                      <td class="text-center">
+                        <ul class="list-inline me-auto mb-0 d-flex justify-content-between">
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
+                            <a href="#" class="avtar avtar-xs btn-link-primary">
+                              <i class="ti ti-check f-18"></i> Approve
+                            </a>
+                          </li>
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
+                            <a href="#" class="avtar avtar-xs btn-link-secondary">
+                              <i class="ti ti-mail f-18"></i> Send Mail
+                            </a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      
+                      <td>60</td>
+                      <td>
+                        <h5 class="mb-0">Agnes McGee</h5>
+                        <p class="text-muted f-12 mb-0">heba@gmail.com</p>
+                      </td>
+                      <td>+1 (247) 849-6968</td>
+                      <td>Data Summit</td>
+                      <td>42</td>
+                      <td>Russia</td>
+                      <td><span class="badge bg-light-danger rounded-pill f-12">Not Approved</span></td>
+                      <td class="text-center ">
+                        <ul class="list-inline mb-0 d-flex justify-content-between">
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
+                            <a href="#" class="avtar avtar-xs btn-link-primary">
+                              <i class="ti ti-check f-18"></i> Approve
+                            </a>
+                          </li>
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
+                            <a href="#" class="avtar avtar-xs btn-link-secondary">
+                              <i class="ti ti-mail f-18"></i> Send Mail
+                            </a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      
+                      <td>133</td>
+                      <td>
+                        <h5 class="mb-0">Alberta Robbins</h5>
+                        <p class="text-muted f-12 mb-0">miza@gmail.com</p>
+                      </td>
+                      <td>+1 (247) 849-6968</td>
+                      <td>Startup Meetup</td>
+                      <td>20</td>
+                      <td>Honduras</td>
+                      <td><span class="badge bg-light-primary rounded-pill f-12">Sent Mail</span></td>
+                      <td class="text-center">
+                        <ul class="list-inline me-auto mb-0">
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
+                            <a href="#" class="avtar avtar-xs btn-link-primary">
+                              <i class="ti ti-check f-18"></i> Approve
+                            </a>
+                          </li>
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
+                            <a href="#" class="avtar avtar-xs btn-link-secondary">
+                              <i class="ti ti-mail f-18"></i> Send Mail
+                            </a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      
+                      <td>60</td>
+                      <td>
+                        <h5 class="mb-0">Agnes McGee</h5>
+                        <p class="text-muted f-12 mb-0">heba@gmail.com</p>
+                      </td>
+                      <td>+1 (247) 849-6968</td>
+                      <td>AI Conference</td>
+                      <td>42</td>
+                      <td>Grenada</td>
+                      <td><span class="badge bg-light-danger rounded-pill f-12">Not Approved</span></td>
+                      <td class="text-center">
+                        <ul class="list-inline me-auto mb-0">
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
+                            <a href="#" class="avtar avtar-xs btn-link-primary">
+                              <i class="ti ti-check f-18"></i> Approve
+                            </a>
+                          </li>
+                          <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
+                            <a href="#" class="avtar avtar-xs btn-link-secondary">
+                              <i class="ti ti-mail f-18"></i> Send Mail
+                            </a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <!-- More rows can be added similarly -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- [ sample-page ] end -->
+      </div>
+      
+      <!-- [ Main Content ] end -->
+</body>
+<!-- [Body] end -->
+
+</html>
