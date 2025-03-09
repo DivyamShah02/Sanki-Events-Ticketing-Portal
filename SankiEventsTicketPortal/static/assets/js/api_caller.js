@@ -157,5 +157,3 @@ async function logPageLoadUrl() {
         }
     }
 }
-
-logPageLoadUrl();

@@ -10,6 +10,8 @@ from django.http import HttpResponse
 
 from utils.decorators import *
 
+from Event.models import *
+
 
 class HomeViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -39,3 +41,36 @@ class DashboardFrontEndViewSet(viewsets.ViewSet):
         elif user.role == 'reseller':
             return render(request, 'reseller/dashboard.html')
 
+
+class EventsFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login-list')
+            return HttpResponse('Not logged in')
+        # if user.role == 'admin':
+        if user.role == 'hod':
+            return render(request, 'hod/events.html')
+        
+        elif user.role == 'reseller':
+            return render(request, 'reseller/events.html')
+
+
+class EventDetailFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login-list')
+
+        if not request.GET.get('event_id'):
+            return redirect('events-list')
+        
+        event_data = Event.objects.filter(event_id=request.GET.get('event_id')).first()
+        if not event_data:
+            return redirect('events-list')
+
+        if user.role == 'hod':
+            return render(request, 'hod/event_detail.html')
+        
+        elif user.role == 'reseller':
+            return render(request, 'reseller/event_detail.html')

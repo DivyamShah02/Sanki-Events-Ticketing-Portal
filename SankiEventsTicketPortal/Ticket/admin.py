@@ -4,7 +4,8 @@ from .models import *
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('customer_name', 'qty', 'amount', 'sold_date', 'approved', 'mail_sent')
-    search_fields = ('customer_name', 'customer_email', 'customer_number', 'id')
+    search_fields = ('customer_name', 'customer_email', 'customer_number', 'id', 'event_id')
+
 
 
 @admin.register(AssignedTicket)

@@ -121,22 +121,18 @@ document.getElementById("eventForm").addEventListener("submit", async (event) =>
 
                 const url = "{% url 'event-api-list' %}";
                 const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
-                console.log(result)
                 if (success) {
                     if (result.success) {
                         location.reload();
                     }
+                    else {
+                        alert("Unexpected Error occured : " + result.error);
+                    }
                 } else {
                     alert('Unable to create new event');
                 }
-
-            
             }
         );
-
-        
         toggle_loader();
     });
-
-
 </script>

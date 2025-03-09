@@ -8,16 +8,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-
-  <!-- [Favicon] icon -->
-  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
-
+  
   <!-- [Google Font] Family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
     id="main-font-link" />
-  <!-- [Tabler Icons] https://tablericons.com -->
+  
+    <!-- [Tabler Icons] https://tablericons.com -->
   <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
   <!-- [Feather Icons] https://feathericons.com -->
   <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
@@ -28,10 +28,18 @@
   <!-- [Template CSS Files] -->
   <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
   <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+  
+  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  
 </head>
 <!-- [Head] end -->
-<!-- [Body] Start -->
 
+<!-- [Body] Start -->
 <body>
   <!-- [ Pre-loader ] start -->
   <div class="loader-bg">
@@ -40,354 +48,19 @@
     </div>
   </div>
   <!-- [ Pre-loader ] End -->
+ 
   <!-- [ Sidebar Menu ] start -->
-  <nav class="pc-sidebar">
-    <div class="navbar-wrapper">
-      <div class="m-header">
-        <a href="../dashboard/index.html" class="b-brand text-primary">
-          <!-- ========   Change your logo from here   ============ -->
-          <img src="/static/assets/img/sanki_logo.png" class=" mt-4 w-50" alt="logo" alt="logo" />
-        </a>
-      </div>
-      <div class="navbar-content">
-        <ul class="pc-navbar">
-          <li class="pc-item">
-            <a href="../dashboard/index.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
-              <span class="pc-mtext">Dashboard</span>
-            </a>
-          </li>
-
-          <!-- <li class="pc-item pc-caption">
-            <label>UI Components</label>
-            <i class="ti ti-dashboard"></i>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_typography.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-typography"></i></span>
-              <span class="pc-mtext">Typography</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_color.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-              <span class="pc-mtext">Color</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/icon-tabler.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
-              <span class="pc-mtext">Icons</span>
-            </a>
-          </li> -->
-
-          <li class="pc-item pc-caption">
-            <label>Pages</label>
-            <i class="ti ti-news"></i>
-          </li>
-          <li class="pc-item">
-            <a href="../pages/login.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-lock"></i></span>
-              <span class="pc-mtext">Login</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../pages/register.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-              <span class="pc-mtext">Register</span>
-            </a>
-          </li>
-
-          <li class="pc-item pc-caption">
-            <label>Actions</label>
-            <i class="ti ti-settings"></i>
-          </li>
-          <li class="pc-item">
-            <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createEventModal">
-              <span class="pc-micon"><i class="ti ti-calendar"></i></span>
-              <span class="pc-mtext">Create Event</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createResellerModal">
-              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-              <span class="pc-mtext">New Reseller</span>
-            </a>
-          </li>
-
-          <li class="pc-item pc-caption">
-            <label>Other</label>
-            <i class="ti ti-brand-chrome"></i>
-          </li>
-          <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
-                class="pc-mtext">Menu levels</span><span class="pc-arrow"><i
-                  data-feather="chevron-right"></i></span></a>
-            <ul class="pc-submenu">
-              <li class="pc-item">
-                <a class="pc-link" href="#!">Level 2.1</a>
-              </li>
-              <li class="pc-item pc-hasmenu">
-                <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
-                      data-feather="chevron-right"></i></span></a>
-                <ul class="pc-submenu">
-                  <li class="pc-item">
-                    <a class="pc-link" href="#!">Level 3.1</a>
-                  </li>
-                  <li class="pc-item">
-                    <a class="pc-link" href="#!">Level 3.2</a>
-                  </li>
-                  <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                          data-feather="chevron-right"></i></span></a>
-                    <ul class="pc-submenu">
-                      <li class="pc-item">
-                        <a class="pc-link" href="#!">Level 4.1</a>
-                      </li>
-                      <li class="pc-item">
-                        <a class="pc-link" href="#!">Level 4.2</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li class="pc-item pc-hasmenu">
-                <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
-                      data-feather="chevron-right"></i></span></a>
-                <ul class="pc-submenu">
-                  <li class="pc-item">
-                    <a class="pc-link" href="#!">Level 3.1</a>
-                  </li>
-                  <li class="pc-item">
-                    <a class="pc-link" href="#!">Level 3.2</a>
-                  </li>
-                  <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                          data-feather="chevron-right"></i></span></a>
-                    <ul class="pc-submenu">
-                      <li class="pc-item">
-                        <a class="pc-link" href="#!">Level 4.1</a>
-                      </li>
-                      <li class="pc-item">
-                        <a class="pc-link" href="#!">Level 4.2</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li class="pc-item">
-            <a href="../other/sample-page.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-              <span class="pc-mtext">Sample page</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  {% include 'hod/nav_bar.html' %}
+  <!-- [ Sidebar Menu ] end -->
 
   <!-- Create Event Modal -->
-  {% include 'create_event_modal.html' %}
+  {% include 'hod/create_event_modal.html' %}
+
   <!-- Create Reseller Modal -->
-  <div class="modal fade" id="createResellerModal" tabindex="-1" aria-labelledby="createResellerModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createResellerModalLabel">
-            Create New Reseller
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="resellerForm">
-            <!-- Profile Photo Upload -->
-            <div class="mb-3 text-center">
-              <label for="resellerPhoto" class="form-label d-block">Upload Photo</label>
-              <input type="file" class="form-control" id="resellerPhoto" accept="image/*" required />
-            </div>
+  {% include 'hod/create_reseller_modal.html' %}
 
-            <!-- Role -->
-            <div class="mb-3">
-              <label for="resellerRole" class="form-label">Role</label>
-              <input type="text" class="form-control" id="resellerRole" required />
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-              <label for="resellerEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="resellerEmail" required />
-            </div>
-
-            <!-- Name -->
-            <div class="mb-3">
-              <label for="resellerName" class="form-label">Full Name</label>
-              <input type="text" class="form-control" id="resellerName" required />
-            </div>
-
-            <!-- Number -->
-            <div class="mb-3">
-              <label for="resellerNumber" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="resellerNumber" required />
-            </div>
-
-            <!-- Password -->
-            <div class="mb-3">
-              <label for="resellerPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="resellerPassword" required />
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-primary">
-                Create Reseller
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- [ Sidebar Menu ] end -->
   <!-- [ Header Topbar ] start -->
-  <header class="pc-header">
-    <div class="header-wrapper">
-      <!-- [Mobile Media Block] start -->
-      <div class="me-auto pc-mob-drp">
-        <ul class="list-unstyled">
-          <!-- ======= Menu collapse Icon ===== -->
-          <li class="pc-h-item pc-sidebar-collapse">
-            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
-              <i class="ti ti-menu-2"></i>
-            </a>
-          </li>
-          <li class="pc-h-item pc-sidebar-popup">
-            <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
-              <i class="ti ti-menu-2"></i>
-            </a>
-          </li>
-          <li class="dropdown pc-h-item d-inline-flex d-md-none">
-            <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#" role="button"
-              aria-haspopup="false" aria-expanded="false">
-              <i class="ti ti-search"></i>
-            </a>
-            <div class="dropdown-menu pc-h-dropdown drp-search">
-              <form class="px-3">
-                <div class="form-group mb-0 d-flex align-items-center">
-                  <i data-feather="search"></i>
-                  <input type="search" class="form-control border-0 shadow-none" placeholder="Search here. . ." />
-                </div>
-              </form>
-            </div>
-          </li>
-          <li class="pc-h-item d-none d-md-inline-flex">
-            <form class="header-search">
-              <i data-feather="search" class="icon-search"></i>
-              <input type="search" class="form-control" placeholder="Search here. . ." />
-            </form>
-          </li>
-        </ul>
-      </div>
-      <!-- [Mobile Media Block end] -->
-      <div class="ms-auto">
-        <ul class="list-unstyled">
-
-          <li class="dropdown pc-h-item header-user-profile">
-            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-              aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-
-              <span><i class="ti ti-user "></i>{{user.username }}</span>
-            </a>
-            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-              <div class="dropdown-header">
-                <div class="d-flex mb-1">
-                  <div class="flex-shrink-0">
-
-                  </div>
-                  <div class="flex-grow-1 ms-3">
-                    <h5 class="mb-1">{{user.username }}</h5>
-                    <h6>{{user.role}}</h6>
-                  </div>
-                  <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
-                </div>
-              </div>
-              <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1"
-                    type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true">
-                    <i class="ti ti-user"></i> Profile
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="drp-t2" data-bs-toggle="tab" data-bs-target="#drp-tab-2" type="button"
-                    role="tab" aria-controls="drp-tab-2" aria-selected="false">
-                    <i class="ti ti-settings"></i> Setting
-                  </button>
-                </li>
-              </ul>
-              <div class="tab-content" id="mysrpTabContent">
-                <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1"
-                  tabindex="0">
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-edit-circle"></i>
-                    <span>Edit Profile</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-user"></i>
-                    <span>View Profile</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-clipboard-list"></i>
-                    <span>Social Profile</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-wallet"></i>
-                    <span>Billing</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-power"></i>
-                    <span>Logout</span>
-                  </a>
-                </div>
-                <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-help"></i>
-                    <span>Support</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-user"></i>
-                    <span>Account Settings</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-lock"></i>
-                    <span>Privacy Center</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-messages"></i>
-                    <span>Feedback</span>
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ti ti-list"></i>
-                    <span>History</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </header>
+  {% include 'header.html' %}
   <!-- [ Header ] end -->
 
   <!-- [ Main Content ] start -->
@@ -423,7 +96,7 @@
         <div class="row">
           <!-- Total Events -->
           <div class="col-6 col-xl-3">
-            <div class="card" id="total-events-card">
+            <div class="card" id="total-events-card" style="cursor: pointer;">
               <div class="card-body">
                 <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
                 <h4 class="mb-3" id="total-events">Loading...</h4>
@@ -433,9 +106,9 @@
 
           <!-- Total Users -->
           <div class="col-6 col-xl-3">
-            <div class="card" id="total-users-card">
+            <div class="card" id="total-users-card" style="cursor: pointer;">
               <div class="card-body">
-                <h6 class="mb-2 f-w-400 text-muted">Total Users</h6>
+                <h6 class="mb-2 f-w-400 text-muted">Total Resellers</h6>
                 <h4 class="mb-3" id="total-users">Loading...</h4>
               </div>
             </div>
@@ -443,9 +116,9 @@
 
           <!-- Total Tickets Sold -->
           <div class="col-6 col-xl-3">
-            <div class="card" id="total-tickets-card">
+            <div class="card" id="total-tickets-card" style="cursor: pointer;">
               <div class="card-body">
-                <h6 class="mb-2 f-w-400 text-muted">Total Tickets Sold</h6>
+                <h6 class="mb-2 f-w-400 text-muted text-nowrap">Total Tickets Sold</h6>
                 <h4 class="mb-3" id="total-tickets-sold">Loading...</h4>
               </div>
             </div>
@@ -453,7 +126,7 @@
 
 
           <div class="col-6 col-xl-3">
-            <div class="card">
+            <div class="card" style="cursor: pointer;">
               <div class="card-body">
                 <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
                 <h4 class="mb-3" id="total-sales">Loading...</h4>
@@ -464,11 +137,11 @@
         </div>
 
 
-        <div id="events-section" class=" row">
-          <div class="col-sm-12 col-xl-8 ">
+        <div id="events-section" class="row">
+          <div class="col-sm-12 col-xl-8">
             <h5 class="mb-3">All Events</h5>
-            <div class="card h-100">
-              <div class="list-group overflow-y-scroll" id="events-list"></div>
+            <div class="card" style="max-height: 495px;">
+              <div class="list-group list-group-flush overflow-y-scroll" id="events-list"></div>
             </div>
           </div>
 
@@ -549,15 +222,15 @@
 
         <div id="users-section" style="display:none" class="row">
           <div class="col-md-12 col-xl-8">
-            <h5 class="mb-3">Users List</h5>
-            <div class="card h-75">
+            <h5 class="mb-3">All Resellers</h5>
+            <div class="card" style="max-height: 495px;">
               <div class="list-group list-group-flush overflow-y-scroll" id="resellers-list"></div>
             </div>
           </div>
           <div class="col-md-12 col-xl-4">
             <h5 class="mb-3">Actions</h5>
             <div class="card p-3 text-center">
-              <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#">
+              <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#createResellerModal">
                 <i class="feather icon-plus-circle me-2"></i>New Reseller
               </button>
             </div>
@@ -658,28 +331,12 @@
     </div>
   </div>
   <!-- [ Main Content ] end -->
-  <footer class="pc-footer">
-    <div class="footer-wrapper container-fluid">
-      <div class="row">
-        <div class="col-sm my-1">
-          <p class="m-0">
-            Sanki Events &#9829; crafted by Team
-            <a href="https://www.dynamiclabz.net/" target="_blank">Dynamiclabz</a>
-
-          </p>
-        </div>
-        <div class="col-auto my-1">
-          <ul class="list-inline footer-link mb-0">
-            <li class="list-inline-item"><a href="../index.html">Home</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
+  
+  {% include 'footer.html' %}
 
   <!-- [Page Specific JS] start -->
-  <script src="/static/assets/js/plugins/apexcharts.min.js"></script>
-  <script src="/static/assets/js/pages/dashboard-default.js"></script>
+  <!-- <script src="/static/assets/js/plugins/apexcharts.min.js"></script> -->
+  <!-- <script src="/static/assets/js/pages/dashboard-default.js"></script> -->
   <!-- [Page Specific JS] end -->
 
   <!-- Required Js -->
@@ -694,9 +351,14 @@
 
   <!--scripts for dynamic data-->
   <script>
-    async function fetchData() {
+    window.onload = async function () {
+      await fetchHodDashboardData();
+      handleDashboardFuncitonality();
+    };
+
+    async function fetchHodDashboardData() {
       try {
-        const response = await fetch("/event/hod-dashboard-api"); // API endpoint
+        const response = await fetch("{% url 'hod-dashboard-api-list' %}"); // API endpoint
         const result = await response.json();
         const data = result.data; // Extract actual data object
 
@@ -715,7 +377,7 @@
 
         document.getElementById(
           "total-sales"
-        ).innerHTML = `<i class="ti ti-cash f-18"></i> ₹${data.all_tickets_sold_amount}`;
+        ).innerHTML = `<i class="ti ti-cash f-18"></i> ₹${data.all_tickets_sold_amount.toLocaleString('en-IN')}`;
 
 
         // Global variables to store event with max revenue
@@ -735,20 +397,15 @@
           }
           const eventItem = `
                       <a href="#" class="list-group-item list-group-item-action">
-                          <div class="d-flex">
-                              <div class="flex-shrink-0">
-                                  <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                                      <i class="ti ti-calendar-event f-18"></i>
-                                  </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
+                          <div class="d-flex">                              
+                              <div class="flex-grow-1">
                                   <h6 class="mb-1">${event.event_name}</h6>
                                   <p class="mb-0 text-muted">${event.event_date_range} | ${event.event_venue}</p>
                               </div>
                               <div class="flex-shrink-0 text-end">
-                                  <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount}</h6>
+                                  <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount.toLocaleString('en-IN')}</h6>
                                   <p class="mb-0 text-muted">
-                                      <span class="font-bold">Tickets Sold:</span> ${event.total_event_ticket_sold}
+                                      <span class="font-bold">${event.total_event_ticket_sold}</span> <i class="ti ti-ticket"></i>
                                   </p>
                               </div>
                           </div>
@@ -777,7 +434,7 @@
                       </div>
                       <div class="flex-shrink-0 text-end">
                           <h6 class="mb-1">
-                              <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount}
+                              <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}
                           </h6>
                           <p class="mb-0 text-muted">
                               <span class="font-bold">Tickets Sold:</span> ${reseller.total_tickets_sold_seller}
@@ -796,7 +453,7 @@
             maxEvent.event_date_range;
           document.getElementById(
             "event-best-seller-sales"
-          ).innerText = `₹${maxEvent.total_event_ticket_sold_amount}`;
+          ).innerText = `₹${maxEvent.total_event_ticket_sold_amount.toLocaleString('en-IN')}`;
           document.getElementById("event-best-seller-description").innerText =
             maxEvent.event_details;
           document.getElementById("event-best-seller-venue").innerText =
@@ -813,7 +470,7 @@
             maxReseller.date_joined;
           document.getElementById(
             "reseller-best-seller-sales"
-          ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount}`;
+          ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}`;
           document.getElementById("reseller-best-seller-description").innerText =
             maxReseller.email;
           document.getElementById("reseller-best-seller-contact").innerText =
@@ -828,10 +485,13 @@
         );
         ticketTableBody.innerHTML = "";
         data.all_ticket_data.forEach((ticket) => {
-          const statusClass =
+          let statusClass =
             ticket.status.toLowerCase() === "approved"
               ? "text-success"
               : "text-danger";
+          if (ticket.status.toLowerCase() === "mail sent") {
+            statusClass = "text-primary";
+          }
           const ticketRow = `
               <tr>
                   <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
@@ -842,7 +502,7 @@
                                 <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
                         </span>
                   </td>
-                  <td class="text-end">₹${ticket.amount}</td>
+                  <td class="text-end">₹${ticket.amount.toLocaleString('en-IN')}</td>
               </tr>`;
           ticketTableBody.innerHTML += ticketRow;
         });
@@ -851,11 +511,7 @@
       }
     }
 
-    window.onload = fetchData;
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    function handleDashboardFuncitonality() {
       // Select the cards
       const totalEventsCard = document.getElementById("total-events-card");
       const totalUsersCard = document.getElementById("total-users-card");
@@ -865,7 +521,6 @@
       const eventsSection = document.getElementById("events-section");
       const usersSection = document.getElementById("users-section");
       const ticketsSection = document.getElementById("tickets-section");
-
 
 
       // Function to hide all sections
@@ -897,9 +552,9 @@
         ticketsSection.style.display = "block"; // Show Tickets List
 
       });
-    });
+    }
+  
   </script>
-
 
 
 </body>

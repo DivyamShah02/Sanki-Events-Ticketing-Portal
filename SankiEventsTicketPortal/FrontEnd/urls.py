@@ -9,6 +9,8 @@ router.register(r'', HomeViewSet, basename='home')
 
 router.register(r'login', LoginViewSet, basename='login')
 router.register(r'dashboard', DashboardFrontEndViewSet, basename='dashboard')
+router.register(r'events', EventsFrontEndViewSet, basename='events')
+router.register(r'event_detail', EventDetailFrontEndViewSet, basename='event_detail')
 
 urlpatterns = [
     path('', include(router.urls))

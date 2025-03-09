@@ -342,10 +342,10 @@ class EventListViewSet(viewsets.ViewSet):
     @handle_exceptions
     def list(self, request):
         events_obj = Event.objects.all()
-        events_data = EventSerializer(events_obj).data
+        events_data = HodAllEventsSerializer(events_obj, many=True).data
         
         data = {
-            'events_data': events_data,
+            'events_data': events_data[::-1],
             'len_events_data': len(events_data)
         }
 

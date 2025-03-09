@@ -102,5 +102,5 @@ function showModal(title, content, callback, submit_not_needed=false) {
 }
 
 function toggle_loader(){
-    console.log('hello');
+    console.log('loader toggled');
 }
