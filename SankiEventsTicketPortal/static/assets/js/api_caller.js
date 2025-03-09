@@ -1,6 +1,5 @@
 async function callApi(method, url, bodyData = null, csrfToken = '', media_upload=false) {
     try {
-        // Validate method and URL
         if (typeof method !== 'string' || typeof url !== 'string') {
             throw new Error("Invalid method or URL");
         }
@@ -35,15 +34,7 @@ async function callApi(method, url, bodyData = null, csrfToken = '', media_uploa
             }
         }
 
-        // Make the fetch request
         const response = await fetch(url, options);
-        // console.log(response)
-
-        // Check for HTTP errors
-        // if (!response.ok) {
-        //     throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
-        // }
-
 
         try {
             const data = await response.json();
@@ -54,13 +45,7 @@ async function callApi(method, url, bodyData = null, csrfToken = '', media_uploa
             window.location.href=`/login/`;            
         }
         
-        // Parse the JSON response
-        // data = await response.json();
-
-        // Return success flag and data
-        
     } catch (error) {
-        // Log and return failure flag with error
         console.error("API Call Error:", error);
         return [false, error.message || "An unknown error occurred"];
     }

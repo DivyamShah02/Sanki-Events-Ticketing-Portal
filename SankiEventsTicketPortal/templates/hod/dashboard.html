@@ -67,7 +67,7 @@
   <div class="pc-container">
     <div class="pc-content">
       <!-- [ breadcrumb ] start -->
-      <div class="page-header">
+      <!-- <div class="page-header">
         <div class="page-block">
           <div class="row align-items-center">
             <div class="col-md-12">
@@ -86,7 +86,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- [ breadcrumb ] end -->
 
       <!-- [ Main Content ] start -->
@@ -424,20 +424,19 @@
           const resellerItem = `
               <a href="#" class="list-group-item list-group-item-action">
                   <div class="d-flex">
-                      <div class="flex-shrink-0">
+                      <!-- <div class="flex-shrink-0">
                           <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
                               <i class="ti ti-user f-18"></i>
                           </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
+                      </div> ms-3-->
+                      <div class="flex-grow-1">
                           <h6 class="mb-1">${reseller.name}</h6>
+                          <p class="mb-0 text-muted">${reseller.email}</p>
                       </div>
                       <div class="flex-shrink-0 text-end">
-                          <h6 class="mb-1">
-                              <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}
-                          </h6>
+                          <h6 class="mb-1">+ ₹${reseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}</h6>
                           <p class="mb-0 text-muted">
-                              <span class="font-bold">Tickets Sold:</span> ${reseller.total_tickets_sold_seller}
+                              <span class="font-bold">${reseller.total_tickets_sold_seller}</span> <i class="ti ti-ticket"></i>
                           </p>
                       </div>
                   </div>

@@ -37,7 +37,7 @@ class HodDashboardEventSerializer(serializers.ModelSerializer):
 
         return representation
 
-class HodAllEventsSerializer(serializers.ModelSerializer):
+class HodEventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event        
         fields = '__all__'
@@ -94,6 +94,33 @@ class HodAllEventsSerializer(serializers.ModelSerializer):
 
         return representation
 
+class ResellerDashboardEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event        
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        if 'event_id' in representation:
+            seller_id = self.context.get('seller_id', None)
+            all_envents_tickets_sold_obj = Ticket.objects.filter(event_id=representation['event_id'], approved=True, seller_id=seller_id)
+            all_envents_tickets_sold = QtyAmountTicketSerializer(all_envents_tickets_sold_obj, many=True).data
+
+            total_event_ticket_sold = 0
+            total_event_ticket_sold_amount = 0
+
+            for ticket_sold in all_envents_tickets_sold:
+                total_event_ticket_sold+=ticket_sold['qty']
+                total_event_ticket_sold_amount+=ticket_sold['amount']
+
+            representation['total_event_ticket_sold'] = total_event_ticket_sold
+            representation['total_event_ticket_sold_amount'] = total_event_ticket_sold_amount
+
+            event_dates_count = len(EventDate.objects.filter(event_id=representation['event_id']))
+            representation['event_dates_count'] = event_dates_count
+
+        return representation
 
 class EventDateSerializer(serializers.ModelSerializer):
     class Meta:
