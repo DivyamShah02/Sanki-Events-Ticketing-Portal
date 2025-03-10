@@ -52,7 +52,54 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   </head>
   <!-- [Head] end -->
+  <style>
+    /* Custom styles for tabs to match the image */
+    .nav-tabs {
+      border-bottom: 1px solid #dee2e6;
+      width: 100%;
+      display: flex;
+    }
 
+    .nav-tabs .nav-item {
+      flex: 1;
+    }
+
+    .nav-tabs .nav-link {
+      border: none;
+      color: #6c757d;
+      font-size: 18px;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: center;
+      margin-right: 30px;
+      background-color: transparent;
+      transition: color 0.3s ease;
+    }
+
+    .nav-tabs .nav-link:hover {
+      color: #000;
+      border: none;
+    }
+
+    .nav-tabs .nav-link.active {
+      color: #000;
+      font-weight: 500;
+      border: none;
+      border-bottom: 2px solid #000;
+      background-color: transparent;
+    }
+
+    /* Remove focus outline for cleaner look */
+    .nav-link:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Add spacing between tabs and content */
+    .tab-content {
+      padding-top: 20px;
+    }
+  </style>
   <!-- [Body] Start -->
 
   <body>
@@ -197,12 +244,12 @@
           </div>
         </div>
 
-        <div class="container mt-4">
+        <div class="container mt-4 flex">
           <!-- Tabs Navigation -->
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <ul class="nav nav-tabs row" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button
-                class="nav-link"
+                class="nav-link active"
                 id="tickets-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#tickets-section"
@@ -216,7 +263,7 @@
             </li>
             <li class="nav-item" role="presentation">
               <button
-                class="nav-link active"
+                class="nav-link"
                 id="resellers-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#resellers-section"
@@ -296,12 +343,12 @@
                             <i class="bi bi-ticket"></i>
                           </p>
                         </div>
-                        <div class="flex-shrink-0 text-end ms-3">
+                        <div class="text-end ms-3">
                           <button
                             type="button"
                             class="btn btn-primary btn-lg w-100"
                           >
-                            <i class="feather icon-plus-circle me-2"></i>Update
+                            <i class="feather icon-plus-circle me-2"></i>Assign
                             Tickets
                           </button>
                         </div>
