@@ -337,8 +337,8 @@
 
     <!--scripts for dynamic data-->
     <script>
-      const event_id = new URLSearchParams(window.location.search).get(
-        "event_id"
+      const event_date_id = new URLSearchParams(window.location.search).get(
+        "event_date_id"
       );
       window.onload = async function () {
         // await fetchHodEventsData();
@@ -347,11 +347,11 @@
       async function fetchHodEventsData() {
         try {
           const Params = {
-            event_id: event_id,
+            event_date_id: event_date_id,
           };
 
           const url =
-            "{% url 'event-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+            "{% url 'event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
           const [success, result] = await callApi("GET", url);
           if (success) {
             if (result.success) {
