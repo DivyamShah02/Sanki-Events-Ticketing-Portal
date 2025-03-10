@@ -404,6 +404,55 @@ class EventDetailViewSet(viewsets.ViewSet):
             }, status=status.HTTP_200_OK)
 
 
+class EventDateDetailViewSet(viewsets.ViewSet):
+    @check_authentication()
+    @handle_exceptions
+    def list(self, request):
+        event_date_id = request.GET.get('event_date_id')
+        if not event_date_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event_date_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        event_date_obj = EventDate.objects.filter(event_date_id=event_date_id).first()
+        if not event_date_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event Date not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        event_obj = Event.objects.filter(event_id=event_date_obj.event_id).first()
+        event_data = HodEventDateSerializer(event_obj, context={'event_date_id': event_date_id}).data
+
+        reseller_obj = User.objects.filter(role='reseller')
+        reseller_data = HodEventDateDetailUserSerializer(reseller_obj, context={'event_date_id': event_date_id}, many=True).data
+
+        data = {
+            "event_data": event_data,
+            
+            "reseller_data": reseller_data[::-1],
+            "len_reseller_data": len(reseller_data),   
+        }
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
 class TicketUpdateViewSet(viewsets.ViewSet):
     @check_authentication(required_role='hod')
     @handle_exceptions
@@ -466,7 +515,7 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
         reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
         
         all_ticket_obj = Ticket.objects.all()
-        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj, many=True).data
+        all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
         all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
@@ -512,7 +561,7 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
         events_data = ResellerDashboardEventSerializer(events_obj, many=True, context={'seller_id': request.user}).data
 
         all_ticket_obj = Ticket.objects.filter(seller_id=request.user)
-        all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj, many=True).data
+        all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
         all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
@@ -544,5 +593,4 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
                 "data": data,
                 "error": None
             }, status=status.HTTP_200_OK)
-
 

@@ -74,3 +74,24 @@ class EventDetailFrontEndViewSet(viewsets.ViewSet):
         
         elif user.role == 'reseller':
             return render(request, 'reseller/event_detail.html')
+
+
+class EventDateDetailFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login-list')
+
+        if not request.GET.get('event_date_id'):
+            return redirect('events-list')
+        
+        event_data = EventDate.objects.filter(event_date_id=request.GET.get('event_date_id')).first()
+        if not event_data:
+            return redirect('events-list')
+
+        if user.role == 'hod':
+            return render(request, 'hod/event_date_detail.html')
+        
+        elif user.role == 'reseller':
+            return render(request, 'reseller/event_date_detail.html')
+

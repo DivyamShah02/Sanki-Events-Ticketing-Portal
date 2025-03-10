@@ -14,7 +14,7 @@ class QtyAmountTicketSerializer(serializers.ModelSerializer):
         model = Ticket        
         fields = ['qty', 'amount']
 
-class HodDashboardAllTicketSerializer(serializers.ModelSerializer):
+class HodTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket        
         fields = '__all__'
