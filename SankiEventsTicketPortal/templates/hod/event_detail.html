@@ -1,367 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- [Head] start -->
+  <!-- [Head] start -->
 
-<head>
-  <title>Sanki Events</title>
-  <!-- [Meta] -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <head>
+    <title>Sanki Events</title>
+    <!-- [Meta] -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- [Google Font] Family -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
-    id="main-font-link" />
+    <!-- [Google Font] Family -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+      id="main-font-link"
+    />
 
-  <!-- [Tabler Icons] https://tablericons.com -->
-  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
-  <!-- [Feather Icons] https://feathericons.com -->
-  <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
-  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
-  <!-- [Material Icons] https://fonts.google.com/icons -->
-  <link rel="stylesheet" href="/static/assets/fonts/material.css" />
-  <!-- [Template CSS Files] -->
-  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
-  <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="/static/assets/fonts/material.css" />
+    <!-- [Template CSS Files] -->
+    <link
+      rel="stylesheet"
+      href="/static/assets/css/style.css"
+      id="main-style-link"
+    />
+    <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
 
-  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  </head>
+  <!-- [Head] end -->
 
-</head>
-<!-- [Head] end -->
+  <!-- [Body] Start -->
 
-<!-- [Body] Start -->
-
-<body>
-  <!-- [ Pre-loader ] start -->
-  <div class="loader-bg">
-    <div class="loader-track">
-      <div class="loader-fill"></div>
+  <body>
+    <!-- [ Pre-loader ] start -->
+    <div class="loader-bg">
+      <div class="loader-track">
+        <div class="loader-fill"></div>
+      </div>
     </div>
-  </div>
-  <!-- [ Pre-loader ] End -->
+    <!-- [ Pre-loader ] End -->
 
-  <!-- [ Sidebar Menu ] start -->
-  {% include 'hod/nav_bar.html' %}
-  <!-- [ Sidebar Menu ] end -->
+    <!-- [ Sidebar Menu ] start -->
+    {% include 'hod/nav_bar.html' %}
+    <!-- [ Sidebar Menu ] end -->
 
-  <!-- Create Event Modal -->
-  {% include 'hod/create_event_modal.html' %}
+    <!-- Create Event Modal -->
+    {% include 'hod/create_event_modal.html' %}
 
-  <!-- Create Reseller Modal -->
-  {% include 'hod/create_reseller_modal.html' %}
+    <!-- Create Reseller Modal -->
+    {% include 'hod/create_reseller_modal.html' %}
 
-  <!-- [ Header Topbar ] start -->
-  {% include 'header.html' %}
-  <!-- [ Header ] end -->
+    <!-- [ Header Topbar ] start -->
+    {% include 'header.html' %}
+    <!-- [ Header ] end -->
 
-  <!-- [ Main Content ] start -->
-  <div class="pc-container">
-    <div class="pc-content">
-      <!-- [ Main Content ] start -->
+    <!-- [ Main Content ] start -->
+    <div class="pc-container">
+      <div class="pc-content">
+        <!-- [ Main Content ] start -->
 
-      <div class="d-flex w-100 align-items-center">
-        <!-- <div class="flex-shrink-0">
+        <div class="d-flex w-100 align-items-center">
+          <!-- <div class="flex-shrink-0">
           <div
             class="avatar avatar-sm rounded-circle text-success bg-light-success d-flex align-items-center justify-content-center"
             style="width: 40px; height: 40px;">
             <i class="ti ti-calendar f-18"></i>
           </div>
         </div> -->
-        <div class="flex-grow-1">
-          <h2 class="mb-1" id="event-details-modal-event_name">Loading...</h2>
-          
-          <div class="col-md-6 d-flex align-items-center mb-3">
-            <i class="ti ti-map-pin me-1"></i>
-            <p class="text-muted text-lg mb-0" id="event-details-modal-event_venue">Loading...</p>
+          <div class="flex-grow-1">
+            <h2 class="mb-1" id="event-details-modal-event_name">Loading...</h2>
+
+            <div class="col-md-6 d-flex align-items-center mb-3">
+              <i class="ti ti-map-pin me-1"></i>
+              <p
+                class="text-muted text-lg mb-0"
+                id="event-details-modal-event_venue"
+              >
+                Loading...
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="dropdown">
-          <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="ti ti-dots-vertical f-18"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">Share</a>
-            <a class="dropdown-item" href="#">Edit</a>
-            <a class="dropdown-item" href="#">Delete</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-calendar me-2"></i>
-                  <p class="mb-0" id="event-details-modal-event_date_range">Loading...</p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-map-pin me-2"></i>
-                  <p class="mb-0" id="event-details-modal-event_city">Loading...</p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-ticket me-2"></i>
-                  <p class="mb-0">Tickets Available: <span
-                      id="event-details-modal-event_available_tickets">Loading...</span></p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
-                  <p class="mb-0">Digital Pass</p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-clock me-2"></i>
-                  <p class="mb-0">Event Days: <span id="event-details-modal-event_days">Loading...</span></p>
-                </div>
-              </div>
-              <li class="list-group-item px-0 pb-0">
-                <p class="mb-1 text-muted">Address</p>
-                <h6 class="mb-0" id="event-details-modal-event_address">Loading...</h6>
-              </li>
-              <div class="mt-4 card-footer px-0 py-2">
-                <button class="btn btn-primary mt-2" data-bs-toggle="modal"
-                  data-bs-target="#updateEventModal"><b>Update details</b></button>                
-              </div>
+          <div class="dropdown">
+            <a
+              class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
+              href="#"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="ti ti-dots-vertical f-18"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a class="dropdown-item" href="#">Share</a>
+              <a class="dropdown-item" href="#">Edit</a>
+              <a class="dropdown-item" href="#">Delete</a>
             </div>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="card">
-            <div class="card-header">
-              <h5>Commercial Details</h5>
-            </div>
-            <div class="card-body">
-              <p class="mb-1 text-muted">Tickets Sold</p>
-              <h6 class="mb-4" id="event-details-modal-event_ticket_sold">Loading...</h6>
-              <p class="mb-1 text-muted">Total Sales</p>
-              <h6 class="mb-4" id="event-details-modal-event_total_sales">Loading...</h6>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-md-12">
-        <h5 class="mb-3">Event Dates</h5>
-        <div class="card">
-          <div class="list-group list-group-flush" id="event-details-modal-event_dates">
-          </div>
-        </div>
-      </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 d-flex align-items-center mb-3">
+                    <i class="ti ti-calendar me-2"></i>
+                    <p class="mb-0" id="event-details-modal-event_date_range">
+                      Loading...
+                    </p>
+                  </div>
 
-      <div class="modal fade" id="updateEventModal" tabindex="-1" aria-labelledby="updateEventModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="updateEventModalLabel">Update Event</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form id="updateEventForm">
-                <div class="mb-3">
-                  <label for="updateEventName" class="form-label">Event Name</label>
-                  <input type="text" class="form-control" id="updateEventName" name="updateEventName" required />
-                </div>
-                <div class="mb-3">
-                  <label for="updateEventVenue" class="form-label">Event Venue</label>
-                  <input type="text" class="form-control" id="updateEventVenue" name="updateEventVenue" required />
-                </div>
-                <div class="input-group mb-3">
-                  <label for="updateEventDateRange" class="form-label col-12">Event Date Range</label>
-                  <input type="text" id="updateEventDateRange" name="updateEventDateRange" class="form-control" placeholder="Select date range" readonly required disabled/>
-                  <span class="input-group-text"><i class="feather icon-calendar"></i></span>
-                </div>
+                  <div class="col-md-6 d-flex align-items-center mb-3">
+                    <i class="ti ti-map-pin me-2"></i>
+                    <p class="mb-0" id="event-details-modal-event_city">
+                      Loading...
+                    </p>
+                  </div>
 
-                <div class="mb-3">
-                  <label for="updateEventCity" class="form-label">Event City</label>
-                  <input type="text" class="form-control" id="updateEventCity" name="updateEventCity" required />
+                  <div class="col-md-6 d-flex align-items-center mb-3">
+                    <i class="ti ti-ticket me-2"></i>
+                    <p class="mb-0">
+                      Tickets Available:
+                      <span id="event-details-modal-event_available_tickets"
+                        >Loading...</span
+                      >
+                    </p>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center mb-3">
+                    <i
+                      class="ti ti-x me-2"
+                      id="event-details-modal-event_digital_pass"
+                    ></i>
+                    <p class="mb-0">Digital Pass</p>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center mb-3">
+                    <i class="ti ti-clock me-2"></i>
+                    <p class="mb-0">
+                      Event Days:
+                      <span id="event-details-modal-event_days"
+                        >Loading...</span
+                      >
+                    </p>
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label for="updateEventState" class="form-label">Event State</label>
-                  <input type="text" class="form-control" id="updateEventState" name="updateEventState" required />
-                </div>
-                <div class="mb-3">
-                  <label for="updateEventAddress" class="form-label">Event Address</label>
-                  <textarea class="form-control" id="updateEventAddress" name="updateEventAddress" rows="2" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="updateEventDetails" class="form-label">Event Details</label>
-                  <textarea class="form-control" id="updateEventDetails" name="updateEventDetails" rows="3"></textarea>
-                </div>
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="updateEventDigitalPass" name="updateEventDigitalPass" disabled/>
-                  <label class="form-check-label" for="updateEventDigitalPass">Enable Digital Pass</label>
-                </div>
-                <div class="modal-footer px-0">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Update Event
+                <li class="list-group-item px-0 pb-0">
+                  <p class="mb-1 text-muted">Address</p>
+                  <h6 class="mb-0" id="event-details-modal-event_address">
+                    Loading...
+                  </h6>
+                </li>
+                <div class="mt-4 card-footer px-0 py-2">
+                  <button
+                    class="btn btn-primary mt-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#updateEventModal"
+                  >
+                    <b>Update details</b>
                   </button>
                 </div>
-              </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">
+                <h5>Commercial Details</h5>
+              </div>
+              <div class="card-body">
+                <p class="mb-1 text-muted">Tickets Sold</p>
+                <h6 class="mb-4" id="event-details-modal-event_ticket_sold">
+                  Loading...
+                </h6>
+                <p class="mb-1 text-muted">Total Sales</p>
+                <h6 class="mb-4" id="event-details-modal-event_total_sales">
+                  Loading...
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <h5 class="mb-3">Event Dates</h5>
+          <div class="card">
+            <div
+              class="list-group list-group-flush"
+              id="event-details-modal-event_dates"
+            ></div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="updateEventModal"
+          tabindex="-1"
+          aria-labelledby="updateEventModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateEventModalLabel">
+                  Update Event
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="updateEventForm">
+                  <div class="mb-3">
+                    <label for="updateEventName" class="form-label"
+                      >Event Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="updateEventName"
+                      name="updateEventName"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="updateEventVenue" class="form-label"
+                      >Event Venue</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="updateEventVenue"
+                      name="updateEventVenue"
+                      required
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="updateEventDateRange" class="form-label col-12"
+                      >Event Date Range</label
+                    >
+                    <input
+                      type="text"
+                      id="updateEventDateRange"
+                      name="updateEventDateRange"
+                      class="form-control"
+                      placeholder="Select date range"
+                      readonly
+                      required
+                      disabled
+                    />
+                    <span class="input-group-text"
+                      ><i class="feather icon-calendar"></i
+                    ></span>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="updateEventCity" class="form-label"
+                      >Event City</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="updateEventCity"
+                      name="updateEventCity"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="updateEventState" class="form-label"
+                      >Event State</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="updateEventState"
+                      name="updateEventState"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="updateEventAddress" class="form-label"
+                      >Event Address</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="updateEventAddress"
+                      name="updateEventAddress"
+                      rows="2"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="updateEventDetails" class="form-label"
+                      >Event Details</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="updateEventDetails"
+                      name="updateEventDetails"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                  <div class="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="updateEventDigitalPass"
+                      name="updateEventDigitalPass"
+                      disabled
+                    />
+                    <label class="form-check-label" for="updateEventDigitalPass"
+                      >Enable Digital Pass</label
+                    >
+                  </div>
+                  <div class="modal-footer px-0">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Update Event
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- [ Main Content ] end -->
 
-  <!-- [ Main Content ] end -->
+    {% include 'footer.html' %}
 
-  {% include 'footer.html' %}
+    <!-- [Page Specific JS] start -->
+    <!-- <script src="/static/assets/js/plugins/apexcharts.min.js"></script> -->
+    <!-- <script src="/static/assets/js/pages/dashboard-default.js"></script> -->
+    <!-- [Page Specific JS] end -->
 
-  <!-- [Page Specific JS] start -->
-  <!-- <script src="/static/assets/js/plugins/apexcharts.min.js"></script> -->
-  <!-- <script src="/static/assets/js/pages/dashboard-default.js"></script> -->
-  <!-- [Page Specific JS] end -->
+    <!-- Required Js -->
+    <script src="/static/assets/js/plugins/popper.min.js"></script>
+    <script src="/static/assets/js/plugins/simplebar.min.js"></script>
+    <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="/static/assets/js/fonts/custom-font.js"></script>
+    <script src="/static/assets/js/pcoded.js"></script>
+    <script src="/static/assets/js/plugins/feather.min.js"></script>
+    <script src="/static/assets/js/api_caller.js"></script>
+    <script src="/static/assets/js/script.js"></script>
 
-  <!-- Required Js -->
-  <script src="/static/assets/js/plugins/popper.min.js"></script>
-  <script src="/static/assets/js/plugins/simplebar.min.js"></script>
-  <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
-  <script src="/static/assets/js/fonts/custom-font.js"></script>
-  <script src="/static/assets/js/pcoded.js"></script>
-  <script src="/static/assets/js/plugins/feather.min.js"></script>
-  <script src="/static/assets/js/api_caller.js"></script>
-  <script src="/static/assets/js/script.js"></script>
+    <!--scripts for dynamic data-->
+    <script>
+      const event_id = new URLSearchParams(window.location.search).get(
+        "event_id"
+      );
+      window.onload = async function () {
+        await fetchHodEventsData();
+      };
 
-  <!--scripts for dynamic data-->
-  <script>
-    const event_id = new URLSearchParams(window.location.search).get('event_id');
-    window.onload = async function () {
-      await fetchHodEventsData();
-    };
+      async function fetchHodEventsData() {
+        try {
+          const Params = {
+            event_id: event_id,
+          };
 
-    async function fetchHodEventsData() {
-      try {
-        const Params = {
-          event_id: event_id,
-        };
+          const url =
+            "{% url 'event-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+          const [success, result] = await callApi("GET", url);
+          if (success) {
+            if (result.success) {
+              const data = result.data; // Extract actual data object
+              console.log(data);
+              let event_data = data.event_data;
+              let date_html = "";
+              event_data.all_dates.forEach((date) => {
+                date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
+              });
 
-        const url = "{% url 'event-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
-        const [success, result] = await callApi("GET", url);
-        if (success) {
-          if (result.success) {
-            const data = result.data; // Extract actual data object
-            console.log(data)
-            let event_data = data.event_data;
-            let date_html = ''
-            event_data.all_dates.forEach((date) => {
-              date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`
-            });
-
-            let event_date_rows = '';
-            event_data.event_dates_data.forEach((date) => {
-              event_date_rows += `<a href="#" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+              let event_date_rows = "";
+              event_data.event_dates_data.forEach((date) => {
+                event_date_rows += `<a href="#" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"  onclick="window.location.href='{% url 'event_date_detail-list' %}?event_date_id=${
+                  date.event_date_id
+                }'">
                           <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
                               <h6 class="mb-1">${date.event_date}</h6>
-                              <p class="mb-0 text-muted"><span class="font-bold">Total Sales:</span> ₹${date.tickets_sold_amount.toLocaleString('en-IN')} | <span class="font-bold">Tickets Sold:</span> ${date.tickets_sold}</p>
+                              <p class="mb-0 text-muted"><span class="font-bold">Total Sales:</span> ₹${date.tickets_sold_amount.toLocaleString(
+                                "en-IN"
+                              )} | <span class="font-bold">Tickets Sold:</span> ${
+                  date.tickets_sold
+                }</p>
                             </div>
                           </div>
                           <button class="btn btn-sm btn-outline-primary">Details</button>
-                        </a>`
-            });
+                        </a>`;
+              });
 
-            document.getElementById('event-details-modal-event_name').innerText = event_data.event_name;
-            document.getElementById('event-details-modal-event_venue').innerText = event_data.event_venue;
-            // document.getElementById('event-details-modal-event_details').innerText = '';
-            document.getElementById('event-details-modal-event_date_range').innerText = event_data.event_date_range;
-            document.getElementById('event-details-modal-event_city').innerText = `${event_data.city}, ${event_data.state}`;
-            document.getElementById('event-details-modal-event_available_tickets').innerText = event_data.number_of_tickets;
-            document.getElementById('event-details-modal-event_digital_pass').className = event_data.digital_pass === true ? "ti ti-check me-2" : "ti ti-x me-2"
-            document.getElementById('event-details-modal-event_address').innerText = event_data.event_address;
-            document.getElementById('event-details-modal-event_ticket_sold').innerText = event_data.total_event_ticket_sold;
-            document.getElementById('event-details-modal-event_total_sales').innerText = `₹${event_data.total_event_ticket_sold_amount.toLocaleString('en-IN')}`;
-            document.getElementById('event-details-modal-event_days').innerHTML = date_html;
-            document.getElementById('event-details-modal-event_dates').innerHTML = event_date_rows;
+              document.getElementById(
+                "event-details-modal-event_name"
+              ).innerText = event_data.event_name;
+              document.getElementById(
+                "event-details-modal-event_venue"
+              ).innerText = event_data.event_venue;
+              // document.getElementById('event-details-modal-event_details').innerText = '';
+              document.getElementById(
+                "event-details-modal-event_date_range"
+              ).innerText = event_data.event_date_range;
+              document.getElementById(
+                "event-details-modal-event_city"
+              ).innerText = `${event_data.city}, ${event_data.state}`;
+              document.getElementById(
+                "event-details-modal-event_available_tickets"
+              ).innerText = event_data.number_of_tickets;
+              document.getElementById(
+                "event-details-modal-event_digital_pass"
+              ).className =
+                event_data.digital_pass === true
+                  ? "ti ti-check me-2"
+                  : "ti ti-x me-2";
+              document.getElementById(
+                "event-details-modal-event_address"
+              ).innerText = event_data.event_address;
+              document.getElementById(
+                "event-details-modal-event_ticket_sold"
+              ).innerText = event_data.total_event_ticket_sold;
+              document.getElementById(
+                "event-details-modal-event_total_sales"
+              ).innerText = `₹${event_data.total_event_ticket_sold_amount.toLocaleString(
+                "en-IN"
+              )}`;
+              document.getElementById(
+                "event-details-modal-event_days"
+              ).innerHTML = date_html;
+              document.getElementById(
+                "event-details-modal-event_dates"
+              ).innerHTML = event_date_rows;
 
-            document.getElementById('updateEventName').value = event_data.event_name;
-            document.getElementById('updateEventVenue').value = event_data.event_venue;
-            document.getElementById('updateEventDateRange').value = event_data.event_date_range;
-            document.getElementById('updateEventCity').value = event_data.city;
-            document.getElementById('updateEventState').value = event_data.state;
-            document.getElementById('updateEventAddress').value = event_data.event_address;
-            document.getElementById('updateEventDetails').value = event_data.event_details;
-            document.getElementById('updateEventDigitalPass').checked = event_data.digital_pass;
+              document.getElementById("updateEventName").value =
+                event_data.event_name;
+              document.getElementById("updateEventVenue").value =
+                event_data.event_venue;
+              document.getElementById("updateEventDateRange").value =
+                event_data.event_date_range;
+              document.getElementById("updateEventCity").value =
+                event_data.city;
+              document.getElementById("updateEventState").value =
+                event_data.state;
+              document.getElementById("updateEventAddress").value =
+                event_data.event_address;
+              document.getElementById("updateEventDetails").value =
+                event_data.event_details;
+              document.getElementById("updateEventDigitalPass").checked =
+                event_data.digital_pass;
+            }
+          } else {
           }
-        } else {
-
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
       }
-    }
 
-    document.getElementById("updateEventForm").addEventListener("submit", async (event) => {
-        toggle_loader();
-        const form = event.target;
-        event.preventDefault();
+      document
+        .getElementById("updateEventForm")
+        .addEventListener("submit", async (event) => {
+          toggle_loader();
+          const form = event.target;
+          event.preventDefault();
 
-        if (!form.checkValidity()) {
+          if (!form.checkValidity()) {
             form.reportValidity();
             return;
-        }
+          }
 
-        showModal(
-            'Confirm Action',
-            '<p>Are you sure you want to update event details?</p>',
+          showModal(
+            "Confirm Action",
+            "<p>Are you sure you want to update event details?</p>",
             async () => {
-                let eventName = document.getElementById('updateEventName').value;
-                let eventVenue = document.getElementById('updateEventVenue').value;                
-                let eventCity = document.getElementById('updateEventCity').value;
-                let eventState = document.getElementById('updateEventState').value;
-                let eventAddress = document.getElementById('updateEventAddress').value;
-                let eventDetails = document.getElementById('updateEventDetails').value;                
+              let eventName = document.getElementById("updateEventName").value;
+              let eventVenue =
+                document.getElementById("updateEventVenue").value;
+              let eventCity = document.getElementById("updateEventCity").value;
+              let eventState =
+                document.getElementById("updateEventState").value;
+              let eventAddress =
+                document.getElementById("updateEventAddress").value;
+              let eventDetails =
+                document.getElementById("updateEventDetails").value;
 
-                const bodyData = {
-                  'event_name': eventName,
-                  'event_details': eventDetails,
-                  'event_venue': eventVenue,
-                  'event_address': eventAddress,
-                  'city': eventCity,
-                  'state': eventState
-                };
+              const bodyData = {
+                event_name: eventName,
+                event_details: eventDetails,
+                event_venue: eventVenue,
+                event_address: eventAddress,
+                city: eventCity,
+                state: eventState,
+              };
 
-                const url = `{% url 'event-api-list' %}${event_id}/`;
-                const [success, result] = await callApi("PUT", url, bodyData, "{{csrf_token}}");
-                if (success) {
-                    if (result.success) {
-                        location.reload();
-                    }
-                    else {
-                        alert("Unexpected Error occured : " + result.error);
-                    }
+              const url = `{% url 'event-api-list' %}${event_id}/`;
+              const [success, result] = await callApi(
+                "PUT",
+                url,
+                bodyData,
+                "{{csrf_token}}"
+              );
+              if (success) {
+                if (result.success) {
+                  location.reload();
                 } else {
-                    alert('Unable to update new event');
+                  alert("Unexpected Error occured : " + result.error);
                 }
+              } else {
+                alert("Unable to update new event");
+              }
             }
-        );
-        toggle_loader();
-    });
-  </script>
-
-</body>
-<!-- [Body] end -->
-
+          );
+          toggle_loader();
+        });
+    </script>
+  </body>
+  <!-- [Body] end -->
 </html>
