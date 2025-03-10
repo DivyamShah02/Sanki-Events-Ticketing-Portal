@@ -6,7 +6,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('favicon.ico', RedirectView.as_view(url='/static/logo.png')),
+    path('favicon.ico', RedirectView.as_view(url='/static/assets/img/SANKI EVENTS.ico')),
 
     path('', include('FrontEnd.urls')),
     path('user/', include('UserDetail.urls')),

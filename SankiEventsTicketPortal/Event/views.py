@@ -17,15 +17,18 @@ from UserDetail.serializers import *
 class EventViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    # @check_authentication(required_role='hod')
+    @check_authentication(required_role='hod')
     def create(self, request):
         event_name = request.data.get('event_name')
         event_details = request.data.get('event_details')
         event_venue = request.data.get('event_venue')
         event_date_range = request.data.get('event_date_range')
+        event_address = request.data.get('event_address')
+        city = request.data.get('city')
+        state = request.data.get('state')
         digital_pass = request.data.get('digital_pass', False)
         
-        if not (event_name and event_details and event_venue and event_date_range):
+        if (event_name and event_details and event_venue and event_date_range and event_address and city and state) is None:
             return Response(
             {
                 "success": False,
@@ -36,8 +39,8 @@ class EventViewSet(viewsets.ViewSet):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         event_id = self.generate_event_id()
-        # hod_id = request.user.user_id
-        hod_id = 'HO6870923320'
+        hod_id = request.user.user_id
+        # hod_id = 'HO6870923320'
         event_dates = []
 
         start_date, end_date = event_date_range.split(" | ")
@@ -63,6 +66,9 @@ class EventViewSet(viewsets.ViewSet):
             event_details=event_details,
             event_venue=event_venue,
             event_date_range=event_date_range,
+            event_address=event_address,
+            city=city,
+            state=state,
             digital_pass=digital_pass,
             s3_bucket_folder=s3_bucket_folder
         )
@@ -136,9 +142,9 @@ class EventViewSet(viewsets.ViewSet):
 
     @handle_exceptions
     @check_authentication(required_role='hod')
-    def update(self, request):
-        event_id = request.data.get('event_id')
-        if not event:
+    def update(self, request, pk=None):
+        event_id = pk
+        if not event_id:
             return Response(
                 {
                     "success": False,
@@ -162,6 +168,9 @@ class EventViewSet(viewsets.ViewSet):
         event.event_name = request.data.get('event_name', event.event_name)
         event.event_details = request.data.get('event_details', event.event_details)
         event.event_venue = request.data.get('event_venue', event.event_venue)
+        event.event_address = request.data.get('event_address', event.event_address)
+        event.city = request.data.get('city', event.city)
+        event.state = request.data.get('state', event.state)
 
         event.save()
         return Response(
@@ -336,10 +345,10 @@ class EventListViewSet(viewsets.ViewSet):
     @handle_exceptions
     def list(self, request):
         events_obj = Event.objects.all()
-        events_data = EventSerializer(events_obj).data
+        events_data = HodEventsSerializer(events_obj, many=True).data
         
         data = {
-            'events_data': events_data,
+            'events_data': events_data[::-1],
             'len_events_data': len(events_data)
         }
 
@@ -379,15 +388,10 @@ class EventDetailViewSet(viewsets.ViewSet):
                     "error": "Event not found."
                 }, status=status.HTTP_404_NOT_FOUND)
         
-        event_data = EventSerializer(event_obj).data
-
-        event_dates_onj = EventDate.objects.filter(event_id=event_id)
-        event_dates_data = EventDateSerializer(event_dates_onj, many=True).data
+        event_data = HodEventsSerializer(event_obj).data
 
         data = {
-            "event_data": event_data,
-            "event_dates_data": event_dates_data,
-            "len_event_dates_data": event_dates_data
+            "event_data": event_data,            
         }
 
         return Response(
@@ -475,10 +479,10 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
 
 
         data = {
-            'events_data': events_data,
+            'events_data': events_data[::-1],
             'len_events_data': len(events_data),
 
-            'reseller_data': reseller_data,
+            'reseller_data': reseller_data[::-1],
             'len_reseller_data': len(reseller_data),
 
             'all_ticket_data': all_ticket_data,
@@ -505,12 +509,9 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
     # @check_authentication(required_role='hod')
     def list(self, request):
         events_obj = Event.objects.all()
-        events_data = HodDashboardEventSerializer(events_obj, many=True).data
+        events_data = ResellerDashboardEventSerializer(events_obj, many=True, context={'seller_id': request.user}).data
 
-        reseller_obj = User.objects.filter(role='reseller')
-        reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
-        
-        all_ticket_obj = Ticket.objects.all()
+        all_ticket_obj = Ticket.objects.filter(seller_id=request.user)
         all_ticket_data = HodDashboardAllTicketSerializer(all_ticket_obj, many=True).data
 
         all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
@@ -526,9 +527,6 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
         data = {
             'events_data': events_data,
             'len_events_data': len(events_data),
-
-            'reseller_data': reseller_data,
-            'len_reseller_data': len(reseller_data),
 
             'all_ticket_data': all_ticket_data,
             'len_all_ticket_data': len(all_ticket_data),

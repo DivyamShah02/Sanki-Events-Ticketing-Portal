@@ -1,1181 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- [Head] start -->
+<!-- [Head] start -->
 
-  <head>
-    <title>Sanki Events</title>
-    <!-- [Meta] -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    
-   
-    <!-- [Favicon] icon -->
-    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
-
-    <!-- [Google Font] Family -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
-      id="main-font-link"
-    />
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <!-- [Google Font] Family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link" />
+  
     <!-- [Tabler Icons] https://tablericons.com -->
-    <link
-      rel="stylesheet"
-      href="../../static/assets/fonts/tabler-icons.min.css"
-    />
-    <!-- [Feather Icons] https://feathericons.com -->
-    <link rel="stylesheet" href="../../static/assets/fonts/feather.css" />
-    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-    <link rel="stylesheet" href="../../static/assets/fonts/fontawesome.css" />
-    <!-- [Material Icons] https://fonts.google.com/icons -->
-    <link rel="stylesheet" href="../../static/assets/fonts/material.css" />
-    <!-- [Template CSS Files] -->
-    <link
-      rel="stylesheet"
-      href="../../static/assets/css/style.css"
-      id="main-style-link"
-    />
-    <link rel="stylesheet" href="../../static/assets/css/style-preset.css" />
-  </head>
-  <!-- [Head] end -->
-  <!-- [Body] Start -->
+  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
+  <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+  
+  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-  <body @@bodySetup>
-    <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
-      <div class="loader-track">
-        <div class="loader-fill"></div>
-      </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  
+</head>
+<!-- [Head] end -->
+
+<!-- [Body] Start -->
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
     </div>
-    <!-- [ Pre-loader ] End -->
-    <!-- [ Sidebar Menu ] start -->
-    <nav class="pc-sidebar">
-      <div class="navbar-wrapper">
-        <div class="m-header">
-          <a href="../dashboard/index.html" class="b-brand text-primary">
-            <!-- ========   Change your logo from here   ============ -->
-            <img
-              src="../../static/assets/img/sanki_logo.png"
-              class=" mt-4 w-50" alt="logo"
-              alt="logo"
-            />
-          </a>
-        </div>
-        <div class="navbar-content">
-          <ul class="pc-navbar">
-            <li class="pc-item">
-              <a href="../dashboard/index.html" class="pc-link">
-                <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
-                <span class="pc-mtext">Dashboard</span>
-              </a>
-            </li>
+  </div>
+  <!-- [ Pre-loader ] End -->
+ 
+  <!-- [ Sidebar Menu ] start -->
+  {% include 'hod/nav_bar.html' %}
+  <!-- [ Sidebar Menu ] end -->
 
-            <!-- <li class="pc-item pc-caption">
-            <label>UI Components</label>
-            <i class="ti ti-dashboard"></i>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_typography.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-typography"></i></span>
-              <span class="pc-mtext">Typography</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/bc_color.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-              <span class="pc-mtext">Color</span>
-            </a>
-          </li>
-          <li class="pc-item">
-            <a href="../elements/icon-tabler.html" class="pc-link">
-              <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
-              <span class="pc-mtext">Icons</span>
-            </a>
-          </li> -->
+  <!-- Create Event Modal -->
+  {% include 'hod/create_event_modal.html' %}
 
-            <li class="pc-item pc-caption">
-              <label>Pages</label>
-              <i class="ti ti-news"></i>
-            </li>
-            <li class="pc-item">
-              <a href="../pages/login.html" class="pc-link">
-                <span class="pc-micon"><i class="ti ti-lock"></i></span>
-                <span class="pc-mtext">Login</span>
-              </a>
-            </li>
-            <li class="pc-item">
-              <a href="../pages/register.html" class="pc-link">
-                <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-                <span class="pc-mtext">Register</span>
-              </a>
-            </li>
+  <!-- Create Reseller Modal -->
+  {% include 'hod/create_reseller_modal.html' %}
 
-            <li class="pc-item pc-caption">
-              <label>Actions</label>
-              <i class="ti ti-settings"></i>
-            </li>
-            <li class="pc-item">
-              <a
-                href="#"
-                class="pc-link"
-                data-bs-toggle="modal"
-                data-bs-target="#createEventModal"
-              >
-                <span class="pc-micon"><i class="ti ti-calendar"></i></span>
-                <span class="pc-mtext">Create Event</span>
-              </a>
-            </li>
-            <li class="pc-item">
-              <a
-                href="#"
-                class="pc-link"
-                data-bs-toggle="modal"
-                data-bs-target="#createResellerModal"
-              >
-                <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-                <span class="pc-mtext">New Reseller</span>
-              </a>
-            </li>
+  <!-- [ Header Topbar ] start -->
+  {% include 'header.html' %}
+  <!-- [ Header ] end -->
 
-            <li class="pc-item pc-caption">
-              <label>Other</label>
-              <i class="ti ti-brand-chrome"></i>
-            </li>
-            <li class="pc-item pc-hasmenu">
-              <a href="#!" class="pc-link"
-                ><span class="pc-micon"><i class="ti ti-menu"></i></span
-                ><span class="pc-mtext">Menu levels</span
-                ><span class="pc-arrow"
-                  ><i data-feather="chevron-right"></i></span
-              ></a>
-              <ul class="pc-submenu">
-                <li class="pc-item">
-                  <a class="pc-link" href="#!">Level 2.1</a>
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <!-- <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <div class="page-header-title">
+                <h5 class="m-b-10"></h5>
+              </div>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="../dashboard/index.html">Home</a>
                 </li>
-                <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link"
-                    >Level 2.2<span class="pc-arrow"
-                      ><i data-feather="chevron-right"></i></span
-                  ></a>
-                  <ul class="pc-submenu">
-                    <li class="pc-item">
-                      <a class="pc-link" href="#!">Level 3.1</a>
-                    </li>
-                    <li class="pc-item">
-                      <a class="pc-link" href="#!">Level 3.2</a>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                      <a href="#!" class="pc-link"
-                        >Level 3.3<span class="pc-arrow"
-                          ><i data-feather="chevron-right"></i></span
-                      ></a>
-                      <ul class="pc-submenu">
-                        <li class="pc-item">
-                          <a class="pc-link" href="#!">Level 4.1</a>
-                        </li>
-                        <li class="pc-item">
-                          <a class="pc-link" href="#!">Level 4.2</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0)">Dashboard</a>
                 </li>
-                <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link"
-                    >Level 2.3<span class="pc-arrow"
-                      ><i data-feather="chevron-right"></i></span
-                  ></a>
-                  <ul class="pc-submenu">
-                    <li class="pc-item">
-                      <a class="pc-link" href="#!">Level 3.1</a>
-                    </li>
-                    <li class="pc-item">
-                      <a class="pc-link" href="#!">Level 3.2</a>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                      <a href="#!" class="pc-link"
-                        >Level 3.3<span class="pc-arrow"
-                          ><i data-feather="chevron-right"></i></span
-                      ></a>
-                      <ul class="pc-submenu">
-                        <li class="pc-item">
-                          <a class="pc-link" href="#!">Level 4.1</a>
-                        </li>
-                        <li class="pc-item">
-                          <a class="pc-link" href="#!">Level 4.2</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+                <li class="breadcrumb-item" aria-current="page">Home</li>
               </ul>
-            </li>
-            <li class="pc-item">
-              <a href="../other/sample-page.html" class="pc-link">
-                <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-                <span class="pc-mtext">Sample page</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <!-- Create Event Modal -->
-    <div
-      class="modal fade"
-      id="createEventModal"
-      tabindex="-1"
-      aria-labelledby="createEventModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="eventForm">
-              <div class="mb-3">
-                <label for="eventName" class="form-label">Event Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="eventName"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="eventVenue" class="form-label">Event Venue</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="eventVenue"
-                  required
-                />
-              </div>
-              <div class="input-group mb-3">
-                <label for="eventDateRange" class="form-label col-12"
-                  >Event Date Range</label
-                >
-                <input
-                  type="text"
-                  id="eventDateRange"
-                  class="form-control"
-                  placeholder="Select date range"
-                  readonly
-                />
-                <span class="input-group-text"
-                  ><i class="feather icon-calendar"></i
-                ></span>
-              </div>
-
-              <div class="mb-3">
-                <label for="eventCity" class="form-label">Event City</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="eventCity"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="eventState" class="form-label">Event State</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="eventState"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="eventAddress" class="form-label"
-                  >Event Address</label
-                >
-                <textarea
-                  class="form-control"
-                  id="eventAddress"
-                  rows="2"
-                  required
-                ></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="eventDetails" class="form-label"
-                  >Event Details</label
-                >
-                <textarea
-                  class="form-control"
-                  id="eventDetails"
-                  rows="3"
-                  required
-                ></textarea>
-              </div>
-              <div class="mb-3 form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="digitalPass"
-                />
-                <label class="form-check-label" for="digitalPass"
-                  >Enable Digital Pass</label
-                >
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  Create Event
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <script>
-      $(document).ready(function () {
-        $("#eventDateRange").daterangepicker({
-          autoUpdateInput: false,
-          singleDatePicker: false,
-          showDropdowns: true,
-          // Ensures selection is within a month
-          opens: "right",
-          locale: {
-            format: "YYYY-MM-DD",
-            cancelLabel: "Clear",
-          },
-        });
+      </div> -->
+      <!-- [ breadcrumb ] end -->
 
-        $("#eventDateRange").on("apply.daterangepicker", function (ev, picker) {
-          $(this).val(
-            picker.startDate.format("DD-MM-YYYY") +
-              " | " +
-              picker.endDate.format("DD-MM-YYYY")
-          );
-        });
+      <!-- [ Main Content ] start -->
+      <div class="">
+        <!-- [ sample-page ] start -->
 
-        $("#eventDateRange").on(
-          "cancel.daterangepicker",
-          function (ev, picker) {
-            $(this).val("");
-          }
-        );
-      });
-    </script>
-
-    <!-- Create Reseller Modal -->
-    <div
-      class="modal fade"
-      id="createResellerModal"
-      tabindex="-1"
-      aria-labelledby="createResellerModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="createResellerModalLabel">
-              Create New Reseller
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+        <div class="row">
+          <!-- Total Events -->
+          <div class="col-6 col-xl-3">
+            <div class="card" id="total-events-card" style="cursor: pointer;">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
+                <h4 class="mb-3" id="total-events">Loading...</h4>
+              </div>
+            </div>
           </div>
-          <div class="modal-body">
-            <form id="resellerForm">
-              <!-- Profile Photo Upload -->
-              <div class="mb-3 text-center">
-                <label for="resellerPhoto" class="form-label d-block"
-                  >Upload Photo</label
-                >
-                <input
-                  type="file"
-                  class="form-control"
-                  id="resellerPhoto"
-                  accept="image/*"
-                  required
-                />
-              </div>
 
-              <!-- Role -->
-              <div class="mb-3">
-                <label for="resellerRole" class="form-label">Role</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="resellerRole"
-                  required
-                />
+          <!-- Total Users -->
+          <div class="col-6 col-xl-3">
+            <div class="card" id="total-users-card" style="cursor: pointer;">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Resellers</h6>
+                <h4 class="mb-3" id="total-users">Loading...</h4>
               </div>
+            </div>
+          </div>
 
-              <!-- Email -->
-              <div class="mb-3">
-                <label for="resellerEmail" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="resellerEmail"
-                  required
-                />
+          <!-- Total Tickets Sold -->
+          <div class="col-6 col-xl-3">
+            <div class="card" id="total-tickets-card" style="cursor: pointer;">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted text-nowrap">Total Tickets Sold</h6>
+                <h4 class="mb-3" id="total-tickets-sold">Loading...</h4>
               </div>
+            </div>
+          </div>
 
-              <!-- Name -->
-              <div class="mb-3">
-                <label for="resellerName" class="form-label">Full Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="resellerName"
-                  required
-                />
-              </div>
 
-              <!-- Number -->
-              <div class="mb-3">
-                <label for="resellerNumber" class="form-label"
-                  >Phone Number</label
-                >
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="resellerNumber"
-                  required
-                />
-              </div>
+          <div class="col-6 col-xl-3">
+            <div class="card" style="cursor: pointer;">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                <h4 class="mb-3" id="total-sales">Loading...</h4>
 
-              <!-- Password -->
-              <div class="mb-3">
-                <label for="resellerPassword" class="form-label"
-                  >Password</label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  id="resellerPassword"
-                  required
-                />
               </div>
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  Create Reseller
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- [ Sidebar Menu ] end -->
-    <!-- [ Header Topbar ] start -->
-    <header class="pc-header">
-      <div class="header-wrapper">
-        <!-- [Mobile Media Block] start -->
-        <div class="me-auto pc-mob-drp">
-          <ul class="list-unstyled">
-            <!-- ======= Menu collapse Icon ===== -->
-            <li class="pc-h-item pc-sidebar-collapse">
-              <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
-                <i class="ti ti-menu-2"></i>
-              </a>
-            </li>
-            <li class="pc-h-item pc-sidebar-popup">
-              <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
-                <i class="ti ti-menu-2"></i>
-              </a>
-            </li>
-            <li class="dropdown pc-h-item d-inline-flex d-md-none">
-              <a
-                class="pc-head-link dropdown-toggle arrow-none m-0"
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-haspopup="false"
-                aria-expanded="false"
-              >
-                <i class="ti ti-search"></i>
-              </a>
-              <div class="dropdown-menu pc-h-dropdown drp-search">
-                <form class="px-3">
-                  <div class="form-group mb-0 d-flex align-items-center">
-                    <i data-feather="search"></i>
-                    <input
-                      type="search"
-                      class="form-control border-0 shadow-none"
-                      placeholder="Search here. . ."
-                    />
-                  </div>
-                </form>
-              </div>
-            </li>
-            <li class="pc-h-item d-none d-md-inline-flex">
-              <form class="header-search">
-                <i data-feather="search" class="icon-search"></i>
-                <input
-                  type="search"
-                  class="form-control"
-                  placeholder="Search here. . ."
-                />
-              </form>
-            </li>
-          </ul>
-        </div>
-        <!-- [Mobile Media Block end] -->
-        <div class="ms-auto">
-          <ul class="list-unstyled">
-           
-            <li class="dropdown pc-h-item header-user-profile">
-              <a
-                class="pc-head-link dropdown-toggle arrow-none me-0"
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-haspopup="false"
-                data-bs-auto-close="outside"
-                aria-expanded="false"
-              >
-                
-                <span><i class="ti ti-user "></i>{{user.username }}</span>
-              </a>
-              <div
-                class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"
-              >
-                <div class="dropdown-header">
-                  <div class="d-flex mb-1">
+
+        <div id="events-section" class="row">
+          <div class="col-sm-12 col-xl-8">
+            <h5 class="mb-3">All Events</h5>
+            <div class="card" style="max-height: 495px;">
+              <div class="list-group list-group-flush overflow-y-scroll" id="events-list"></div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-xl-4">
+            <h5 class="mb-3">Actions</h5>
+            <div class="card p-3 text-center">
+              <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal"
+                data-bs-target="#createEventModal">
+                <i class="feather icon-plus-circle me-2"></i>Create Event
+              </button>
+            </div>
+            <h5 class="mt-1 text-start">Best Seller</h5>
+            <div class="mt-1">
+              <div class="card text-start">
+                <div class="card-header">
+                  <div class="d-flex">
                     <div class="flex-shrink-0">
-                      
+                      <div class="avtar avtar-s rounded-circle text-success bg-light-success">
+                        <i class="ti ti-gift f-18"></i>
+                      </div>
+                      <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                      <h5 class="mb-1">{{user.username }}</h5>
-                      <h6>{{user.role}}</h6>
+                    <div class="flex-grow-1 mx-3">
+                      <h6 class="mb-1" id="event-best-seller-name"></h6>
+                      <p class="text-muted text-sm mb-0" id="event-best-seller-date"></p>
                     </div>
-                    <a href="#!" class="pc-head-link bg-transparent"
-                      ><i class="ti ti-power text-danger"></i
-                    ></a>
+                    <div class="dropdown">
+                      <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="ti ti-dots-vertical f-18"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="#">Preview</a>
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <ul
-                  class="nav drp-tabs nav-fill nav-tabs"
-                  id="mydrpTab"
-                  role="tablist"
-                >
-                  <li class="nav-item" role="presentation">
-                    <button
-                      class="nav-link active"
-                      id="drp-t1"
-                      data-bs-toggle="tab"
-                      data-bs-target="#drp-tab-1"
-                      type="button"
-                      role="tab"
-                      aria-controls="drp-tab-1"
-                      aria-selected="true"
-                    >
-                      <i class="ti ti-user"></i> Profile
+                <div class="card-body">
+                  <p class="mb-4" id="event-best-seller-description"></p>
+                  </p>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+
+                        <h6 class="" id="event-best-seller-sales">
+                        </h6>
+
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
+                        <h6 class="" id="event-best-seller-tickets"></h6>
+
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#user-modal">
+                      Preview
                     </button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button
-                      class="nav-link"
-                      id="drp-t2"
-                      data-bs-toggle="tab"
-                      data-bs-target="#drp-tab-2"
-                      type="button"
-                      role="tab"
-                      aria-controls="drp-tab-2"
-                      aria-selected="false"
-                    >
-                      <i class="ti ti-settings"></i> Setting
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="users-section" style="display:none" class="row">
+          <div class="col-md-12 col-xl-8">
+            <h5 class="mb-3">All Resellers</h5>
+            <div class="card" style="max-height: 495px;">
+              <div class="list-group list-group-flush overflow-y-scroll" id="resellers-list"></div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xl-4">
+            <h5 class="mb-3">Actions</h5>
+            <div class="card p-3 text-center">
+              <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#createResellerModal">
+                <i class="feather icon-plus-circle me-2"></i>New Reseller
+              </button>
+            </div>
+            <h5 class="mt-1 text-start">Best Seller</h5>
+            <div class="mt-1">
+              <div class="card text-start">
+                <div class="card-header">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s rounded-circle text-success bg-light-success">
+                        <i class="ti ti-gift f-18"></i>
+                      </div>
+                      <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
+                    </div>
+                    <div class="flex-grow-1 mx-3">
+                      <h6 class="mb-1" id="reseller-best-seller-name"></h6>
+                      <p class="text-muted text-sm mb-0" id="reseller-best-seller-date"></p>
+                    </div>
+                    <div class="dropdown">
+                      <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="ti ti-dots-vertical f-18"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="#">Preview</a>
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p class="mb-4" id="reseller-best-seller-description">
+
+                  </p>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                        <h6 class="mb-3" id="reseller-best-seller-sales">
+
+                          <span class=""><i class="ti ti-trending-up text-success"></i></span>
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
+                        <h6 class="mb-3" id="reseller-best-seller-tickets">
+
+                          <span class=""><i class="ti ti-trending-up text-success"></i></span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0 text-muted" id="reseller-best-seller-contact"></p>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#user-modal">
+                      Preview
                     </button>
-                  </li>
-                </ul>
-                <div class="tab-content" id="mysrpTabContent">
-                  <div
-                    class="tab-pane fade show active"
-                    id="drp-tab-1"
-                    role="tabpanel"
-                    aria-labelledby="drp-t1"
-                    tabindex="0"
-                  >
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-edit-circle"></i>
-                      <span>Edit Profile</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-user"></i>
-                      <span>View Profile</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-clipboard-list"></i>
-                      <span>Social Profile</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-wallet"></i>
-                      <span>Billing</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-power"></i>
-                      <span>Logout</span>
-                    </a>
-                  </div>
-                  <div
-                    class="tab-pane fade"
-                    id="drp-tab-2"
-                    role="tabpanel"
-                    aria-labelledby="drp-t2"
-                    tabindex="0"
-                  >
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-help"></i>
-                      <span>Support</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-user"></i>
-                      <span>Account Settings</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-lock"></i>
-                      <span>Privacy Center</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-messages"></i>
-                      <span>Feedback</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ti ti-list"></i>
-                      <span>History</span>
-                    </a>
                   </div>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
-    <!-- [ Header ] end -->
-
-    <!-- [ Main Content ] start -->
-    <div class="pc-container">
-      <div class="pc-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <div class="page-header-title">
-                  <h5 class="m-b-10">@@breadcrumb-item-active</h5>
-                </div>
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="../dashboard/index.html">Home</a>
-                  </li>
-                  <li class="breadcrumb-item">
-                    <a href="javascript: void(0)">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item" aria-current="page">Home</li>
-                </ul>
               </div>
             </div>
           </div>
         </div>
-        <!-- [ breadcrumb ] end -->
 
-        <!-- [ Main Content ] start -->
-        <div class="row">
-          <!-- [ sample-page ] start -->
-
-          <div class="row">
-            <!-- Total Events -->
-            <div class="col-md-6 col-xl-3">
-              <div class="card" id="total-events-card">
-                <div class="card-body">
-                  <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
-                  <h4 class="mb-3" id="total-events">Loading...</h4>
-                </div>
-              </div>
-            </div>
-          
-            <!-- Total Users -->
-            <div class="col-md-6 col-xl-3">
-              <div class="card" id="total-users-card">
-                <div class="card-body">
-                  <h6 class="mb-2 f-w-400 text-muted">Total Users</h6>
-                  <h4 class="mb-3" id="total-users">Loading...</h4>
-                </div>
-              </div>
-            </div>
-          
-            <!-- Total Tickets Sold -->
-            <div class="col-md-6 col-xl-3">
-              <div class="card" id="total-tickets-card">
-                <div class="card-body">
-                  <h6 class="mb-2 f-w-400 text-muted">Total Tickets Sold</h6>
-                  <h4 class="mb-3" id="total-tickets-sold">Loading...</h4>
-                </div>
-              </div>
-            </div>
-          
-          
-            <div class="col-md-6 col-xl-3">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-                  <h4 class="mb-3" id="total-sales">Loading...</h4>
-                  
+        <div id="tickets-section" style="display:none">
+          <div class="col-md-12 col-xl-12" id>
+            <h5 class="mb-3">Ticket Status</h5>
+            <div class="card tbl-card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-borderless mb-0">
+                    <thead>
+                      <tr>
+                        <th>CUSTOMER NAME</th>
+                        <th>EVENT NAME</th>
+                        <th>QUANTITY</th>
+                        <th>STATUS</th>
+                        <th class="text-end">TOTAL AMOUNT</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ticket-sales-table-body">
+                      <!-- Dynamic ticket sales data will be populated here -->
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
-
-
-          <div id="events-section" class=" row" >
-            <div class="col-sm-12 col-xl-8 ">
-              <h5 class="mb-3">All Events</h5>
-              <div class="card h-100">
-                <div class="list-group overflow-y-scroll" id="events-list"></div>
-              </div>
-            </div>
-  
-            <div class="col-md-12 col-xl-4">
-              <h5 class="mb-3">Actions</h5>
-              <div class="card p-3 text-center">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-lg w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#createEventModal"
-                >
-                  <i class="feather icon-plus-circle me-2"></i>Create Event
-                </button>
-              </div>
-              <h5 class="mt-1 text-start">Best Seller</h5>
-              <div class="mt-1">
-                <div class="card text-start">
-                  <div class="card-header">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div
-                          class="avtar avtar-s rounded-circle text-success bg-light-success"
-                        >
-                          <i class="ti ti-gift f-18"></i>
-                        </div>
-                        <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
-                      </div>
-                      <div class="flex-grow-1 mx-3">
-                        <h6 class="mb-1" id="event-best-seller-name"></h6>
-                        <p
-                          class="text-muted text-sm mb-0"
-                          id="event-best-seller-date"
-                        ></p>
-                      </div>
-                      <div class="dropdown">
-                        <a
-                          class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                          href="#"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i class="ti ti-dots-vertical f-18"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="#">Preview</a>
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <p class="mb-4" id = "event-best-seller-description"></p>
-                    </p>
-  
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-6">
-                        <div class="">
-                          <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-                          
-                            <h6 class="" id="event-best-seller-sales">
-                            </h6>
-                    
-                        </div>
-                      </div>
-                      <div class="col-sm-12 col-lg-6">
-                        <div class="">
-                          <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
-                          <h6 class="" id="event-best-seller-tickets"></h6>
-                          
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-  
-                  </div>
-                  <div class="card-footer">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
-                      <button
-                        class="btn btn-sm btn-outline-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#user-modal"
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-         
-          <div id="users-section" style= "display:none" class="row">
-            <div class="col-md-12 col-xl-8">
-              <h5 class="mb-3">Users List</h5>
-              <div class="card h-75">
-                <div
-                  class="list-group list-group-flush overflow-y-scroll"
-                  id="resellers-list"
-                ></div>
-              </div>
-            </div>
-            <div class="col-md-12 col-xl-4">
-              <h5 class="mb-3">Actions</h5>
-              <div class="card p-3 text-center">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-lg w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#"
-                >
-                  <i class="feather icon-plus-circle me-2"></i>New Reseller
-                </button>
-              </div>
-              <h5 class="mt-1 text-start">Best Seller</h5>
-              <div class="mt-1">
-                <div class="card text-start">
-                  <div class="card-header">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <div
-                          class="avtar avtar-s rounded-circle text-success bg-light-success"
-                        >
-                          <i class="ti ti-gift f-18"></i>
-                        </div>
-                        <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
-                      </div>
-                      <div class="flex-grow-1 mx-3">
-                        <h6 class="mb-1" id="reseller-best-seller-name"></h6>
-                        <p class="text-muted text-sm mb-0" id="reseller-best-seller-date"></p>
-                      </div>
-                      <div class="dropdown">
-                        <a
-                          class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                          href="#"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i class="ti ti-dots-vertical f-18"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="#">Preview</a>
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <p class="mb-4" id="reseller-best-seller-description">
-                      
-                    </p>
-  
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-6">
-                        <div class="">
-                          <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-                          <h6 class="mb-3" id="reseller-best-seller-sales">
-                           
-                            <span class=""
-                              ><i class="ti ti-trending-up text-success"></i
-                            ></span>
-                          </h6>
-                        </div>
-                      </div>
-                      <div class="col-sm-12 col-lg-6">
-                        <div class="">
-                          <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
-                          <h6 class="mb-3" id="reseller-best-seller-tickets">
-                            
-                            <span class=""
-                              ><i class="ti ti-trending-up text-success"></i
-                            ></span>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-footer">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <p class="mb-0 text-muted" id="reseller-best-seller-contact"></p>
-                      <button
-                        class="btn btn-sm btn-outline-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#user-modal"
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div id="tickets-section" style="display:none" >
-            <div class="col-md-12 col-xl-12" id>
-              <h5 class="mb-3">Ticket Status</h5>
-              <div class="card tbl-card">
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-borderless mb-0">
-                      <thead>
-                        <tr>
-                          <th>CUSTOMER NAME</th>
-                          <th>EVENT NAME</th>
-                          <th>QUANTITY</th>
-                          <th>STATUS</th>
-                          <th class="text-end">TOTAL AMOUNT</th>
-                        </tr>
-                      </thead>
-                      <tbody id="ticket-sales-table-body">
-                        <!-- Dynamic ticket sales data will be populated here -->
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
         </div>
+
       </div>
     </div>
-    <!-- [ Main Content ] end -->
-    <footer class="pc-footer">
-      <div class="footer-wrapper container-fluid">
-        <div class="row">
-          <div class="col-sm my-1">
-            <p class="m-0">
-              Sanki Events &#9829; crafted by Team
-              <a href="https://www.dynamiclabz.net/" target="_blank"
-                >Dynamiclabz</a
-              >
-            
-            </p>
-          </div>
-          <div class="col-auto my-1">
-            <ul class="list-inline footer-link mb-0">
-              <li class="list-inline-item"><a href="../index.html">Home</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
+  </div>
+  <!-- [ Main Content ] end -->
+  
+  {% include 'footer.html' %}
 
-    <!-- [Page Specific JS] start -->
-    <script src="../../static/assets/js/plugins/apexcharts.min.js"></script>
-    <script src="../../static/assets/js/pages/dashboard-default.js"></script>
-    <!-- [Page Specific JS] end -->
+  <!-- [Page Specific JS] start -->
+  <!-- <script src="/static/assets/js/plugins/apexcharts.min.js"></script> -->
+  <!-- <script src="/static/assets/js/pages/dashboard-default.js"></script> -->
+  <!-- [Page Specific JS] end -->
 
-    <!-- Required Js -->
-    <script src="../../static/assets/js/plugins/popper.min.js"></script>
-    <script src="../../static/assets/js/plugins/simplebar.min.js"></script>
-    <script src="../../static/assets/js/plugins/bootstrap.min.js"></script>
-    <script src="../../static/assets/js/fonts/custom-font.js"></script>
-    <script src="../../static/assets/js/pcoded.js"></script>
-    <script src="../../static/assets/js/plugins/feather.min.js"></script>
+  <!-- Required Js -->
+  <script src="/static/assets/js/plugins/popper.min.js"></script>
+  <script src="/static/assets/js/plugins/simplebar.min.js"></script>
+  <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="/static/assets/js/fonts/custom-font.js"></script>
+  <script src="/static/assets/js/pcoded.js"></script>
+  <script src="/static/assets/js/plugins/feather.min.js"></script>
+  <script src="/static/assets/js/api_caller.js"></script>
+  <script src="/static/assets/js/script.js"></script>
 
-    <!--scripts for dynamic data-->
-    <script>
-      async function fetchData() {
-        try {
-          const response = await fetch("/event/hod-dashboard-api"); // API endpoint
-          const result = await response.json();
-          const data = result.data; // Extract actual data object
+  <!--scripts for dynamic data-->
+  <script>
+    window.onload = async function () {
+      await fetchHodDashboardData();
+      handleDashboardFuncitonality();
+    };
 
-          document.getElementById(
-            "total-events"
-          ).innerHTML = `${data.len_events_data} <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i> </span>`;
-          
+    async function fetchHodDashboardData() {
+      try {
+        const response = await fetch("{% url 'hod-dashboard-api-list' %}"); // API endpoint
+        const result = await response.json();
+        const data = result.data; // Extract actual data object
 
-          document.getElementById(
-            "total-users"
-          ).innerHTML = `${data.len_reseller_data} <span class="badge bg-light-success border border-success"><i class="ti ti-trending-up"></i> </span>`;
-       
-          document.getElementById(
-            "total-tickets-sold"
-          ).innerHTML = `${data.all_tickets_sold} <span class="badge bg-light-warning border border-warning"><i class="ti ti-trending-up"></i></span>`;
-         
-          document.getElementById(
-            "total-sales"
-          ).innerHTML = `₹${data.all_tickets_sold_amount} <span class="badge bg-light-success border border-success"><i class="ti ti-trending-up"></i></span>`;
-         
+        document.getElementById(
+          "total-events"
+        ).innerHTML = `<i class="ti ti-calendar-event f-18"></i> ${data.len_events_data}`;
 
-          // Global variables to store event with max revenue
-          let maxEventAmount = 0;
-          let maxEvent = null;
 
-          let maxResellerAmount = 0;
-          let maxReseller = null;
+        document.getElementById(
+          "total-users"
+        ).innerHTML = `<i class="ti ti-user f-18"></i> ${data.len_reseller_data}`;
 
-          // Populate events list dynamically
-          const eventsList = document.getElementById("events-list");
-          eventsList.innerHTML = "";
-          data.events_data.forEach((event) => {
-            if (event.total_event_ticket_sold_amount > maxEventAmount) {
-              maxEventAmount = event.total_event_ticket_sold_amount;
-              maxEvent = event;
-            }
-            const eventItem = `
+        document.getElementById(
+          "total-tickets-sold"
+        ).innerHTML = `<i class="ti ti-ticket f-18"></i> ${data.all_tickets_sold}`;
+
+        document.getElementById(
+          "total-sales"
+        ).innerHTML = `<i class="ti ti-cash f-18"></i> ₹${data.all_tickets_sold_amount.toLocaleString('en-IN')}`;
+
+
+        // Global variables to store event with max revenue
+        let maxEventAmount = 0;
+        let maxEvent = null;
+
+        let maxResellerAmount = 0;
+        let maxReseller = null;
+
+        // Populate events list dynamically
+        const eventsList = document.getElementById("events-list");
+        eventsList.innerHTML = "";
+        data.events_data.forEach((event) => {
+          if (event.total_event_ticket_sold_amount > maxEventAmount) {
+            maxEventAmount = event.total_event_ticket_sold_amount;
+            maxEvent = event;
+          }
+          const eventItem = `
                       <a href="#" class="list-group-item list-group-item-action">
-                          <div class="d-flex">
-                              <div class="flex-shrink-0">
-                                  <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                                      <i class="ti ti-message-circle f-18"></i>
-                                  </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
+                          <div class="d-flex">                              
+                              <div class="flex-grow-1">
                                   <h6 class="mb-1">${event.event_name}</h6>
                                   <p class="mb-0 text-muted">${event.event_date_range} | ${event.event_venue}</p>
                               </div>
                               <div class="flex-shrink-0 text-end">
-                                  <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount}</h6>
+                                  <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount.toLocaleString('en-IN')}</h6>
                                   <p class="mb-0 text-muted">
-                                      <span class="font-bold">Tickets Sold:</span> ${event.total_event_ticket_sold}
+                                      <span class="font-bold">${event.total_event_ticket_sold}</span> <i class="ti ti-ticket"></i>
                                   </p>
                               </div>
                           </div>
                       </a>`;
-            eventsList.innerHTML += eventItem;
-          });
+          eventsList.innerHTML += eventItem;
+        });
 
-          // Populate resellers list dynamically
-          const resellersList = document.getElementById("resellers-list");
-          resellersList.innerHTML = "";
-          data.reseller_data.forEach((reseller) => {
-            if (reseller.total_tickets_sold_seller_amount > maxResellerAmount) {
-              maxResellerAmount = reseller.total_tickets_sold_seller_amount;
-              maxReseller = reseller;
-            }
-            const resellerItem = `
+        // Populate resellers list dynamically
+        const resellersList = document.getElementById("resellers-list");
+        resellersList.innerHTML = "";
+        data.reseller_data.forEach((reseller) => {
+          if (reseller.total_tickets_sold_seller_amount > maxResellerAmount) {
+            maxResellerAmount = reseller.total_tickets_sold_seller_amount;
+            maxReseller = reseller;
+          }
+          const resellerItem = `
               <a href="#" class="list-group-item list-group-item-action">
                   <div class="d-flex">
-                      <div class="flex-shrink-0">
+                      <!-- <div class="flex-shrink-0">
                           <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                              <i class="ti ti-message-circle f-18"></i>
+                              <i class="ti ti-user f-18"></i>
                           </div>
-                      </div>
-                      <div class="flex-grow-1 ms-3">
+                      </div> ms-3-->
+                      <div class="flex-grow-1">
                           <h6 class="mb-1">${reseller.name}</h6>
+                          <p class="mb-0 text-muted">${reseller.email}</p>
                       </div>
                       <div class="flex-shrink-0 text-end">
-                          <h6 class="mb-1">
-                              <span class="font-bold">Total Sales:</span> ₹${reseller.total_tickets_sold_seller_amount}
-                          </h6>
+                          <h6 class="mb-1">+ ₹${reseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}</h6>
                           <p class="mb-0 text-muted">
-                              <span class="font-bold">Tickets Sold:</span> ${reseller.total_tickets_sold_seller}
+                              <span class="font-bold">${reseller.total_tickets_sold_seller}</span> <i class="ti ti-ticket"></i>
                           </p>
                       </div>
                   </div>
               </a>`;
-            resellersList.innerHTML += resellerItem;
-          });
+          resellersList.innerHTML += resellerItem;
+        });
 
-          //best Seller
-          if (maxEvent) {
-            document.getElementById("event-best-seller-name").innerText =
-              maxEvent.event_name;
-            document.getElementById("event-best-seller-date").innerText =
-              maxEvent.event_date_range;
-            document.getElementById(
-              "event-best-seller-sales"
-            ).innerText = `₹${maxEvent.total_event_ticket_sold_amount}`;
-            document.getElementById("event-best-seller-description").innerText =
-              maxEvent.event_details;
-            document.getElementById("event-best-seller-venue").innerText =
-              maxEvent.event_venue;
-            document.getElementById("event-best-seller-tickets").innerText =
-              maxEvent.total_event_ticket_sold;
+        //best Seller
+        if (maxEvent) {
+          document.getElementById("event-best-seller-name").innerText =
+            maxEvent.event_name;
+          document.getElementById("event-best-seller-date").innerText =
+            maxEvent.event_date_range;
+          document.getElementById(
+            "event-best-seller-sales"
+          ).innerText = `₹${maxEvent.total_event_ticket_sold_amount.toLocaleString('en-IN')}`;
+          document.getElementById("event-best-seller-description").innerText =
+            maxEvent.event_details;
+          document.getElementById("event-best-seller-venue").innerText =
+            maxEvent.event_venue;
+          document.getElementById("event-best-seller-tickets").innerText =
+            maxEvent.total_event_ticket_sold;
+        }
+
+        //best Reseller 
+        if (maxReseller) {
+          document.getElementById("reseller-best-seller-name").innerText =
+            maxReseller.name;
+          document.getElementById("reseller-best-seller-date").innerText =
+            maxReseller.date_joined;
+          document.getElementById(
+            "reseller-best-seller-sales"
+          ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount.toLocaleString('en-IN')}`;
+          document.getElementById("reseller-best-seller-description").innerText =
+            maxReseller.email;
+          document.getElementById("reseller-best-seller-contact").innerText =
+            maxReseller.contact_number;
+          document.getElementById("reseller-best-seller-tickets").innerText =
+            maxReseller.total_tickets_sold_seller;
+        }
+
+        // Populate ticket sales table dynamically
+        const ticketTableBody = document.getElementById(
+          "ticket-sales-table-body"
+        );
+        ticketTableBody.innerHTML = "";
+        data.all_ticket_data.forEach((ticket) => {
+          let statusClass =
+            ticket.status.toLowerCase() === "approved"
+              ? "text-success"
+              : "text-danger";
+          if (ticket.status.toLowerCase() === "mail sent") {
+            statusClass = "text-primary";
           }
-
-          //best Reseller 
-          if (maxReseller) {
-            document.getElementById("reseller-best-seller-name").innerText =
-              maxReseller.name;
-            document.getElementById("reseller-best-seller-date").innerText =
-              maxReseller.date_joined;
-            document.getElementById(
-              "reseller-best-seller-sales"
-            ).innerText = `₹${maxReseller.total_tickets_sold_seller_amount}`;
-            document.getElementById("reseller-best-seller-description").innerText =
-              maxReseller.email;
-            document.getElementById("reseller-best-seller-contact").innerText =
-              maxReseller.contact_number;
-            document.getElementById("reseller-best-seller-tickets").innerText =
-              maxReseller.total_tickets_sold_seller;
-          }
-
-          // Populate ticket sales table dynamically
-          const ticketTableBody = document.getElementById(
-            "ticket-sales-table-body"
-          );
-          ticketTableBody.innerHTML = "";
-          data.all_ticket_data.forEach((ticket) => {
-            const statusClass =
-              ticket.status.toLowerCase() === "approved"
-                ? "text-success"
-                : "text-danger";
-            const ticketRow = `
+          const ticketRow = `
               <tr>
                   <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
                   <td>${ticket.event_name}</td>
@@ -1185,65 +501,62 @@
                                 <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
                         </span>
                   </td>
-                  <td class="text-end">₹${ticket.amount}</td>
+                  <td class="text-end">₹${ticket.amount.toLocaleString('en-IN')}</td>
               </tr>`;
-            ticketTableBody.innerHTML += ticketRow;
-          });
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+          ticketTableBody.innerHTML += ticketRow;
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    function handleDashboardFuncitonality() {
+      // Select the cards
+      const totalEventsCard = document.getElementById("total-events-card");
+      const totalUsersCard = document.getElementById("total-users-card");
+      const totalTicketsCard = document.getElementById("total-tickets-card");
+
+      // Select the sections
+      const eventsSection = document.getElementById("events-section");
+      const usersSection = document.getElementById("users-section");
+      const ticketsSection = document.getElementById("tickets-section");
+
+
+      // Function to hide all sections
+      function hideAllSections() {
+        eventsSection.style.display = "none";
+        usersSection.style.display = "none";
+        ticketsSection.style.display = "none";
       }
 
-      window.onload = fetchData;
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Select the cards
-        const totalEventsCard = document.getElementById("total-events-card");
-        const totalUsersCard = document.getElementById("total-users-card");
-        const totalTicketsCard = document.getElementById("total-tickets-card");
-    
-        // Select the sections
-        const eventsSection = document.getElementById("events-section");
-        const usersSection = document.getElementById("users-section");
-        const ticketsSection = document.getElementById("tickets-section");
-    
-        
-        
-        // Function to hide all sections
-        function hideAllSections() {
-          eventsSection.style.display = "none";
-          usersSection.style.display = "none";
-          ticketsSection.style.display = "none";
-        }
-    
-        // Make Events Section visible by default
-        eventsSection.style.display = "flex";
-       
+      // Make Events Section visible by default
+      eventsSection.style.display = "flex";
 
-        // Event Listeners for each card
-        totalEventsCard.addEventListener("click", function () {
-          hideAllSections();
-          eventsSection.style.display = "flex"; // Show Events Section
-         
-        });
-    
-        totalUsersCard.addEventListener("click", function () {
-          hideAllSections();
-          usersSection.style.display = "flex"; // Show Users List
-        
-        });
-    
-        totalTicketsCard.addEventListener("click", function () {
-          hideAllSections();
-          ticketsSection.style.display = "block"; // Show Tickets List
 
-        });
+      // Event Listeners for each card
+      totalEventsCard.addEventListener("click", function () {
+        hideAllSections();
+        eventsSection.style.display = "flex"; // Show Events Section
+
       });
-    </script>
-    
-    
-    
-  </body>
-  <!-- [Body] end -->
+
+      totalUsersCard.addEventListener("click", function () {
+        hideAllSections();
+        usersSection.style.display = "flex"; // Show Users List
+
+      });
+
+      totalTicketsCard.addEventListener("click", function () {
+        hideAllSections();
+        ticketsSection.style.display = "block"; // Show Tickets List
+
+      });
+    }
+  
+  </script>
+
+
+</body>
+<!-- [Body] end -->
+
 </html>

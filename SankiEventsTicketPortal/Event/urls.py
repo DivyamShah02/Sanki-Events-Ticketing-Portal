@@ -13,6 +13,9 @@ router.register(r'update-ticket-api', TicketUpdateViewSet, basename='update-tick
 
 router.register(r'hod-dashboard-api', HodDashboardDetailsViewSet, basename='hod-dashboard-api')
 
+
+router.register(r'reseller-dashboard-api', ResellerDashboardDetailsViewSet, basename='reseller-dashboard-api')
+
 urlpatterns = [
     path('', include(router.urls))
 ]

@@ -12,7 +12,7 @@ class AssignedTicket(models.Model):
 
 
 class Ticket(models.Model):
-    ticket_id = models.AutoField(primary_key=True)
+    ticket_id = models.CharField(max_length=10, unique=True)
     event_id = models.CharField(max_length=10)
     event_date_id = models.CharField(max_length=10)
     seller_id = models.CharField(max_length=12)

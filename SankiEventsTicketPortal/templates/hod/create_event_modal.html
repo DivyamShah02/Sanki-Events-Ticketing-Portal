@@ -1,0 +1,138 @@
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form id="eventForm">
+        <div class="mb-3">
+          <label for="eventName" class="form-label">Event Name</label>
+          <input type="text" class="form-control" id="eventName" required />
+        </div>
+        <div class="mb-3">
+          <label for="eventVenue" class="form-label">Event Venue</label>
+          <input type="text" class="form-control" id="eventVenue" required />
+        </div>
+        <div class="input-group mb-3">
+          <label for="eventDateRange" class="form-label col-12">Event Date Range</label>
+          <input type="text" id="eventDateRange" class="form-control" placeholder="Select date range" readonly required/>
+          <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+        </div>
+
+        <div class="mb-3">
+          <label for="eventCity" class="form-label">Event City</label>
+          <input type="text" class="form-control" id="eventCity" required />
+        </div>
+        <div class="mb-3">
+          <label for="eventState" class="form-label">Event State</label>
+          <input type="text" class="form-control" id="eventState" required />
+        </div>
+        <div class="mb-3">
+          <label for="eventAddress" class="form-label">Event Address</label>
+          <textarea class="form-control" id="eventAddress" rows="2" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="eventDetails" class="form-label">Event Details</label>
+          <textarea class="form-control" id="eventDetails" rows="3"></textarea>
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="digitalPass" />
+          <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
+        </div>
+        <div class="modal-footer px-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Create Event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+$(document).ready(function () {
+  $("#eventDateRange").daterangepicker({
+    autoUpdateInput: false,
+    singleDatePicker: false,
+    showDropdowns: true,
+    // Ensures selection is within a month
+    opens: "right",
+    locale: {
+      format: "YYYY-MM-DD",
+      cancelLabel: "Clear",
+    },
+  });
+
+  $("#eventDateRange").on("apply.daterangepicker", function (ev, picker) {
+    $(this).val(
+      picker.startDate.format("YYYY-MM-DD") +
+      " | " +
+      picker.endDate.format("YYYY-MM-DD")
+    );
+  });
+
+  $("#eventDateRange").on(
+    "cancel.daterangepicker",
+    function (ev, picker) {
+      $(this).val("");
+    }
+  );
+});
+
+document.getElementById("eventForm").addEventListener("submit", async (event) => {
+        toggle_loader();
+        const form = event.target;
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        showModal(
+            'Confirm Action',
+            '<p>Are you sure you want to create new event?</p>',
+            async () => {
+                let eventName = document.getElementById('eventName').value;
+                let eventVenue = document.getElementById('eventVenue').value;
+                let eventDateRange = document.getElementById('eventDateRange').value;
+                let eventCity = document.getElementById('eventCity').value;
+                let eventState = document.getElementById('eventState').value;
+                let eventAddress = document.getElementById('eventAddress').value;
+                let eventDetails = document.getElementById('eventDetails').value;
+                let digitalPass = document.getElementById('digitalPass').checked;
+
+                const bodyData = {
+                  'event_name': eventName,
+                  'event_details': eventDetails,
+                  'event_venue': eventVenue,
+                  'event_date_range': eventDateRange,
+                  'event_address': eventAddress,
+                  'city': eventCity,
+                  'state': eventState,
+                  'digital_pass': digitalPass,
+                };
+
+                const url = "{% url 'event-api-list' %}";
+                const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+                if (success) {
+                    if (result.success) {
+                        location.reload();
+                    }
+                    else {
+                        alert("Unexpected Error occured : " + result.error);
+                    }
+                } else {
+                    alert('Unable to create new event');
+                }
+            }
+        );
+        toggle_loader();
+    });
+</script>

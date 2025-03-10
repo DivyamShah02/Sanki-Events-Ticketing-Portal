@@ -41,6 +41,7 @@ class HodDashboardAllTicketSerializer(serializers.ModelSerializer):
             if representation['approved'] == True:
                 if event_data.digital_pass == True:
                     if representation['mail_sent'] == True:
+                        print('hello')
                         representation['status'] = 'Mail Sent'
                         representation['icon'] = 'success'
                     else:
