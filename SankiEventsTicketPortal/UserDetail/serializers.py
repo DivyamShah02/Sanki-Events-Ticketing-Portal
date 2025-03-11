@@ -10,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         # fields = ["id", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "role", "user_id", "name", "contact_number", "city", "state"]
         fields = '__all__'
 
-
 class HodDashboardUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User       
@@ -34,7 +33,6 @@ class HodDashboardUserSerializer(serializers.ModelSerializer):
             representation['total_tickets_sold_seller_amount'] = total_tickets_sold_seller_amount
 
         return representation
-
 
 class HodEventDateDetailUserSerializer(serializers.ModelSerializer):
     class Meta:
