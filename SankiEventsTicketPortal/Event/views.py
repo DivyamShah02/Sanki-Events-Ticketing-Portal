@@ -392,7 +392,11 @@ class EventDetailViewSet(viewsets.ViewSet):
                     "error": "Event not found."
                 }, status=status.HTTP_404_NOT_FOUND)
         
-        event_data = HodEventsSerializer(event_obj).data
+
+        if request.user.role == 'reseller':
+            event_data = ResellerEventsSerializer(event_obj, context={'seller_id': request.user}).data
+        elif request.user.role == 'hod':
+            event_data = HodEventsSerializer(event_obj).data
 
         data = {
             "event_data": event_data,            
@@ -408,8 +412,8 @@ class EventDetailViewSet(viewsets.ViewSet):
             }, status=status.HTTP_200_OK)
 
 
-class EventDateDetailViewSet(viewsets.ViewSet):
-    @check_authentication()
+class HodEventDateDetailViewSet(viewsets.ViewSet):
+    @check_authentication('hod')
     @handle_exceptions
     def list(self, request):
         event_date_id = request.GET.get('event_date_id')
@@ -434,6 +438,8 @@ class EventDateDetailViewSet(viewsets.ViewSet):
                     "error": "Event Date not found."
                 }, status=status.HTTP_404_NOT_FOUND)
         
+        event_date_data = EventDateSerializer(event_date_obj).data
+
         event_obj = Event.objects.filter(event_id=event_date_obj.event_id).first()
         event_data = HodEventDateSerializer(event_obj, context={'event_date_id': event_date_id}).data
 
@@ -442,9 +448,56 @@ class EventDateDetailViewSet(viewsets.ViewSet):
 
         data = {
             "event_data": event_data,
+            "event_date_data": event_date_data,
             
             "reseller_data": reseller_data[::-1],
             "len_reseller_data": len(reseller_data),   
+        }
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
+class ResellerEventDateDetailViewSet(viewsets.ViewSet):
+    @check_authentication('reseller')
+    @handle_exceptions
+    def list(self, request):
+        event_date_id = request.GET.get('event_date_id')
+        if not event_date_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event_date_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        event_date_obj = EventDate.objects.filter(event_date_id=event_date_id).first()
+        if not event_date_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event Date not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        event_date_data = EventDateSerializer(event_date_obj).data
+
+        event_obj = Event.objects.filter(event_id=event_date_obj.event_id).first()
+        event_data = ResellerEventDateSerializer(event_obj, context={'event_date_id': event_date_id, 'seller_id': request.user}).data
+
+        data = {
+            "event_data": event_data,
+            "event_date_data": event_date_data,
         }
 
         return Response(

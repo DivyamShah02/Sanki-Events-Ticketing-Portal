@@ -368,13 +368,14 @@
           };
 
           const url =
-            "{% url 'event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+            "{% url 'hod-event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
           const [success, result] = await callApi("GET", url);
           if (success) {
             if (result.success) {
               const data = result.data; // Extract actual data object
               console.log(data);
               let event_data = data.event_data;
+              let event_date_data = data.event_date_data;
               let date_html = "";
 
               // Populate resellers list dynamically
@@ -455,7 +456,7 @@
               ).innerText = event_data.event_name;
               document.getElementById(
                 "event-details-modal-event_venue"
-              ).innerText = event_data.event_venue;
+              ).innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
               // document.getElementById('event-details-modal-event_details').innerText = '';
               document.getElementById(
                 "event-details-modal-event_date_range"
@@ -486,26 +487,7 @@
               document.getElementById(
                 "event-details-modal-event_days"
               ).innerHTML = date_html;
-              document.getElementById(
-                "event-details-modal-event_dates"
-              ).innerHTML = event_date_rows;
 
-              document.getElementById("updateEventName").value =
-                event_data.event_name;
-              document.getElementById("updateEventVenue").value =
-                event_data.event_venue;
-              document.getElementById("updateEventDateRange").value =
-                event_data.event_date_range;
-              document.getElementById("updateEventCity").value =
-                event_data.city;
-              document.getElementById("updateEventState").value =
-                event_data.state;
-              document.getElementById("updateEventAddress").value =
-                event_data.event_address;
-              document.getElementById("updateEventDetails").value =
-                event_data.event_details;
-              document.getElementById("updateEventDigitalPass").checked =
-                event_data.digital_pass;
             }
           } else {
           }

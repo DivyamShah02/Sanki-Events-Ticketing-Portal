@@ -1,724 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Sanki Events</title>
-    <!-- [Meta] -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- [Google Font] Family -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
-      id="main-font-link"
-    />
-    <script src="/static/assets/js/api_caller.js"></script>
-    <!-- [Tabler Icons] https://tablericons.com -->
-    <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
-    <!-- [Feather Icons] https://feathericons.com -->
-    <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
-    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-    <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
-    <!-- [Material Icons] https://fonts.google.com/icons -->
-    <link rel="stylesheet" href="/static/assets/fonts/material.css" />
-    <!-- [Template CSS Files] -->
-    <link
-      rel="stylesheet"
-      href="/static/assets/css/style.css"
-      id="main-style-link"
-    />
-    <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
+  <!-- [Google Font] Family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link" />
+  <script src="/static/assets/js/api_caller.js"></script>
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
+  <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="/static/assets/js/script.js"></script>
-    <style>
-      :root {
-        --primary: #2563eb;
-        --primary-dark: #1d4ed8;
-        --secondary: #64748b;
-        --light: #f8fafc;
-        --dark: #0f172a;
-        --success: #10b981;
-        --danger: #ef4444;
-        --warning: #f59e0b;
-        --border-radius: 0.5rem;
-        --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      }
+  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #f1f5f9;
-        color: #334155;
-        line-height: 1.6;
-      }
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="/static/assets/js/script.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #64748b;
+      --light: #f8fafc;
+      --dark: #0f172a;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border-radius: 0.5rem;
+      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 
-      .container {
-        max-width: 1200px;
-        padding: 0 1rem;
-      }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f1f5f9;
+      color: #334155;
+      line-height: 1.6;
+    }
 
-      /* Header Styles */
-      .logo-header {
-        background-color: white;
-        padding: 1rem 0;
-        box-shadow: var(--box-shadow);
-        margin-bottom: 2rem;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
+    .container {
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
 
-      .logo {
-        height: 80px;
-        width: auto;
-      }
+    /* Header Styles */
+    .logo-header {
+      background-color: white;
+      padding: 0.5rem 0;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-      /* Event Title Styles */
-      .event-title {
-        font-size: 2.25rem;
-        font-weight: 700;
-        color: var(--dark);
-        margin-bottom: 0.25rem;
-        line-height: 1.2;
-      }
+    .logo {
+      height: 80px;
+      width: auto;
+    }
 
-      .event-venue {
-        color: var(--secondary);
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        font-weight: 500;
-      }
+    /* Event Title Styles */
+    .event-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+      line-height: 1.2;
+    }
 
-      /* Card Styles */
-      .card {
-        border: none;
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        overflow: hidden;
-        transition: transform 0.2s ease-in-out;
-      }
+    .event-venue {
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
 
-      .card:hover {
-        transform: translateY(-5px);
-      }
+    /* Card Styles */
+    .card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: transform 0.2s ease-in-out;
+    }
 
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    /* Event Details Card */
+    .event-details-card {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+      padding: 1.75rem;
+      background-color: white;
+      height: 100%;
+    }
+
+    .event-info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    .event-info-item i {
+      margin-right: 1rem;
+      color: var(--primary);
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .address-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .address-label {
+      color: var(--secondary);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* File Upload Styling */
+    .file-upload-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .file-upload-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #f8fafc;
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--primary);
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+
+    .file-upload-label i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .file-upload-text {
+      font-weight: 500;
+      color: var(--secondary);
+    }
+
+    .file-upload-input {
+      position: absolute;
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .file-name-display {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--secondary);
+      text-align: center;
+      display: none;
+    }
+
+    /* Button Styles */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
       .card-body {
-        padding: 2rem;
+        padding: 1.5rem;
       }
 
-      /* Event Details Card */
-      .event-details-card {
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        margin-bottom: 2rem;
-        padding: 1.75rem;
-        background-color: white;
-        height: 100%;
+      .event-title {
+        font-size: 1.75rem;
       }
+    }
 
-      .event-info-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.25rem;
-        font-size: 1.05rem;
-      }
-
-      .event-info-item i {
-        margin-right: 1rem;
-        color: var(--primary);
-        font-size: 1.2rem;
-        width: 24px;
-        text-align: center;
-      }
-
-      .address-section {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #e2e8f0;
-      }
-
-      .address-label {
-        color: var(--secondary);
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-      }
-
-      /* File Upload Styling */
-      .file-upload-container {
-        position: relative;
-        margin-bottom: 1.5rem;
-      }
-
-      .file-upload-label {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        border: 2px dashed #cbd5e1;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background-color: #f8fafc;
-      }
-
-      .file-upload-label:hover {
-        border-color: var(--primary);
-        background-color: rgba(37, 99, 235, 0.05);
-      }
-
-      .file-upload-label i {
-        font-size: 2rem;
-        color: var(--primary);
-        margin-bottom: 1rem;
-      }
-
-      .file-upload-text {
-        font-weight: 500;
-        color: var(--secondary);
-      }
-
-      .file-upload-input {
-        position: absolute;
-        width: 0.1px;
-        height: 0.1px;
+    /* Animation */
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        overflow: hidden;
-        z-index: -1;
+        transform: translateY(10px);
       }
 
-      .file-name-display {
-        margin-top: 0.75rem;
-        font-size: 0.9rem;
-        color: var(--secondary);
-        text-align: center;
-        display: none;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      /* Button Styles */
-      .btn {
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
-        border-radius: var(--border-radius);
-        transition: all 0.2s ease;
-      }
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
 
-      .btn-primary {
-        background-color: var(--primary);
-        border-color: var(--primary);
-      }
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
 
-      .btn-primary:hover,
-      .btn-primary:focus {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
-      }
-
-      .btn-lg {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-      }
-
-      /* Responsive Adjustments */
-      @media (max-width: 768px) {
-        .card-body {
-          padding: 1.5rem;
-        }
-
-        .event-title {
-          font-size: 1.75rem;
-        }
-      }
-
-      /* Animation */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
-      }
-
-      /* Accessibility */
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Logo Header -->
-    <header class="logo-header">
-      <div class="container">
-        <div class="d-flex justify-content-center">
-          <img
-            src="../../static/assets/img/sanki_logo.png"
-            alt="The Great Divyam Show Logo"
-            class="logo"
-          />
-        </div>
-      </div>
-    </header>
-
+<body>
+  <!-- Logo Header -->
+  <header class="logo-header">
     <div class="container">
-      <!-- Header with Event Title -->
-      <div class="pc-content">
-        <div class="d-flex w-100 align-items-center">
-          <div class="flex-grow-1">
-            <h2 class="mb-1" id="event-details-modal-event_name">Loading...</h2>
-
-            <div class="col-md-6 d-flex align-items-center mb-3">
-              <i class="ti ti-map-pin me-1"></i>
-              <p
-                class="text-muted text-lg mb-0"
-                id="event-details-modal-event_venue"
-              >
-                Loading...
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="d-flex justify-content-center">
+        <img src="/static/assets/img/sanki_logo.png" alt="The Great Divyam Show Logo" class="logo" />
       </div>
+    </div>
+  </header>
 
-      <!-- Event Details Info -->
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-calendar me-2"></i>
-                  <p class="mb-0" id="event-details-modal-event_date_range">
-                    Loading...
-                  </p>
-                </div>
+  <div class="container">
+    <!-- Header with Event Title -->
+    <div class="pc-content">
+      <div class="d-flex w-100 align-items-center">
+        <div class="flex-grow-1">
+          <h2 class="mb-1" id="event-details-modal-event_name">Loading...</h2>
 
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-map-pin me-2"></i>
-                  <p class="mb-0" id="event-details-modal-event_city">
-                    Loading...
-                  </p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-ticket me-2"></i>
-                  <p class="mb-0">
-                    Tickets Available:
-                    <span id="event-details-modal-event_available_tickets"
-                      >Loading...</span
-                    >
-                  </p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i
-                    class="ti ti-x me-2"
-                    id="event-details-modal-event_digital_pass"
-                  ></i>
-                  <p class="mb-0">Digital Pass</p>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center mb-3">
-                  <i class="ti ti-clock me-2"></i>
-                  <p class="mb-0">
-                    Event Days:
-                    <span id="event-details-modal-event_days">Loading...</span>
-                  </p>
-                </div>
-              </div>
-              <li class="list-group-item px-0 pb-0">
-                <p class="mb-1 text-muted">Address</p>
-                <h6 class="mb-0" id="event-details-modal-event_address">
-                  Loading...
-                </h6>
-              </li>
-            </div>
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            <i class="ti ti-map-pin me-1"></i>
+            <p class="text-muted text-lg mb-0" id="event-details-modal-event_venue">
+              Loading...
+            </p>
           </div>
-        </div>
-      </div>
-
-      <!-- Registration Form -->
-      <div class="card mb-5 fade-in" style="animation-delay: 0.2s">
-        <div class="card-body">
-          <h3 class="mb-4 text-center">Event Registration</h3>
-
-          <form id="customerRegistrationForm">
-            <!-- Disabled Fields Row -->
-            <div class="row mb-4">
-              <div class="col-md-6 mb-3">
-                <label for="soldBy" class="form-label">Sold by</label>
-                <div class="input-group">
-                  <span class="input-group-text"
-                    ><i class="fas fa-user"></i
-                  ></span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="soldBy"
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="date" class="form-label">Event Date</label>
-                <div class="input-group">
-                  <span class="input-group-text"
-                    ><i class="fas fa-calendar"></i
-                  ></span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="date"
-                    value="2025-03-11"
-                    disabled
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- Personal Information -->
-            <div class="mb-4">
-              <h4 class="form-section-title">
-                <i class="ti ti-user-check"></i> Personal Information
-              </h4>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="fullName" class="form-label">Full Name</label>
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-user"></i
-                    ></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="fullName"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="email" class="form-label">Email Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-envelope"></i
-                    ></span>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-phone"></i
-                    ></span>
-                    <input
-                      type="tel"
-                      class="form-control"
-                      id="phone"
-                      placeholder="Enter your phone number"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Ticket Selection -->
-            <div class="mb-4">
-              <h4 class="form-section-title">
-                <i class="ti ti-ticket"></i> Ticket Selection
-              </h4>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="ticketType" class="form-label">Ticket Type</label>
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-tag"></i
-                    ></span>
-                    <select class="form-select" id="ticketType" required>
-                      <option value="" selected disabled>
-                        Select ticket type
-                      </option>
-                      <option value="regular">Regular Ticket (₹499)</option>
-                      <option value="vip">VIP Ticket (₹999)</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="quantity" class="form-label">Quantity</label>
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-hashtag"></i
-                    ></span>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="quantity"
-                      min="1"
-                      max="10"
-                      value="1"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="total-amount" class="form-label"
-                    >Total Amount</label
-                  >
-                  <div class="input-group">
-                    <span class="input-group-text"
-                      ><i class="fas fa-rupee-sign"></i
-                    ></span>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="total-amount"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Payment Screenshot Upload -->
-            <div class="mb-4">
-              <h4 class="form-section-title">
-                <i class="ti ti-file-invoice"></i> Payment Information
-              </h4>
-
-              <div class="file-upload-container">
-                <label for="paymentScreenshot" class="file-upload-label">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  <span class="file-upload-text"
-                    >Upload Payment Screenshot</span
-                  >
-                  <span class="file-upload-hint mt-2 text-muted"
-                    >Click or drag and drop your file here</span
-                  >
-                </label>
-                <input
-                  type="file"
-                  class="file-upload-input"
-                  id="paymentScreenshot"
-                  accept="image/*"
-                />
-                <div id="file-name" class="file-name-display"></div>
-              </div>
-            </div>
-
-            <!-- Submission Button -->
-            <div class="row">
-              <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary btn-lg px-5">
-                  <i class="fas fa-check-circle me-2"></i> Get Tickets
-                </button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>
 
-    <!-- Bootstrap JS and Dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Event Details Info -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-calendar me-2"></i>
+                <p class="mb-0" id="event-details-modal-event_date_range">
+                  Loading...
+                </p>
+              </div>
 
-    <script>
-      // Calculate total amount when ticket type or quantity changes
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-map-pin me-2"></i>
+                <p class="mb-0" id="event-details-modal-event_city">
+                  Loading...
+                </p>
+              </div>
 
-      // File upload handling
-      const fileInput = document.getElementById("paymentScreenshot");
-      const fileNameDisplay = document.getElementById("file-name");
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
+                <p class="mb-0">Digital Pass</p>
+              </div>
 
-      fileInput.addEventListener("change", function () {
-        if (this.files && this.files[0]) {
-          fileNameDisplay.textContent = this.files[0].name;
-          fileNameDisplay.style.display = "block";
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-clock me-2"></i>
+                <p class="mb-0">
+                  Event Days:
+                  <span id="event-details-modal-event_days">Loading...</span>
+                </p>
+              </div>
+            </div>
+            <li class="list-group-item px-0 pb-0">
+              <p class="mb-1 text-muted">Address</p>
+              <h6 class="mb-0" id="event-details-modal-event_address">
+                Loading...
+              </h6>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          // Change the upload icon to a success icon
-          const uploadIcon = this.previousElementSibling.querySelector("i");
-          uploadIcon.className = "fas fa-check-circle";
-          uploadIcon.style.color = "#10b981";
-        } else {
-          fileNameDisplay.style.display = "none";
-        }
-      });
+    <!-- Registration Form -->
+    <div class="card mb-5 fade-in" style="animation-delay: 0.2s">
+      <div class="card-body">
+        <h3 class="mb-4 text-center">Get Tickets</h3>
 
-      // Initialize the form
-    </script>
+        <form id="customerRegistrationForm">
+          <!-- Disabled Fields Row -->
+          <div class="row mb-4">
+            <h4 class="form-section-title">
+              <i class="ti ti-building-store"></i> Event Information
+            </h4>
+            <div class="col-md-6 mb-3">
+              <label for="soldBy" class="form-label">Sold By</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" id="soldBy" disabled />
+              </div>
+            </div>
 
-    <script>
-      let event_data = null;
-      let seller_data = null;
-      let event_date_data = null;
-      const event_date_id = new URLSearchParams(window.location.search).get(
-        "event_date_id"
-      );
-      const seller_id = new URLSearchParams(window.location.search).get(
-        "seller_id"
-      );
-      window.onload = async function () {
-        await fetchHodEventsData();
-      };
+            <div class="col-md-6 mb-3">
+              <label for="date" class="form-label">Event Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="text" class="form-control" id="date" value="2025-03-11" disabled />
+              </div>
+            </div>
+          </div>
 
-      async function fetchHodEventsData() {
-        try {
-          const Params = {
-            event_date_id: event_date_id,
-            seller_id: seller_id,
-          };
+          <!-- Personal Information -->
+          <div class="mb-4">
+            <h4 class="form-section-title">
+              <i class="ti ti-user-check"></i> Personal Information
+            </h4>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required />
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" placeholder="Enter your email" required />
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required />
+                </div>
+              </div>
+            </div>
+          </div>
 
-          // Construct the query string using URLSearchParams
-          const queryString = new URLSearchParams(Params).toString();
+          <!-- Ticket Selection -->
+          <div class="mb-4">
+            <h4 class="form-section-title">
+              <i class="ti ti-ticket"></i> Ticket Information
+            </h4>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                  <input type="number" class="form-control" id="quantity" min="1" max="10" value="1" required />
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="total-amount" class="form-label">Total Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-rupee-sign"></i></span>
+                  <input type="number" class="form-control" id="total-amount" required />
+                </div>
+              </div>
+            </div>
+          </div>
 
-          const url = `{% url 'ticket-sale-event-data-api-list' %}?${queryString}`; // Construct the full URL with query params
+          <!-- Payment Screenshot Upload -->
+          <div class="mb-4">
+            <h4 class="form-section-title">
+              <i class="ti ti-file-invoice"></i> Payment Information
+            </h4>
 
-          const [success, result] = await callApi("GET", url);
-          if (success) {
-            if (result.success) {
-              const data = result.data; // Extract actual data object
+            <div class="file-upload-container">
+              <label for="paymentScreenshot" class="file-upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span class="file-upload-text">Upload Payment Screenshot</span>
+                <span class="file-upload-hint mt-2 text-muted text-center">Click or drag and drop your file here</span>
+              </label>
+              <input type="file" class="file-upload-input" id="paymentScreenshot" accept="image/*" />
+              <div id="file-name" class="file-name-display"></div>
+            </div>
+          </div>
 
-              console.log(data);
-              event_data = data.event_data;
-              seller_data = data.seller_data;
-              event_date_data = data.event_date_data;
+          <!-- Submission Button -->
+          <div class="row">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-check-circle me-2"></i> Buy Tickets
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-              document.getElementById("soldBy").value = seller_data.name;
-              document.getElementById("date").value = event_date_data.date;
+  <!-- Bootstrap JS and Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-              document.getElementById(
-                "event-details-modal-event_name"
-              ).innerText = event_data.event_name;
-              document.getElementById(
-                "event-details-modal-event_venue"
-              ).innerText = event_data.event_venue;
-              // document.getElementById('event-details-modal-event_details').innerText = '';
-              document.getElementById(
-                "event-details-modal-event_date_range"
-              ).innerText = event_data.event_date_range;
-              document.getElementById(
-                "event-details-modal-event_days"
-              ).innerText = `${event_date_data.date}`;
-              document.getElementById(
-                "event-details-modal-event_city"
-              ).innerText = `${event_data.city}, ${event_data.state}`;
+  <script>
+    // Calculate total amount when ticket type or quantity changes
 
-              document.getElementById(
-                "event-details-modal-event_digital_pass"
-              ).className =
-                event_data.digital_pass === true
-                  ? "ti ti-check me-2"
-                  : "ti ti-x me-2";
-              document.getElementById(
-                "event-details-modal-event_address"
-              ).innerText = event_data.event_address;
-            }
-          } else {
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+    // File upload handling
+    const fileInput = document.getElementById("paymentScreenshot");
+    const fileNameDisplay = document.getElementById("file-name");
+
+    fileInput.addEventListener("change", function () {
+      if (this.files && this.files[0]) {
+        fileNameDisplay.textContent = this.files[0].name;
+        fileNameDisplay.style.display = "block";
+
+        // Change the upload icon to a success icon
+        const uploadIcon = this.previousElementSibling.querySelector("i");
+        uploadIcon.className = "fas fa-check-circle";
+        uploadIcon.style.color = "#10b981";
+      } else {
+        fileNameDisplay.style.display = "none";
       }
-    </script>
-    <script>
-      document
-        .getElementById("customerRegistrationForm")
-        .addEventListener("submit", async (event) => {
-          console.log(event);
-          event.preventDefault(); // Prevent the form from submitting and navigating away
+    });
 
-          const form = event.target;
-          if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
+    // Initialize the form
+  </script>
+
+  <script>
+    let event_data = null;
+    let seller_data = null;
+    let event_date_data = null;
+    const event_date_id = new URLSearchParams(window.location.search).get(
+      "event_date_id"
+    );
+    const seller_id = new URLSearchParams(window.location.search).get(
+      "seller_id"
+    );
+    window.onload = async function () {
+      await fetchHodEventsData();
+    };
+
+    async function fetchHodEventsData() {
+      try {
+        const Params = {
+          event_date_id: event_date_id,
+          seller_id: seller_id,
+        };
+
+        // Construct the query string using URLSearchParams
+        const queryString = new URLSearchParams(Params).toString();
+
+        const url = `{% url 'ticket-sale-event-data-api-list' %}?${queryString}`; // Construct the full URL with query params
+
+        const [success, result] = await callApi("GET", url);
+        if (success) {
+          if (result.success) {
+            const data = result.data; // Extract actual data object
+
+            console.log(data);
+            event_data = data.event_data;
+            seller_data = data.seller_data;
+            event_date_data = data.event_date_data;
+
+            let date_html = "";
+            event_data.all_dates.forEach((date) => {
+              date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
+            });
+
+            document.getElementById("soldBy").value = seller_data.name;
+            document.getElementById("date").value = event_date_data.date;
+
+            document.getElementById(
+              "event-details-modal-event_name"
+            ).innerText = event_data.event_name;
+            document.getElementById(
+              "event-details-modal-event_venue"
+            ).innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
+            // document.getElementById('event-details-modal-event_details').innerText = '';
+            document.getElementById(
+              "event-details-modal-event_date_range"
+            ).innerText = event_data.event_date_range;
+            document.getElementById(
+              "event-details-modal-event_days"
+            ).innerHTML = date_html;
+            document.getElementById(
+              "event-details-modal-event_city"
+            ).innerText = `${event_data.city}, ${event_data.state}`;
+
+            document.getElementById(
+              "event-details-modal-event_digital_pass"
+            ).className =
+              event_data.digital_pass === true
+                ? "ti ti-check me-2"
+                : "ti ti-x me-2";
+            document.getElementById(
+              "event-details-modal-event_address"
+            ).innerText = event_data.event_address;
           }
-          showModal(
-            "Confirm Action",
-            "<p>Are you sure you want to create new event?</p>",
-            async () => {
-              // Extract values from form fields
-              let customerName = document.getElementById("fullName").value;
-              let quantity = document.getElementById("quantity").value;
-              let customerNumber = document.getElementById("phone").value;
-              let customerEmail = document.getElementById("email").value;
-              let totalAmount = document.getElementById("total-amount").value;
+        } else {
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  </script>
+  <script>
+    document.getElementById("customerRegistrationForm").addEventListener("submit", async (event) => {
+        console.log(event);
+        event.preventDefault();
 
-              const bodyData = {
-                seller_id: seller_data.user_id,
-                event_date_id: event_date_data.event_date_id,
-                event_id: event_data.event_id,
-                qty: quantity,
-                amount: totalAmount,
-                customer_name: customerName,
-                customer_email: customerEmail,
-                customer_number: customerNumber,
-              };
+        const form = event.target;
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        showModal(
+          "Confirm Action",
+          "<p>Are you sure you want to create new event?</p>",
+          async () => {
+            // Extract values from form fields
+            let customerName = document.getElementById("fullName").value;
+            let quantity = document.getElementById("quantity").value;
+            let customerNumber = document.getElementById("phone").value;
+            let customerEmail = document.getElementById("email").value;
+            let totalAmount = document.getElementById("total-amount").value;
 
-              const base_url = "http://127.0.0.1:8000/";
-              const ticketurl = base_url + "ticket/ticket-api/";
+            const bodyData = {
+              seller_id: seller_data.user_id,
+              event_date_id: event_date_data.event_date_id,
+              event_id: event_data.event_id,
+              qty: quantity,
+              amount: totalAmount,
+              customer_name: customerName,
+              customer_email: customerEmail,
+              customer_number: customerNumber,
+            };
 
-              // Call the API
-              const [success, result] = await callApi(
-                "POST",
-                ticketurl,
-                bodyData,
-                "{{csrf_token}}"
-              );
+            // Call the API
+            const [success, result] = await callApi(
+              "POST",
+              "{% url 'ticket-api-list' %}",
+              bodyData,
+              "{{csrf_token}}"
+            );
 
-              if (success) {
-                if (result.success) {
-                  alert("Ticket created successfully"); // Show a success message
-                } else {
-                  alert("Unexpected Error occurred: " + result.error);
-                }
+            if (success) {
+              if (result.success) {
+                alert("Ticket created successfully"); // Show a success message
               } else {
-                alert("Unable to create new reseller");
+                alert("Unexpected Error occurred: " + result.error);
               }
+            } else {
+              alert("Unable to create new reseller");
             }
-          );
-        });
-    </script>
-  </body>
+          }
+        );
+      });
+  </script>
+</body>
+
 </html>

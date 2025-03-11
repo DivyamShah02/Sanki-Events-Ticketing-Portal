@@ -104,3 +104,26 @@ function showModal(title, content, callback, submit_not_needed=false) {
 function toggle_loader(){
     console.log('loader toggled');
 }
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+
+    // Format the date
+    let formattedDate = date.toLocaleDateString('en-GB', options);
+
+    // Add suffix to the day
+    const day = date.getDate();
+    const suffix = (day) => {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+        }
+    };
+
+    formattedDate = formattedDate.replace(/^\d+/, day + suffix(day));
+    return formattedDate;
+}

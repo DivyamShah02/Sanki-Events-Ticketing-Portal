@@ -244,88 +244,25 @@
           </div>
         </div>
 
-        <div class="container mt-4 flex">
-          <!-- Tabs Navigation -->
-          <ul class="nav nav-tabs row" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button
-                class="nav-link active"
-                id="tickets-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#tickets-section"
-                type="button"
-                role="tab"
-                aria-controls="tickets-section"
-                aria-selected="true"
-              >
-                Ticket Status
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button
-                class="nav-link"
-                id="resellers-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#resellers-section"
-                type="button"
-                role="tab"
-                aria-controls="resellers-section"
-                aria-selected="false"
-              >
-                All Resellers
-              </button>
-            </li>
-          </ul>
-
-          <!-- Tab Content -->
-          <div class="tab-content" id="myTabContent">
-            <!-- Tickets Section -->
-            <div
-              class="tab-pane fade show active"
-              id="tickets-section"
-              role="tabpanel"
-              aria-labelledby="tickets-tab"
-            >
-              <div class="col-md-12 col-xl-12 mt-3">
-                <h5 class="mb-3">Ticket Status</h5>
-                <div class="card tbl-card">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-hover table-borderless mb-0">
-                        <thead>
-                          <tr>
-                            <th>CUSTOMER NAME</th>
-                            <th>EVENT NAME</th>
-                            <th>QUANTITY</th>
-                            <th>STATUS</th>
-                            <th class="text-end">TOTAL AMOUNT</th>
-                          </tr>
-                        </thead>
-                        <tbody id="ticket-sales-table-body">
-                          <!-- Dynamic ticket sales data will be populated here -->
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Resellers Section -->
-            <div
-              class="tab-pane fade"
-              id="resellers-section"
-              role="tabpanel"
-              aria-labelledby="resellers-tab"
-            >
-              <div class="col-md-12 col-xl-12 mt-3">
-                <h5 class="mb-3">All Resellers</h5>
-                <div class="card" style="max-height: 495px">
-                  <div
-                    class="list-group list-group-flush overflow-y-scroll"
-                    id="resellers-list"
-                  ></div>
-                </div>
+        <div class="col-md-12 col-xl-12 mt-3">
+          <h5 class="mb-3">Ticket Status</h5>
+          <div class="card tbl-card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th>CUSTOMER NAME</th>
+                      <th>EVENT NAME</th>
+                      <th>QUANTITY</th>
+                      <th>STATUS</th>
+                      <th class="text-end">TOTAL AMOUNT</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ticket-sales-table-body">
+                    <!-- Dynamic ticket sales data will be populated here -->
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -368,53 +305,15 @@
           };
 
           const url =
-            "{% url 'event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+            "{% url 'reseller-event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
           const [success, result] = await callApi("GET", url);
           if (success) {
             if (result.success) {
               const data = result.data; // Extract actual data object
               console.log(data);
               let event_data = data.event_data;
+              let event_date_data = data.event_date_data;
               let date_html = "";
-
-              // Populate resellers list dynamically
-              let maxResellerAmount = 0;
-              let maxReseller = null;
-              const resellersList = document.getElementById("resellers-list");
-              resellersList.innerHTML = "";
-              data.reseller_data.forEach((reseller) => {
-                if (
-                  reseller.total_tickets_sold_seller_amount > maxResellerAmount
-                ) {
-                  maxResellerAmount = reseller.total_tickets_sold_seller_amount;
-                  maxReseller = reseller;
-                }
-                const resellerItem = `
-              <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                      <!-- <div class="flex-shrink-0">
-                          <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                              <i class="ti ti-user f-18"></i>
-                          </div>
-                      </div> ms-3-->
-                      <div class="flex-grow-1">
-                          <h6 class="mb-1">${reseller.name}</h6>
-                          <p class="mb-0 text-muted">${reseller.email}</p>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                          <h6 class="mb-1">+ ₹${reseller.total_tickets_sold_seller_amount.toLocaleString(
-                            "en-IN"
-                          )}</h6>
-                          <p class="mb-0 text-muted">
-                              <span class="font-bold">${
-                                reseller.total_tickets_sold_seller
-                              }</span> <i class="ti ti-ticket"></i>
-                          </p>
-                      </div>
-                  </div>
-              </a>`;
-                resellersList.innerHTML += resellerItem;
-              });
 
               // Populate ticket sales table dynamically
               const ticketTableBody = document.getElementById(
@@ -455,7 +354,7 @@
               ).innerText = event_data.event_name;
               document.getElementById(
                 "event-details-modal-event_venue"
-              ).innerText = event_data.event_venue;
+              ).innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
               // document.getElementById('event-details-modal-event_details').innerText = '';
               document.getElementById(
                 "event-details-modal-event_date_range"
@@ -486,26 +385,7 @@
               document.getElementById(
                 "event-details-modal-event_days"
               ).innerHTML = date_html;
-              document.getElementById(
-                "event-details-modal-event_dates"
-              ).innerHTML = event_date_rows;
-
-              document.getElementById("updateEventName").value =
-                event_data.event_name;
-              document.getElementById("updateEventVenue").value =
-                event_data.event_venue;
-              document.getElementById("updateEventDateRange").value =
-                event_data.event_date_range;
-              document.getElementById("updateEventCity").value =
-                event_data.city;
-              document.getElementById("updateEventState").value =
-                event_data.state;
-              document.getElementById("updateEventAddress").value =
-                event_data.event_address;
-              document.getElementById("updateEventDetails").value =
-                event_data.event_details;
-              document.getElementById("updateEventDigitalPass").checked =
-                event_data.digital_pass;
+             
             }
           } else {
           }
