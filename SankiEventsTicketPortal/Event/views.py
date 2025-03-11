@@ -345,7 +345,11 @@ class EventListViewSet(viewsets.ViewSet):
     @handle_exceptions
     def list(self, request):
         events_obj = Event.objects.all()
-        events_data = HodEventsSerializer(events_obj, many=True).data
+        
+        if request.user.role == 'reseller':
+            events_data = ResellerEventsSerializer(events_obj, many=True, context={'seller_id': request.user}).data
+        elif request.user.role == 'hod':
+            events_data = HodEventsSerializer(events_obj, many=True).data
         
         data = {
             'events_data': events_data[::-1],

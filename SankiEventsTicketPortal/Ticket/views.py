@@ -22,7 +22,7 @@ class TicketViewSet(viewsets.ViewSet):
     
     @handle_exceptions
     def create(self, request):
-        required_fields = ['seller_id', 'event_date_id', 'event_id', 'qty', 'amount', 'sold_date',
+        required_fields = ['seller_id', 'event_date_id', 'event_id', 'qty', 'amount',
                            'customer_name', 'customer_email', 'customer_number']
         for field in required_fields:
             if field not in request.data:
@@ -53,7 +53,7 @@ class TicketViewSet(viewsets.ViewSet):
             event_id=request.data.get('event_id'),
             qty=int(request.data.get('qty')),
             amount=int(request.data.get('amount')),
-            sold_date=request.data.get('sold_date'),
+            sold_date=datetime.now(),
             customer_name=request.data.get('customer_name'),
             customer_email=request.data.get('customer_email'),
             customer_number=request.data.get('customer_number'),
