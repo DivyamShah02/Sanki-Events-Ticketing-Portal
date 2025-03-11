@@ -94,7 +94,6 @@ class HodEventsSerializer(serializers.ModelSerializer):
 
         return representation
 
-
 class HodEventDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event        
@@ -154,7 +153,6 @@ class HodEventDateSerializer(serializers.ModelSerializer):
             representation['all_dates'] = all_dates
 
         return representation
-
 
 class ResellerDashboardEventSerializer(serializers.ModelSerializer):
     class Meta:
