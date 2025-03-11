@@ -95,3 +95,8 @@ class EventDateDetailFrontEndViewSet(viewsets.ViewSet):
         elif user.role == 'reseller':
             return render(request, 'reseller/event_date_detail.html')
 
+
+class TicketSaleFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        return render(request, 'ticket_sale.html')
+
