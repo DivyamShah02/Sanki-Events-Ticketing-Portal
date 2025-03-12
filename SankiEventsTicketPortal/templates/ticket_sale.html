@@ -280,7 +280,7 @@
     </div>
   </header>
 
-  <div class="container">
+  <div id="container_data" class="container">
     <!-- Header with Event Title -->
     <div class="pc-content">
       <div class="d-flex w-100 align-items-center">
@@ -549,11 +549,35 @@
             document.getElementById(
               "event-details-modal-event_address"
             ).innerText = event_data.event_address;
+          }else{
+            document.getElementById("container_data").style.display = "none";
+  let errorDiv = document.getElementById("error_message");
+
+  if (!errorDiv) {
+    errorDiv = document.createElement("div");
+    errorDiv.id = "error_message";
+    errorDiv.style.padding = "50px";
+    errorDiv.style.margin = "10px 50px";
+    errorDiv.classList.add("text-center");
+    errorDiv.style.backgroundColor = "#f8d7da";
+    errorDiv.style.color = "#721c24";
+    errorDiv.style.border = "1px solid #f5c6cb";
+    errorDiv.style.borderRadius = "10px";
+    errorDiv.innerText = result.error;
+    document.body.appendChild(errorDiv);
+  } else {
+    errorDiv.style.display = "block";
+  }
           }
         } else {
+          console.error("Error fetching data:", result.error);
+          
+  
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        // Hide container_data and show error message div
+  
       }
     }
   </script>
@@ -599,12 +623,12 @@
 
             if (success) {
               if (result.success) {
-                alert("Ticket created successfully"); // Show a success message
+                alert("Ticket booked successfully "); // Show a success message
               } else {
                 alert("Unexpected Error occurred: " + result.error);
               }
             } else {
-              alert("Unable to create new reseller");
+              alert("Unable to book the ticket");
             }
           }
         );
