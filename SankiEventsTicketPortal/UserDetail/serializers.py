@@ -57,6 +57,13 @@ class HodEventDateDetailUserSerializer(serializers.ModelSerializer):
             representation['total_tickets_sold_seller'] = total_tickets_sold_seller
             representation['total_tickets_sold_seller_amount'] = total_tickets_sold_seller_amount
 
-        return representation
+            assigned_tickets_obj = AssignedTicket.objects.filter(event_date_id=event_date_id, reseller_id=representation['user_id']).first()
+            if not assigned_tickets_obj:
+                AssignedTicket.objects.create(event_date_id=event_date_id, reseller_id=representation['user_id'], assigned_tickets=0)
+            assigned_tickets = assigned_tickets_obj.assigned_tickets if assigned_tickets_obj else 0
+            representation['assigned_tickets'] = assigned_tickets
+            
+            representation['available_tickets'] = assigned_tickets - total_tickets_sold_seller
 
+        return representation
 

@@ -7,10 +7,6 @@ class AssignedTicket(models.Model):
     reseller_id = models.CharField(max_length=10)
     assigned_tickets = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.reseller.username} - {self.event_date.date}"
-
-
 class Ticket(models.Model):
     ticket_id = models.CharField(max_length=10, unique=True)
     event_id = models.CharField(max_length=10)

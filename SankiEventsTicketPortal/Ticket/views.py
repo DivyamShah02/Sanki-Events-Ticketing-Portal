@@ -332,20 +332,12 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
         ticket_already_assigned = AssignedTicket.objects.filter(reseller_id=reseller_id, event_date_id=event_date_id).first()
-        if ticket_already_assigned:
-            return Response({
-                    "success": False,
-                    "user_not_logged_in": False,
-                    "user_unauthorized": False,
-                    "data": None,
-                    "error": f"Ticket already assigned."
-                }, status=status.HTTP_400_BAD_REQUEST)
-
-        assign_ticket = AssignedTicket.objects.create(
-            reseller_id=reseller_id,
-            event_date_id=event_date_id,
-            assigned_tickets=assigned_tickets,
-        )
+        if not ticket_already_assigned:
+            assign_ticket = AssignedTicket.objects.create(
+                reseller_id=reseller_id,
+                event_date_id=event_date_id,
+                assigned_tickets=assigned_tickets,
+            )
 
         return Response({
                 "success": True,
