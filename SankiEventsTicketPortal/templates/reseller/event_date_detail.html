@@ -233,6 +233,10 @@
                 <h6 class="mb-4" id="event-details-modal-event_total_sales">
                   Loading...
                 </h6>
+                <p class="mb-1 text-muted">Tickets Available</p>
+                <h6 class="mb-4" id="event-details-modal-event_available_tickets">
+                  Loading...
+                </h6>
               </div>
             </div>
           </div>
@@ -247,10 +251,10 @@
                   <thead>
                     <tr>
                       <th>CUSTOMER NAME</th>
-                      <th>EVENT NAME</th>
+                      <th>CUSTOMER EMAIL</th>
                       <th>QUANTITY</th>
                       <th>STATUS</th>
-                      <th class="text-end">TOTAL AMOUNT</th>
+                      <th class="text-end">ACTIONS</th>
                     </tr>
                   </thead>
                   <tbody id="ticket-sales-table-body">
@@ -330,7 +334,7 @@
                   <td><a href="#" class="text-muted">${
                     ticket.customer_name
                   }</a></td>
-                  <td>${ticket.event_name}</td>
+                  <td>${ticket.customer_email}</td>
                   <td>${ticket.qty}</td>
                   <td>
                        <span class="d-flex align-items-center gap-2">
@@ -339,9 +343,20 @@
                 }
                         </span>
                   </td>
-                  <td class="text-end">₹${ticket.amount.toLocaleString(
-                    "en-IN"
-                  )}</td>
+                  <td class="text-center">
+                          <ul class="list-inline me-auto mb-0 d-flex justify-content-between">
+                            <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
+                              <a href="#" class="avtar avtar-xs btn-link-primary">
+                                <i class="ti ti-check f-18"></i> Approve
+                              </a>
+                            </li>
+                            <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
+                              <a href="#" class="avtar avtar-xs btn-link-secondary">
+                                <i class="ti ti-mail f-18"></i> Mail sent
+                              </a>
+                            </li>
+                          </ul>
+                        </td>
               </tr>`;
                 ticketTableBody.innerHTML += ticketRow;
               });

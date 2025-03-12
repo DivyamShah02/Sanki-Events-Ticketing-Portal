@@ -317,7 +317,32 @@
               id="resellers-section"
               role="tabpanel"
               aria-labelledby="resellers-tab"
-            >
+            > 
+            <div class="col-md-12 col-xl-12 mt-3">
+              <h5 class="mb-3">All Resellers</h5>
+              <div class="card tbl-card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-borderless mb-0">
+                      <thead>
+                        <tr>
+                          <th> NAME</th>
+                          <th>EMAIL</th>
+                          <th><table>TICKETS SOLD</table></th>
+                          <th>AVAILABLE</th>
+                          <th class="text-center">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody id="resellers-list">
+                        <!-- Dynamic ticket sales data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% comment %} // Resellers List {% endcomment %}
               <div class="col-md-12 col-xl-12 mt-3">
                 <h5 class="mb-3">All Resellers</h5>
                 <div class="card" style="max-height: 495px">
@@ -332,7 +357,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- [ Main Content ] end -->
 
     {% include 'footer.html' %}
@@ -354,6 +379,7 @@
 
     <!--scripts for dynamic data-->
     <script>
+      let data = {};
       const event_date_id = new URLSearchParams(window.location.search).get(
         "event_date_id"
       );
@@ -372,7 +398,7 @@
           const [success, result] = await callApi("GET", url);
           if (success) {
             if (result.success) {
-              const data = result.data; // Extract actual data object
+              data = result.data; // Extract actual data object
               console.log(data);
               let event_data = data.event_data;
               let event_date_data = data.event_date_data;
@@ -381,44 +407,38 @@
                 date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
               });
 
-              // Populate resellers list dynamically
-              let maxResellerAmount = 0;
-              let maxReseller = null;
-              const resellersList = document.getElementById("resellers-list");
-              resellersList.innerHTML = "";
+
+              //populate reseller list 
+              const resellerTable = document.getElementById(
+                "resellers-list"
+              );
+              resellerTable.innerHTML = "";
               data.reseller_data.forEach((reseller) => {
-                if (
-                  reseller.total_tickets_sold_seller_amount > maxResellerAmount
-                ) {
-                  maxResellerAmount = reseller.total_tickets_sold_seller_amount;
-                  maxReseller = reseller;
-                }
-                const resellerItem = `
-              <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                      <!-- <div class="flex-shrink-0">
-                          <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                              <i class="ti ti-user f-18"></i>
-                          </div>
-                      </div> ms-3-->
-                      <div class="flex-grow-1">
-                          <h6 class="mb-1">${reseller.name}</h6>
-                          <p class="mb-0 text-muted">${reseller.email}</p>
-                      </div>
-                      <div class="flex-shrink-0 text-end">
-                          <h6 class="mb-1">+ ₹${reseller.total_tickets_sold_seller_amount.toLocaleString(
-                            "en-IN"
-                          )}</h6>
-                          <p class="mb-0 text-muted">
-                              <span class="font-bold">${
-                                reseller.total_tickets_sold_seller
-                              }</span> <i class="ti ti-ticket"></i>
-                          </p>
-                      </div>
-                  </div>
-              </a>`;
-                resellersList.innerHTML += resellerItem;
+              
+                const ticketRow = `
+              <tr>
+                  <td><a href="#" class="text-muted">${
+                    reseller.name
+                  }</a></td>
+                  <td>${reseller.email}</td>
+                  <td>${reseller.total_tickets_sold_seller} ( ₹${reseller.total_tickets_sold_seller_amount} )</td>
+                  <td>Loading...
+                       
+                      
+                      
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-primary btn-lg w-75" data-bs-toggle="modal"
+                data-bs-target="#AssignticketsModal">
+                <i class="feather icon-plus-circle me-2"></i>Assign Tickets
+              </button>
+                  </td>
+              </tr>`;
+                resellerTable.innerHTML += ticketRow;
               });
+
+              // Populate resellers list dynamically
+              
 
               // Populate ticket sales table dynamically
               const ticketTableBody = document.getElementById(
@@ -499,6 +519,79 @@
         }
       }
     </script>
+
+   
+
+
+<!-- Modal -->
+<div class="modal fade " id="AssignticketsModal" tabindex="-1" aria-labelledby="AssignticketsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="AssignticketsModalLabel">
+          Assign Tickets
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            
+            <p class="mb-0" id="event-details-modal-event_date_range">
+              Reseller Name :- Loading..
+            </p>
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            
+            <p class="mb-0" id="event-details-modal-event_city">
+              Reseller Email :- Loading..
+            </p>
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            
+            <p class="mb-0">
+              Event Name :- Loading...
+            </p>
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            <p class="mb-0">
+              Event Date :- Loading..  </p>
+          </div>
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            <p class="mb-0">
+              Assigned Tickets :- Loading..  </p>
+          </div>
+
+          <label for="assigntickets" class="form-label">Assign more tickets</label>
+          <div class="col-md-12 d-flex align-items-center mb-1">
+            
+            <input type="text" class="form-control" id="assigntickets"  />
+          </div>
+          
+        </div>
+        <!-- Form with 5 fields, only 1 being input -->
+
+        <form>
+          
+          <div class="modal-footer p-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Assign Tickets
+            </button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
   </body>
   <!-- [Body] end -->
 </html>
