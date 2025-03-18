@@ -100,3 +100,15 @@ class TicketSaleFrontEndViewSet(viewsets.ViewSet):
     def list(self, request):
         return render(request, 'ticket_sale.html')
 
+
+class EventQrCodeFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login-list')
+
+        if user.role == 'hod':
+            return render(request, 'hod/event_qr_scanner.html')
+        
+        elif user.role == 'reseller':
+            return render(request, 'reseller/event_date_detail.html')

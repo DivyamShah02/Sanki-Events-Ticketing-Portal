@@ -46,8 +46,8 @@ class UserViewSet(viewsets.ViewSet):
                         "error": None
                     }, status=status.HTTP_200_OK)
 
+    # @check_authentication()
     @handle_exceptions
-    @check_authentication()
     def create(self, request):
             name = request.data.get('name')
             password = request.data.get('password')

@@ -267,6 +267,48 @@
       white-space: nowrap;
       border-width: 0;
     }
+    .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .thank-you-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
   </style>
 </head>
 
@@ -299,10 +341,27 @@
 
     <!-- Event Details Info -->
     <div class="row">
+      <div class="col-sm-12 mb-3">
+        <img src="/static/assets/img/fest_thumbnail.png" class="img-fluid" alt="">
+      </div>
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
+              <!-- <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-calendar me-2"></i>
+                <p class="mb-0" id="event-details-modal-event_name_info">
+                  Loading...
+                </p>
+              </div> -->
+
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <i class="ti ti-building me-2"></i>
+                <p class="mb-0" id="event-details-modal-event_venue_info">
+                  Loading...
+                </p>
+              </div>
+
               <div class="col-md-6 d-flex align-items-center mb-3">
                 <i class="ti ti-calendar me-2"></i>
                 <p class="mb-0" id="event-details-modal-event_date_range">
@@ -317,10 +376,10 @@
                 </p>
               </div>
 
-              <div class="col-md-6 d-flex align-items-center mb-3">
+              <!-- <div class="col-md-6 d-flex align-items-center mb-3">
                 <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
                 <p class="mb-0">Digital Pass</p>
-              </div>
+              </div> -->
 
               <div class="col-md-6 d-flex align-items-center mb-3">
                 <i class="ti ti-clock me-2"></i>
@@ -400,7 +459,7 @@
           </div>
 
           <!-- Ticket Selection -->
-          <div class="mb-4">
+          <div class="mb-4" style="display: none;">
             <h4 class="form-section-title">
               <i class="ti ti-ticket"></i> Ticket Information
             </h4>
@@ -416,19 +475,19 @@
                 <label for="total-amount" class="form-label">Total Amount</label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-rupee-sign"></i></span>
-                  <input type="number" class="form-control" id="total-amount" required />
+                  <input type="number" class="form-control" id="total-amount" required value="0" />
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Payment Screenshot Upload -->
-          <div class="mb-4">
+          <div class="mb-4" style="display: none;">
             <h4 class="form-section-title">
               <i class="ti ti-file-invoice"></i> Payment Information
             </h4>
 
-            <div class="file-upload-container">
+            <!-- <div class="file-upload-container">
               <label for="paymentScreenshot" class="file-upload-label">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <span class="file-upload-text">Upload Payment Screenshot</span>
@@ -436,7 +495,7 @@
               </label>
               <input type="file" class="file-upload-input" id="paymentScreenshot" accept="image/*" />
               <div id="file-name" class="file-name-display"></div>
-            </div>
+            </div> -->
           </div>
 
           <!-- Submission Button -->
@@ -450,6 +509,29 @@
         </form>
       </div>
     </div>
+    
+    <!-- Thank You Modal -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="thankYouModalLabel">Booking Confirmed!</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <i class="bi bi-check-circle-fill thank-you-icon"></i>
+            <h2>Thank You for Booking Tickets from Sanki Events!</h2>
+            <!-- <p>Your booking has been confirmed. We've sent the details to your email.</p> -->
+            <!-- <button id="downloadTicket" class="download-btn">
+              <i class="bi bi-download me-1"></i> Download Ticket
+            </button> -->
+            <a type="button" class="btn btn-primary btn-lg px-5 mt-3" id="downloadTicket" href="#" download="ticket.png">
+              <i class="fas fa-download me-2"></i> Download Ticket
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap JS and Dependencies -->
@@ -459,22 +541,22 @@
     // Calculate total amount when ticket type or quantity changes
 
     // File upload handling
-    const fileInput = document.getElementById("paymentScreenshot");
-    const fileNameDisplay = document.getElementById("file-name");
+    // const fileInput = document.getElementById("paymentScreenshot");
+    // const fileNameDisplay = document.getElementById("file-name");
 
-    fileInput.addEventListener("change", function () {
-      if (this.files && this.files[0]) {
-        fileNameDisplay.textContent = this.files[0].name;
-        fileNameDisplay.style.display = "block";
+    // fileInput.addEventListener("change", function () {
+    //   if (this.files && this.files[0]) {
+    //     fileNameDisplay.textContent = this.files[0].name;
+    //     fileNameDisplay.style.display = "block";
 
-        // Change the upload icon to a success icon
-        const uploadIcon = this.previousElementSibling.querySelector("i");
-        uploadIcon.className = "fas fa-check-circle";
-        uploadIcon.style.color = "#10b981";
-      } else {
-        fileNameDisplay.style.display = "none";
-      }
-    });
+    //     // Change the upload icon to a success icon
+    //     const uploadIcon = this.previousElementSibling.querySelector("i");
+    //     uploadIcon.className = "fas fa-check-circle";
+    //     uploadIcon.style.color = "#10b981";
+    //   } else {
+    //     fileNameDisplay.style.display = "none";
+    //   }
+    // });
 
     // Initialize the form
   </script>
@@ -530,9 +612,15 @@
               "event-details-modal-event_venue"
             ).innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
             // document.getElementById('event-details-modal-event_details').innerText = '';
+            // document.getElementById(
+            //   "event-details-modal-event_name_info"
+            // ).innerText = event_data.event_name;
+            document.getElementById(
+              "event-details-modal-event_venue_info"
+            ).innerText = event_data.event_venue;
             document.getElementById(
               "event-details-modal-event_date_range"
-            ).innerText = event_data.event_date_range;
+            ).innerText = formatDate(event_date_data.date);
             document.getElementById(
               "event-details-modal-event_days"
             ).innerHTML = date_html;
@@ -540,99 +628,102 @@
               "event-details-modal-event_city"
             ).innerText = `${event_data.city}, ${event_data.state}`;
 
-            document.getElementById(
-              "event-details-modal-event_digital_pass"
-            ).className =
-              event_data.digital_pass === true
-                ? "ti ti-check me-2"
-                : "ti ti-x me-2";
+            // document.getElementById(
+            //   "event-details-modal-event_digital_pass"
+            // ).className =
+            //   event_data.digital_pass === true
+            //     ? "ti ti-check me-2"
+            //     : "ti ti-x me-2";
             document.getElementById(
               "event-details-modal-event_address"
             ).innerText = event_data.event_address;
-          }else{
+          } else {
             document.getElementById("container_data").style.display = "none";
-  let errorDiv = document.getElementById("error_message");
+            let errorDiv = document.getElementById("error_message");
 
-  if (!errorDiv) {
-    errorDiv = document.createElement("div");
-    errorDiv.id = "error_message";
-    errorDiv.style.padding = "50px";
-    errorDiv.style.margin = "10px 50px";
-    errorDiv.classList.add("text-center");
-    errorDiv.style.backgroundColor = "#f8d7da";
-    errorDiv.style.color = "#721c24";
-    errorDiv.style.border = "1px solid #f5c6cb";
-    errorDiv.style.borderRadius = "10px";
-    errorDiv.innerText = result.error;
-    document.body.appendChild(errorDiv);
-  } else {
-    errorDiv.style.display = "block";
-  }
+            if (!errorDiv) {
+              errorDiv = document.createElement("div");
+              errorDiv.id = "error_message";
+              errorDiv.style.padding = "50px";
+              errorDiv.style.margin = "10px 50px";
+              errorDiv.classList.add("text-center");
+              errorDiv.style.backgroundColor = "#f8d7da";
+              errorDiv.style.color = "#721c24";
+              errorDiv.style.border = "1px solid #f5c6cb";
+              errorDiv.style.borderRadius = "10px";
+              errorDiv.innerText = result.error;
+              document.body.appendChild(errorDiv);
+            } else {
+              errorDiv.style.display = "block";
+            }
           }
         } else {
           console.error("Error fetching data:", result.error);
-          
-  
+
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
         // Hide container_data and show error message div
-  
+
       }
     }
   </script>
   <script>
     document.getElementById("customerRegistrationForm").addEventListener("submit", async (event) => {
-        console.log(event);
-        event.preventDefault();
+      console.log(event);
+      event.preventDefault();
 
-        const form = event.target;
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-        showModal(
-          "Confirm Action",
-          "<p>Are you sure you want to create new event?</p>",
-          async () => {
-            // Extract values from form fields
-            let customerName = document.getElementById("fullName").value;
-            let quantity = document.getElementById("quantity").value;
-            let customerNumber = document.getElementById("phone").value;
-            let customerEmail = document.getElementById("email").value;
-            let totalAmount = document.getElementById("total-amount").value;
+      const form = event.target;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      showModal(
+        "Confirm Action",
+        "<p>Are you sure you want to get event pass?</p>",
+        async () => {
+          // Extract values from form fields
+          let customerName = document.getElementById("fullName").value;
+          let quantity = document.getElementById("quantity").value;
+          let customerNumber = document.getElementById("phone").value;
+          let customerEmail = document.getElementById("email").value;
+          let totalAmount = document.getElementById("total-amount").value;
 
-            const bodyData = {
-              seller_id: seller_data.user_id,
-              event_date_id: event_date_data.event_date_id,
-              event_id: event_data.event_id,
-              qty: quantity,
-              amount: totalAmount,
-              customer_name: customerName,
-              customer_email: customerEmail,
-              customer_number: customerNumber,
-            };
+          const bodyData = {
+            seller_id: seller_data.user_id,
+            event_date_id: event_date_data.event_date_id,
+            event_id: event_data.event_id,
+            qty: quantity,
+            amount: totalAmount,
+            customer_name: customerName,
+            customer_email: customerEmail,
+            customer_number: customerNumber,
+          };
 
-            // Call the API
-            const [success, result] = await callApi(
-              "POST",
-              "{% url 'ticket-api-list' %}",
-              bodyData,
-              "{{csrf_token}}"
-            );
+          // Call the API
+          const [success, result] = await callApi(
+            "POST",
+            "{% url 'ticket-api-list' %}",
+            bodyData,
+            "{{csrf_token}}"
+          );
 
-            if (success) {
-              if (result.success) {
-                alert("Ticket booked successfully "); // Show a success message
-              } else {
-                alert("Unexpected Error occurred: " + result.error);
-              }
+          if (success) {
+            if (result.success) {
+              // alert("Ticket booked successfully "); // Show a success message
+              document.getElementById('downloadTicket').href = `{% url 'ticket-pass-api-list' %}?ticket_id=${result.data.ticket_id}`;
+              const thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+              thankYouModal.show();
             } else {
-              alert("Unable to book the ticket");
+              alert("Unexpected Error occurred: " + result.error);
             }
+          } else {
+            alert("Unable to book the ticket");
           }
-        );
-      });
+        }
+      );
+    });
   </script>
 </body>
 

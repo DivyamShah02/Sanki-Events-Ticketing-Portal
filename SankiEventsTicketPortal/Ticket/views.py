@@ -7,11 +7,13 @@ from rest_framework.response import Response
 
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
+from django.http import HttpResponse
 
 from utils.decorators import *
 
 from .models import *
 from .serializers import *
+from .generate_pass import generate_pass
 
 from UserDetail.models import *
 from Event.models import *
@@ -357,6 +359,84 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 "user_not_logged_in": False,
                 "user_unauthorized": False,
                 "data": {'assigned_tickets': assigned_tickets},
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
+class TicketPassViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    def list(self, request):
+        ticket_id = request.GET.get('ticket_id')
+
+        if not ticket_id:
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        ticket_data = Ticket.objects.filter(ticket_id=ticket_id).first()
+        if not ticket_data:
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        buffer = generate_pass(ticket_id, ticket_data.customer_name)
+        response = HttpResponse(buffer, content_type="image/png")
+        response["Content-Disposition"] = 'attachment; filename="Event_Pass.png"'
+
+        return response
+
+
+class ValidateTicketPassViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    def list(self, request):
+        ticket_id = request.GET.get('ticket_id')
+
+        if not ticket_id:
+            data = {
+                "isValid": False,
+                "customerName": ''
+            }
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": data,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        ticket_data = Ticket.objects.filter(ticket_id=ticket_id).first()
+        if not ticket_data:
+            data = {
+                "isValid": False,
+                "customerName": ''
+            }
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": data,
+                    "error": f"Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        data = {
+                "isValid": True,
+                "customerName": ticket_data.customer_name
+            }
+        return Response({
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
                 "error": None
             }, status=status.HTTP_200_OK)
 

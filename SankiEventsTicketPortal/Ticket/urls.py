@@ -11,6 +11,10 @@ router.register(r'send-ticket-mail-api', SendTicketMailViewSet, basename='send-t
 
 router.register(r'assign-ticket-api', AssignTicketViewSet, basename='assign-ticket-api')
 
+router.register(r'ticket-pass-api', TicketPassViewSet, basename='ticket-pass-api')
+
+router.register(r'validate-ticket-pass-api', ValidateTicketPassViewSet, basename='validate-ticket-pass-api')
+
 urlpatterns = [
     path('', include(router.urls))
 ]
