@@ -9,7 +9,7 @@ router.register(r'get-all-ticket-api', AllTicketViewSet, basename='get-all-ticke
 router.register(r'approve-ticket-api', ApproveTicketViewSet, basename='approve-ticket-api')
 router.register(r'send-ticket-mail-api', SendTicketMailViewSet, basename='send-ticket-mail-api')
 
-router.register(r'assign-ticket-mail-api', AssignTicketViewSet, basename='assign-ticket-mail-api')
+router.register(r'assign-ticket-api', AssignTicketViewSet, basename='assign-ticket-api')
 
 urlpatterns = [
     path('', include(router.urls))

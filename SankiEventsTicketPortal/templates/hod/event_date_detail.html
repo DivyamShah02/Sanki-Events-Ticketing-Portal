@@ -175,6 +175,14 @@
                 </div>
 
                 <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Tickets Assigned:
+                    <span id="event-details-modal-event_assigned_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
                   <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
                   <p class="mb-0">Digital Pass</p>
                 </div>
@@ -193,6 +201,11 @@
                   Loading...
                 </h6>
               </li>
+              <div class="mt-4 card-footer px-0 py-2">
+                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateEventModal">
+                  <b>Update available tickets</b>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -312,26 +325,20 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-md-6 d-flex align-items-center mb-3">
-
                   <p class="mb-0" id="assign-tickets-modal-reseller_name">
                     Reseller Name :- Loading..
                   </p>
                 </div>
-
                 <div class="col-md-6 d-flex align-items-center mb-3">
-
                   <p class="mb-0" id="assign-tickets-modal-reseller_email">
                     Reseller Email :- Loading..
                   </p>
                 </div>
-
                 <div class="col-md-6 d-flex align-items-center mb-3">
-
                   <p class="mb-0" id="assign-tickets-modal-event_name">
                     Event Name :- Loading...
                   </p>
                 </div>
-
                 <div class="col-md-6 d-flex align-items-center mb-3">
                   <p class="mb-0" id="assign-tickets-modal-event_date">
                     Event Date :- Loading.. </p>
@@ -346,25 +353,25 @@
                 </div>
 
                 <h5 for="assigntickets" class="form-label mt-3">Assign more tickets</h5>
-                <div class="col-md-12 d-flex align-items-center mb-1">
-
-                  <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets"/>
+                <div class="col-md-12 d-flex align-items-center mb-3">
+                  <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets" />
+                  <input type="hidden" id="assign-tickets-modal-reseller_id" />
                 </div>
-
+                <div class="col-md-12 d-flex mb-1">
+                  <input type="checkbox" class="form-check-input" id="assign-tickets-modal-adjust_total_tickets" />
+                  <label class="form-check-label" for="assign-tickets-modal-adjust_total_tickets"> &nbsp;Adjust total
+                    available tickets</label>
+                </div>
               </div>
-              <!-- Form with 5 fields, only 1 being input -->
-
-              <form>
-
-                <div class="modal-footer p-0">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Assign Tickets
-                  </button>
-                </div>
-              </form>
+              <div class="modal-footer p-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                  id="assign-tickets-modal-assigned_modal_close_btn">
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary" id="assign-tickets-modal-assigned_tickets_btn">
+                  Assign Tickets
+                </button>
+              </div>
             </div>
 
           </div>
@@ -396,6 +403,8 @@
   <!--scripts for dynamic data-->
   <script>
     let data = {};
+    let event_data = null;
+    let event_date_data = null;
     const event_date_id = new URLSearchParams(window.location.search).get(
       "event_date_id"
     );
@@ -416,8 +425,8 @@
           if (result.success) {
             data = result.data; // Extract actual data object
             console.log(data);
-            let event_data = data.event_data;
-            let event_date_data = data.event_date_data;
+            event_data = data.event_data;
+            event_date_data = data.event_date_data;
             let date_html = "";
             event_data.all_dates.forEach((date) => {
               date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
@@ -437,7 +446,7 @@
                   <td class="text-center">${reseller.available_tickets}</td>
                   <td class="text-center">
                     <button type="button" class="btn btn-primary text-nowrap"
-                    onclick="handleAssignTicketsModal('${reseller.name}', '${reseller.email}', '${event_data.event_name}', '${event_date_data.date}', '${reseller.assigned_tickets}', '${reseller.available_tickets}')"
+                    onclick="handleAssignTicketsModal('${reseller.name}', '${reseller.email}', '${event_data.event_name}', '${event_date_data.date}', '${reseller.assigned_tickets}', '${reseller.available_tickets}', '${reseller.user_id}')"
                     >Assign Tickets</button>
                   </td>
               </tr>`;
@@ -489,7 +498,10 @@
             ).innerText = `${event_data.city}, ${event_data.state}`;
             document.getElementById(
               "event-details-modal-event_available_tickets"
-            ).innerText = event_data.number_of_tickets;
+            ).innerText = event_date_data.total_number_of_tickets;
+            document.getElementById(
+              "event-details-modal-event_assigned_tickets"
+            ).innerText = event_date_data.number_of_tickets;
             document.getElementById(
               "event-details-modal-event_digital_pass"
             ).className =
@@ -518,20 +530,61 @@
         console.error("Error fetching data:", error);
       }
     }
-  
-    function handleAssignTicketsModal(reseller_name, reseller_email, event_name, event_date, assigned_tickets, available_tickets) {
-      console.log('earbguobfwobrgtuhb');
+
+    function handleAssignTicketsModal(reseller_name, reseller_email, event_name, event_date, assigned_tickets, available_tickets, reseller_id) {
       document.getElementById('assign-tickets-modal-reseller_name').innerText = `Reseller Name :  ${reseller_name}`;
       document.getElementById('assign-tickets-modal-reseller_email').innerText = `Reseller Email :  ${reseller_email}`;
       document.getElementById('assign-tickets-modal-event_name').innerText = `Event Name :  ${event_name}`;
       document.getElementById('assign-tickets-modal-event_date').innerText = `Event Date :  ${formatDate(event_date)}`;
       document.getElementById('assign-tickets-modal-assigned_tickets').innerText = `Assigned Tickets :  ${assigned_tickets}`;
       document.getElementById('assign-tickets-modal-available_tickets').innerText = `Available Tickets :  ${available_tickets}`;
+      document.getElementById('assign-tickets-modal-reseller_id').value = reseller_id;
       const assignTicketsModal = new bootstrap.Modal(
         document.getElementById("AssignticketsModal")
       );
       assignTicketsModal.show();
     }
+
+    document.getElementById("assign-tickets-modal-assigned_tickets_btn").addEventListener("click", async () => {
+      const assignTickets = document.getElementById("assigntickets").value;
+      if (assignTickets === "") {
+        alert("Please enter the number of tickets to assign");
+        return;
+      }
+      if (isNaN(assignTickets)) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (parseInt(assignTickets) <= 0) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (!document.getElementById('assign-tickets-modal-adjust_total_tickets').checked) {
+        if (parseInt(assignTickets) > (parseInt(event_date_data.total_number_of_tickets) - parseInt(event_date_data.number_of_tickets))) {
+          alert("Tickets assigned cannot be more than available tickets");
+          return;
+        }
+      }
+      const bodyData = {
+        reseller_id: document.getElementById('assign-tickets-modal-reseller_id').value,
+        event_date_id: event_date_id,
+        assigned_tickets: assignTickets
+      };
+      const url = "{% url 'assign-ticket-api-list' %}";
+      const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+      console.log(result);
+      if (success) {
+        if (result.success) {
+          alert("Tickets assigned successfully");
+          fetchHodEventsData();
+          document.getElementById('assign-tickets-modal-assigned_modal_close_btn').click();
+        } else {
+          alert(`Error assigning tickets: ${result.error}`);
+        }
+      } else {
+        alert("Error assigning tickets");
+      }
+    });
   </script>
 
 </body>

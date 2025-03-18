@@ -4,7 +4,7 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 class AssignedTicket(models.Model):
     event_date_id = models.CharField(max_length=10)
-    reseller_id = models.CharField(max_length=10)
+    reseller_id = models.CharField(max_length=12)
     assigned_tickets = models.IntegerField()
 
 class Ticket(models.Model):

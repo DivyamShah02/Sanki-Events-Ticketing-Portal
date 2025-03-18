@@ -23,7 +23,8 @@ class EventDate(models.Model):
     event_date_id = models.CharField(max_length=10, unique=True)
     event_id = models.CharField(max_length=10)
     date = models.DateField()
-    number_of_tickets = models.IntegerField()
+    number_of_tickets = models.IntegerField(null=True, blank=True)
+    total_number_of_tickets = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.event_date_id} - {self.date}"

@@ -316,7 +316,7 @@ class SendTicketMailViewSet(viewsets.ViewSet):
 class AssignTicketViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    @check_authentication()
+    @check_authentication('hod')
     def create(self, request):
         reseller_id = request.data.get('reseller_id')
         event_date_id = request.data.get('event_date_id')
@@ -338,86 +338,25 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 event_date_id=event_date_id,
                 assigned_tickets=assigned_tickets,
             )
+        else:
+            ticket_already_assigned.assigned_tickets = int(ticket_already_assigned.assigned_tickets) + int(assigned_tickets)
+            ticket_already_assigned.save()
+
+        event_date_obj = EventDate.objects.filter(event_date_id=event_date_id).first()        
+        
+        extra_assigned_tickets = int(assigned_tickets) - (int(event_date_obj.total_number_of_tickets) - int(event_date_obj.number_of_tickets))
+        if extra_assigned_tickets < 0:
+            extra_assigned_tickets = 0
+        event_date_obj.total_number_of_tickets = int(event_date_obj.total_number_of_tickets) + extra_assigned_tickets
+
+        event_date_obj.number_of_tickets = int(event_date_obj.number_of_tickets) + int(assigned_tickets)
+        event_date_obj.save()
 
         return Response({
                 "success": True,
                 "user_not_logged_in": False,
                 "user_unauthorized": False,
                 "data": {'assigned_tickets': assigned_tickets},
-                "error": None
-            }, status=status.HTTP_200_OK)
-
-    @handle_exceptions
-    @check_authentication()
-    def list(self, request):
-        reseller_id = request.data.get('reseller_id')
-        event_date_id = request.data.get('event_date_id')  
-
-        if not event_date_id:
-            return Response({
-                    "success": False,
-                    "user_not_logged_in": False,
-                    "user_unauthorized": False,
-                    "data": None,
-                    "error": f"event_date_id required."
-                }, status=status.HTTP_400_BAD_REQUEST)
-
-        if reseller_id:
-            assigned_tickets_obj = AssignedTicket.objects.filter(reseller_id=reseller_id, event_date_id=event_date_id).first()
-        
-        else:
-            assigned_tickets_obj = AssignedTicket.objects.filter(event_date_id=event_date_id)
-
-        assigned_tickets = AssignedTicketSerializer(assigned_tickets_obj, many=True).data
-
-        data = {
-            'assigned_tickets': assigned_tickets,
-            'len_assigned_tickets': len(assigned_tickets)
-        }
-
-        return Response({
-                "success": True,
-                "user_not_logged_in": False,
-                "user_unauthorized": False,
-                "data": data,
-                "error": None
-            }, status=status.HTTP_200_OK)
-
-    @handle_exceptions
-    @check_authentication()
-    def update(self, request):
-        assigned_ticket_id = request.data.get('assigned_ticket_id')
-        if not assigned_ticket_id:
-            return Response(
-                {
-                    "success": False,
-                    "user_not_logged_in": False,
-                    "user_unauthorized": False,
-                    "data": None,
-                    "error": "assigned_ticket_id not provided."
-                }, status=status.HTTP_404_NOT_FOUND)
-
-        assign_ticket_data = AssignedTicket.objects.get(id=assigned_ticket_id)
-        if not assign_ticket_data:
-            return Response(
-                {
-                    "success": False,
-                    "user_not_logged_in": False,
-                    "user_unauthorized": False,
-                    "data": None,
-                    "error": "Assigned Ticket not found."
-                }, status=status.HTTP_404_NOT_FOUND)
-
-        assigned_tickets = int(request.data.get('assigned_tickets', assign_ticket_data.assigned_tickets))
-        assign_ticket_data.assigned_tickets = assigned_tickets
-        assign_ticket_data.save()
-
-        return Response(
-            {
-                "success": True,
-                "user_not_logged_in": False,
-                "user_unauthorized": False,
-                "data": {"assigned_tickets": assigned_tickets},
                 "error": None
             }, status=status.HTTP_200_OK)
 

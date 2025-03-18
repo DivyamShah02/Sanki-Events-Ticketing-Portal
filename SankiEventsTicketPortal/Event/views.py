@@ -53,7 +53,8 @@ class EventViewSet(viewsets.ViewSet):
                 event_id=event_id,
                 event_date_id=self.generate_event_date_id(),
                 date=current_date.date(),
-                number_of_tickets=0
+                number_of_tickets=0,
+                total_number_of_tickets=0
             )
             current_date += timedelta(days=1)
             event_dates.append(current_date)
