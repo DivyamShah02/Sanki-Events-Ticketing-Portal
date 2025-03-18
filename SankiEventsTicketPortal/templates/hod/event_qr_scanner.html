@@ -621,6 +621,7 @@
   <script src="/static/assets/js/plugins/feather.min.js"></script>
   <script src="/static/assets/js/api_caller.js"></script>
   <script src="/static/assets/js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -736,7 +737,7 @@
         video.srcObject = null
       }
 
-      async function tick() {
+      function tick() {
         if (!scanning) return
 
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -766,7 +767,7 @@
             updateStatus("success", "QR code found!")
 
             // Show the result in the modal
-            await showResult(code.data)
+            showResult(code.data)
 
             // Pause scanning
             scanning = false
@@ -782,12 +783,12 @@
         }
       }
 
-      async function showResult(ticketId) {
+      function showResult(ticketId) {
         // Update status
         updateStatus("scanning", "Validating ticket...")
 
         // Call the validation function with the ticket ID
-        await validateTicket(ticketId)
+        validateTicket(ticketId)
       }
 
       // Add this new function to validate tickets
@@ -812,6 +813,7 @@
         } else {
             showErrorScreen()
         }
+
 
 
         // This would be your actual API call
