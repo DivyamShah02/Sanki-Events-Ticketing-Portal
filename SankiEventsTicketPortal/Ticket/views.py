@@ -60,7 +60,8 @@ class TicketViewSet(viewsets.ViewSet):
             customer_email=request.data.get('customer_email'),
             customer_number=request.data.get('customer_number'),
             customer_payment_ss=request.FILES.get('customer_payment_ss', None),
-            approved=False,
+            # approved=False, #To be cheanged
+            approved=True,
             mail_sent=False,
             ticket_sent_codes=""
         )

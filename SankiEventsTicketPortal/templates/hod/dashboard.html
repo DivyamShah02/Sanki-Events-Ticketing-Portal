@@ -209,8 +209,8 @@
                 <div class="card-footer">
                   <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#user-modal">
-                      Preview
+                    <button class="btn btn-sm btn-outline-primary">
+                      Event Details
                     </button>
                   </div>
                 </div>
@@ -381,7 +381,7 @@
 
 
         // Global variables to store event with max revenue
-        let maxEventAmount = 0;
+        let maxEventAmount = -1;
         let maxEvent = null;
 
         let maxResellerAmount = 0;
@@ -395,8 +395,9 @@
             maxEventAmount = event.total_event_ticket_sold_amount;
             maxEvent = event;
           }
+
           const eventItem = `
-                      <a href="#" class="list-group-item list-group-item-action">
+                      <a href="{% url 'event_detail-list' %}?event_id=${event.event_id}" class="list-group-item list-group-item-action">
                           <div class="d-flex">                              
                               <div class="flex-grow-1">
                                   <h6 class="mb-1">${event.event_name}</h6>

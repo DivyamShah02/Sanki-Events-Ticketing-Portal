@@ -136,11 +136,10 @@
                         <p class="mb-0" id="event-details-modal-event_city">Loading...</p>
                       </div>
 
-                      <div class="col-md-6 d-flex align-items-center mb-3">
+                      <!-- <div class="col-md-6 d-flex align-items-center mb-3">
                         <i class="ti ti-ticket me-2"></i>
-                        <p class="mb-0">Tickets Available: <span
-id="event-details-modal-event_available_tickets">Loading...</span></p>
-                      </div>
+                        <p class="mb-0">Tickets Available: <span id="event-details-modal-event_available_tickets">Loading...</span></p>
+                      </div> -->
 
                       <div class="col-md-6 d-flex align-items-center mb-3">
                         <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
@@ -393,7 +392,7 @@ id="event-details-modal-event_available_tickets">Loading...</span></p>
       // document.getElementById('event-details-modal-event_details').innerText = '';
       document.getElementById('event-details-modal-event_date_range').innerText = event_data.event_date_range;
       document.getElementById('event-details-modal-event_city').innerText = `${event_data.city}, ${event_data.state}`;
-      document.getElementById('event-details-modal-event_available_tickets').innerText = event_data.number_of_tickets;
+      // document.getElementById('event-details-modal-event_available_tickets').innerText = event_data.number_of_tickets;
       document.getElementById('event-details-modal-event_digital_pass').className = event_data.digital_pass === true ? "ti ti-check me-2" : "ti ti-x me-2"
       document.getElementById('event-details-modal-event_address').innerText = event_data.event_address;
       document.getElementById('event-details-modal-event_ticket_sold').innerText = event_data.total_event_ticket_sold;

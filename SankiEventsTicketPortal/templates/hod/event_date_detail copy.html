@@ -40,55 +40,6 @@
 <!-- [Head] end -->
 <style>
   /* Custom styles for tabs to match the image */
-  /* Link Container */
-  .link-section {
-    margin-bottom: 16px;
-  }
-
-  .link-label {
-    font-size: 14px;
-    color: #5f6368;
-    margin-bottom: 8px;
-    font-weight: 400;
-  }
-
-  .link-container {
-    display: flex;
-    align-items: center;
-    border: 1px solid #dadce0;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #f1f3f4;
-  }
-
-  .link-input {
-    flex-grow: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: #3c4043;
-    font-size: 14px;
-    padding: 10px 12px;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  .copy-btn {
-    background-color: #1a73e8;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-family: 'Google Sans', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background-color 0.2s;
-  }
-
-  .copy-btn:hover {
-    background-color: #1765cc;
-  }
-
   .nav-tabs {
     border-bottom: 1px solid #dee2e6;
     width: 100%;
@@ -215,7 +166,7 @@
                   </p>
                 </div>
 
-                <!-- <div class="col-md-6 d-flex align-items-center mb-3">
+                <div class="col-md-6 d-flex align-items-center mb-3">
                   <i class="ti ti-ticket me-2"></i>
                   <p class="mb-0">
                     Tickets Available:
@@ -229,7 +180,7 @@
                     Tickets Assigned:
                     <span id="event-details-modal-event_assigned_tickets">Loading...</span>
                   </p>
-                </div> -->
+                </div>
 
                 <div class="col-md-6 d-flex align-items-center mb-3">
                   <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
@@ -275,66 +226,91 @@
               <h6 class="mb-4" id="event-details-modal-event_total_sales">
                 Loading...
               </h6>
-              <div class="mt-4 card-footer px-0 py-0">
-                <!-- <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateEventModal">
-                  <b>Update available tickets</b>
-                </button> -->
-                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#shareLinkModal">
-                  <b>Get Selling link</b>
-                </button>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="shareLinkModal" tabindex="-1" aria-labelledby="shareLinkModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="shareLinkModalLabel">Share link</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="link-section">
-                <div class="link-label">link</div>
-                <div class="link-container">
-                  <input type="text" class="link-input" value="http://127.0.0.1:8000/ticket_sale/?seller_id=HO8087855579&event_date_id=8242047787" readonly>
-                  <button class="copy-btn" id="copyLinkBtn">Copy</button>
-                </div>
-              </div>              
-            </div>            
           </div>
         </div>
       </div>
 
       <div class="container mt-4 flex">
-        <div class="col-md-12 col-xl-12">
-          <!-- <h5 class="mb-3">Ticket Status</h5> -->
-          <div class="card tbl-card">
-            <div class="card-body mt-0">
-              <h3>All Tickets</h3>
-              <div class="table-responsive">
-                <table class="table table-hover table-borderless mb-0">
-                  <thead>
-                    <tr>
-                      <th>CUSTOMER NAME</th>
-                      <th class="text-center">EVENT NAME</th>
-                      <th class="text-center">QUANTITY</th>
-                      <th class="text-center">STATUS</th>
-                      <th class="text-center">TOTAL AMOUNT</th>
-                    </tr>
-                  </thead>
-                  <tbody id="ticket-sales-table-body">
-                    <!-- Dynamic ticket sales data will be populated here -->
-                  </tbody>
-                </table>
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="resellers-tab" data-bs-toggle="tab" data-bs-target="#resellers-section"
+              type="button" role="tab" aria-controls="resellers-section" aria-selected="true">
+              All Resellers
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets-section"
+              type="button" role="tab" aria-controls="tickets-section" aria-selected="false">
+              All Tickets
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="myTabContent">
+          <!-- Resellers Section -->
+          <div class="tab-pane fade show active" id="resellers-section" role="tabpanel" aria-labelledby="resellers-tab">
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">All Resellers</h5> -->
+              <div class="card tbl-card">
+                <div class="card-body pt-0">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-borderless mb-0">
+                      <thead>
+                        <tr>
+                          <th>NAME</th>
+                          <th class="text-center text-nowrap">EMAIL</th>
+                          <th class="text-center text-nowrap">TICKETS SOLD</th>
+                          <th class="text-center text-nowrap">AVAILABLE</th>
+                          <th class="text-center text-nowrap">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody id="resellers-list">
+                        <!-- Dynamic ticket sales data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resellers List -->
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">All Resellers</h5> -->
+              <div class="card" style="max-height: 495px">
+                <div class="list-group list-group-flush overflow-y-scroll" id="resellers-list"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Tickets Section -->
+          <div class="tab-pane fade" id="tickets-section" role="tabpanel" aria-labelledby="tickets-tab">
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">Ticket Status</h5> -->
+              <div class="card tbl-card">
+                <div class="card-body mt-0">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-borderless mb-0">
+                      <thead>
+                        <tr>
+                          <th>CUSTOMER NAME</th>
+                          <th>EVENT NAME</th>
+                          <th>QUANTITY</th>
+                          <th>STATUS</th>
+                          <th class="text-end">TOTAL AMOUNT</th>
+                        </tr>
+                      </thead>
+                      <tbody id="ticket-sales-table-body">
+                        <!-- Dynamic ticket sales data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- Assign Tickets Modal -->
@@ -459,6 +435,26 @@
               date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
             });
 
+            //populate reseller list 
+            const resellerTable = document.getElementById(
+              "resellers-list"
+            );
+            resellerTable.innerHTML = "";
+            data.reseller_data.forEach((reseller) => {
+              const ticketRow = `
+              <tr>
+                  <td class="text-nowrap"><b>${reseller.name}</b></td>
+                  <td class="text-center">${reseller.email}</td>
+                  <td class="text-center">${reseller.total_tickets_sold_seller} ( ₹${reseller.total_tickets_sold_seller_amount.toLocaleString("en-IN")} )</td>
+                  <td class="text-center">${reseller.available_tickets}</td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-primary text-nowrap"
+                    onclick="handleAssignTicketsModal('${reseller.name}', '${reseller.email}', '${event_data.event_name}', '${event_date_data.date}', '${reseller.assigned_tickets}', '${reseller.available_tickets}', '${reseller.user_id}')"
+                    >Assign Tickets</button>
+                  </td>
+              </tr>`;
+              resellerTable.innerHTML += ticketRow;
+            });
 
             // Populate ticket sales table dynamically
             const ticketTableBody = document.getElementById(
@@ -475,11 +471,17 @@
               }
               const ticketRow = `
               <tr>
-                  <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
-                  <td class="text-center">${ticket.event_name}</td>
-                  <td class="text-center">${ticket.qty}</td>
-                  <td class="text-center"><span class="align-items-center gap-2"><i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}</span></td>
-                  <td class="text-center">₹${ticket.amount.toLocaleString("en-IN")}</td>
+                  <td><a href="#" class="text-muted">${ticket.customer_name
+                }</a></td>
+                  <td>${ticket.event_name}</td>
+                  <td>${ticket.qty}</td>
+                  <td>
+                       <span class="d-flex align-items-center gap-2">
+                                <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status
+                }
+                        </span>
+                  </td>
+                  <td class="text-end">₹${ticket.amount.toLocaleString("en-IN")}</td>
               </tr>`;
               ticketTableBody.innerHTML += ticketRow;
             });
@@ -497,12 +499,12 @@
             document.getElementById(
               "event-details-modal-event_city"
             ).innerText = `${event_data.city}, ${event_data.state}`;
-            // document.getElementById(
-            //   "event-details-modal-event_available_tickets"
-            // ).innerText = event_date_data.total_number_of_tickets;
-            // document.getElementById(
-            //   "event-details-modal-event_assigned_tickets"
-            // ).innerText = event_date_data.number_of_tickets;
+            document.getElementById(
+              "event-details-modal-event_available_tickets"
+            ).innerText = event_date_data.total_number_of_tickets;
+            document.getElementById(
+              "event-details-modal-event_assigned_tickets"
+            ).innerText = event_date_data.number_of_tickets;
             document.getElementById(
               "event-details-modal-event_digital_pass"
             ).className =
@@ -586,48 +588,6 @@
         alert("Error assigning tickets");
       }
     });
-
-    function copyToClipboard(button, input, message) {
-          // Select the text
-          input.select();
-          input.setSelectionRange(0, 99999); // For mobile devices
-          
-          // Copy the text
-          navigator.clipboard.writeText(input.value)
-              .then(() => {
-                  // Show the toast with appropriate message
-                  copyToast.textContent = message;
-                  copyToast.classList.add('show');
-                  
-                  // Change button text temporarily
-                  const originalText = button.textContent;
-                  console.log(originalText);
-                  button.textContent = 'Copied';
-                  
-                  // Reset button text after 2 seconds
-                  setTimeout(() => {
-                      button.textContent = originalText;
-                  }, 2000);
-                  
-                  // Hide the toast after 3 seconds
-                  setTimeout(() => {
-                      copyToast.classList.remove('show');
-                  }, 3000);
-              })
-              .catch(err => {
-                  console.error('Could not copy text: ', err);
-              });
-      }
-
-    const copyLinkBtn = document.getElementById('copyLinkBtn');
-    
-    const linkInputs = document.querySelectorAll('.link-input');
-    const copyToast = document.getElementById('copyToast');
-    copyLinkBtn.addEventListener('click', function() {
-        copyToClipboard(this, linkInputs[0], 'Link copied');
-    });
-
-  
   </script>
 
 </body>
