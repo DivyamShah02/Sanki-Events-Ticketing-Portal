@@ -22,10 +22,11 @@ def generate_pass(ticket_id, name, gate_no):
     qr_position = (265, 710)  # (w, h)
     base_img.paste(qr_img, qr_position, qr_img)
 
-    try:
-        font = ImageFont.truetype("arialbd.ttf", 50)
-    except IOError:
-        font = ImageFont.load_default()
+    # try:
+    #     font = ImageFont.truetype("arialbd.ttf", 50)
+    # except IOError:
+    #     font = ImageFont.load_default(size=50)
+    font = ImageFont.load_default(size=50)
 
     draw = ImageDraw.Draw(base_img)
 

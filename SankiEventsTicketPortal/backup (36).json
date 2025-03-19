@@ -1,0 +1,351 @@
+[
+{
+  "model": "sessions.session",
+  "pk": "5ocv6l17zxw38wbp3sne4t0eri5gkvbl",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSGXC4Xi0r3fQC6PWtSAKW2iMf67bdKFZnYzZ86bOVrm0S0tTS5HdmSSHX47T-GWyjbEK5VL5aGWecqebwjf18bPNab7aWf_BCO1cX17GqQUYNeA6UGqXsUOBdIQjTQowGAQFH0gTcKgRK_80CWldQjW6n6TttRarsWl5yNPL3bEziIAfL7FDz9r:1tuxMs:xebbThP9OvetCnqzQDVadxPikE6UTmPVraxezk3xVkw",
+    "expire_date": "2025-04-18T17:38:14.295Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "abgqbqjgkiv7eqgz7gpew8a9xazplyag",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-FsyEF-rP06N1nIMuytaiBprSJxvjutkkPOseZb763cLguo1sLzy4G0QslTr-dR7pz2odww3TNknJa5ujljshjLfKSAz_OB_snGLGM2xvJeOw61mBbGGpttgzGBmy1t-RBBc_ka92Qso3VQ4dAAZRVwK0BU-_SwqXEnBw_pzi_RK83sKqqzxcLJ0An:1tueG7:0G54Kj_UA8vtfzjO2qN94He2zESPwMTm2lTE92_F4DA",
+    "expire_date": "2025-04-17T21:13:59.253Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "cf8hf7rwhz9jql2l5k7ky1zebbre9qow",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSGXC4Xi0r3fQC6PWtSAKW2iMf67bdKFZnYzZ86bOVrm0S0tTS5HdmSSHX47T-GWyjbEK5VL5aGWecqebwjf18bPNab7aWf_BCO1cX17GqQUYNeA6UGqXsUOBdIQjTQowGAQFH0gTcKgRK_80CWldQjW6n6TttRarsWl5yNPL3bEziIAfL7FDz9r:1tuyEI:Uq8uOzUoSEso78B3L1Pow5zvjOb7F9wS4--oxstZ7HI",
+    "expire_date": "2025-04-18T18:33:26.167Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "egs25qs1ewty07zx8gzl9zmmzit930dy",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-FsyEF-rP06N1nIMuytaiBprSJxvjutkkPOseZb763cLguo1sLzy4G0QslTr-dR7pz2odww3TNknJa5ujljshjLfKSAz_OB_snGLGM2xvJeOw61mBbGGpttgzGBmy1t-RBBc_ka92Qso3VQ4dAAZRVwK0BU-_SwqXEnBw_pzi_RK83sKqqzxcLJ0An:1tuxZU:kQ7L7Y8xI_UddrMsXxKEACBAnJaz2u-jrKfabYMMv6U",
+    "expire_date": "2025-04-18T17:51:16.823Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "pr5b80wktgohjwf3wqtf519gfaeufmzk",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSGXC4Xi0r3fQC6PWtSAKW2iMf67bdKFZnYzZ86bOVrm0S0tTS5HdmSSHX47T-GWyjbEK5VL5aGWecqebwjf18bPNab7aWf_BCO1cX17GqQUYNeA6UGqXsUOBdIQjTQowGAQFH0gTcKgRK_80CWldQjW6n6TttRarsWl5yNPL3bEziIAfL7FDz9r:1tucLq:rQRndHmWRWEIZqh3xYJAMJ4bAd2hZUYr3pau_ghEY5s",
+    "expire_date": "2025-04-17T19:11:46.699Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qa20kourarxifq3b2iykgqv2rrfyif6n",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-FsyEF-rP06N1nIMuytaiBprSJxvjutkkPOseZb763cLguo1sLzy4G0QslTr-dR7pz2odww3TNknJa5ujljshjLfKSAz_OB_snGLGM2xvJeOw61mBbGGpttgzGBmy1t-RBBc_ka92Qso3VQ4dAAZRVwK0BU-_SwqXEnBw_pzi_RK83sKqqzxcLJ0An:1tucHQ:q5Ajvk2loEUF8eDE5oPMa-3lHyG8AohWCKjI-pKpqs0",
+    "expire_date": "2025-04-17T19:07:12.562Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "vikh5fiszzz9gnklmorkp63cseqjvedw",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSGXC4Xi0r3fQC6PWtSAKW2iMf67bdKFZnYzZ86bOVrm0S0tTS5HdmSSHX47T-GWyjbEK5VL5aGWecqebwjf18bPNab7aWf_BCO1cX17GqQUYNeA6UGqXsUOBdIQjTQowGAQFH0gTcKgRK_80CWldQjW6n6TttRarsWl5yNPL3bEziIAfL7FDz9r:1tuygi:Kj-IaXV6uURjB7nWDhzj6lbrqnEvBWISo8_Xz_Q2RLc",
+    "expire_date": "2025-04-18T19:02:48.428Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "vlu7e6vhjw44zw0s6vtjjkxuzvncbwcf",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAURP-FtSGXC4Xi0r3fQC6PWtSAKW2iMf67bdKFZnYzZ86bOVrm0S0tTS5HdmSSHX47T-GWyjbEK5VL5aGWecqebwjf18bPNab7aWf_BCO1cX17GqQUYNeA6UGqXsUOBdIQjTQowGAQFH0gTcKgRK_80CWldQjW6n6TttRarsWl5yNPL3bEziIAfL7FDz9r:1tuyYT:YgT9ae7H7M9kkSjiEW_Y7_q9mXvoSht5GBATDa0Ndiw",
+    "expire_date": "2025-04-18T18:54:17.626Z"
+  }
+},
+{
+  "model": "UserDetail.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$x8wJdorHIWTW2sM62Atkzo$BSbsyr+qInkGNSoU8Rz6HbF4J7lsEzrqpLdcYfPhtXU=",
+    "last_login": "2025-03-19T18:54:57.673Z",
+    "is_superuser": true,
+    "username": "AD1666900873",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@dynamiclabz.net",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-03-18T18:58:14.582Z",
+    "role": "admin",
+    "user_id": "AD1666900873",
+    "name": "Admin",
+    "contact_number": "0987654321",
+    "profile_picture": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "UserDetail.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$QMg9DskcqYt2yBiOlVge2J$RnIe0rpJUJ3En7dnr/E7z7GT8JzicLhBBr29WIk9pCw=",
+    "last_login": "2025-03-19T19:02:48.405Z",
+    "is_superuser": false,
+    "username": "HO8087855579",
+    "first_name": "",
+    "last_name": "",
+    "email": "vaayu.24@sankievents.in",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-03-18T19:10:30Z",
+    "role": "hod",
+    "user_id": "HO8087855579",
+    "name": "Vaayu 24",
+    "contact_number": "1234567890",
+    "profile_picture": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "Event.event",
+  "pk": 1,
+  "fields": {
+    "event_id": "2694402408",
+    "hod_id": "RE0865457724",
+    "event_name": "Vaayu’24 Pronite",
+    "event_details": "Vaayu’24 Pronite",
+    "event_venue": "JVPD Grounds",
+    "event_date_range": "2025-03-21 | 2025-03-21",
+    "event_address": "JVPD Grounds, Juhu",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "digital_pass": true,
+    "s3_bucket_folder": "s3://sankievents/Events/Vaayu’24 Pronite/"
+  }
+},
+{
+  "model": "Event.eventdate",
+  "pk": 1,
+  "fields": {
+    "event_date_id": "8242047787",
+    "event_id": "2694402408",
+    "date": "2025-03-21",
+    "number_of_tickets": 0,
+    "total_number_of_tickets": 0
+  }
+},
+{
+  "model": "Ticket.ticket",
+  "pk": 1,
+  "fields": {
+    "ticket_id": "5091866359",
+    "event_id": "2694402408",
+    "event_date_id": "8242047787",
+    "seller_id": "HO8087855579",
+    "qty": 1,
+    "amount": 0,
+    "sold_date": "2025-03-19",
+    "customer_name": "Divyam shah",
+    "customer_email": "divyamshah1234@gmail.com",
+    "customer_number": "9054413199",
+    "customer_payment_ss": "",
+    "scanned": false,
+    "approved": true,
+    "mail_sent": false,
+    "ticket_sent_codes": ""
+  }
+},
+{
+  "model": "Ticket.ticket",
+  "pk": 2,
+  "fields": {
+    "ticket_id": "0704300152",
+    "event_id": "2694402408",
+    "event_date_id": "8242047787",
+    "seller_id": "HO8087855579",
+    "qty": 1,
+    "amount": 0,
+    "sold_date": "2025-03-19",
+    "customer_name": "Akshat Shah",
+    "customer_email": "dd@ee.com",
+    "customer_number": "1234567890",
+    "customer_payment_ss": "",
+    "scanned": false,
+    "approved": true,
+    "mail_sent": false,
+    "ticket_sent_codes": ""
+  }
+},
+{
+  "model": "Ticket.ticket",
+  "pk": 3,
+  "fields": {
+    "ticket_id": "4572356960",
+    "event_id": "2694402408",
+    "event_date_id": "8242047787",
+    "seller_id": "HO8087855579",
+    "qty": 1,
+    "amount": 0,
+    "sold_date": "2025-03-19",
+    "customer_name": "feargrearf ergs",
+    "customer_email": "cdaferg@earg.com",
+    "customer_number": "1234567890",
+    "customer_payment_ss": "",
+    "scanned": false,
+    "approved": true,
+    "mail_sent": false,
+    "ticket_sent_codes": ""
+  }
+},
+{
+  "model": "Ticket.ticket",
+  "pk": 4,
+  "fields": {
+    "ticket_id": "2674234769",
+    "event_id": "2694402408",
+    "event_date_id": "8242047787",
+    "seller_id": "HO8087855579",
+    "qty": 1,
+    "amount": 0,
+    "sold_date": "2025-03-20",
+    "customer_name": "esrtgg tssttts",
+    "customer_email": "sergt@seg.com",
+    "customer_number": "134433434",
+    "customer_payment_ss": "",
+    "scanned": true,
+    "approved": true,
+    "mail_sent": false,
+    "ticket_sent_codes": ""
+  }
+},
+{
+  "model": "Ticket.ticket",
+  "pk": 5,
+  "fields": {
+    "ticket_id": "3446942286",
+    "event_id": "2694402408",
+    "event_date_id": "8242047787",
+    "seller_id": "HO8087855579",
+    "qty": 1,
+    "amount": 0,
+    "sold_date": "2025-03-20",
+    "customer_name": "Called kelfkc",
+    "customer_email": "skekek@skekd.com",
+    "customer_number": "13268674",
+    "customer_payment_ss": "",
+    "scanned": true,
+    "approved": true,
+    "mail_sent": false,
+    "ticket_sent_codes": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-03-18T19:02:51.140Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "UserDetail",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "RE0865457724",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Role\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-03-18T19:07:27.758Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "UserDetail",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "RE0865457724",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\", \"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-03-18T19:10:19.181Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "UserDetail",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "RE0865457724",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-03-18T19:12:04.728Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "UserDetail",
+      "user"
+    ],
+    "object_id": "3",
+    "object_repr": "HO8087855579",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\", \"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-03-19T06:09:55.662Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "Event",
+      "event"
+    ],
+    "object_id": "1",
+    "object_repr": "Vaayu’24 Pronite",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Event details\", \"Digital pass\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-03-19T18:53:15.525Z",
+    "user": [
+      "AD1666900873"
+    ],
+    "content_type": [
+      "UserDetail",
+      "user"
+    ],
+    "object_id": "3",
+    "object_repr": "HO8087855579",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Email address\", \"Name\", \"Contact number\"]}}]"
+  }
+}
+]

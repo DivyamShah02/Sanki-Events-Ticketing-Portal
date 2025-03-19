@@ -442,17 +442,16 @@ class ValidateTicketPassViewSet(viewsets.ViewSet):
             data = {
                 "isValid": False,
                 "already_scanned": True,
-                "customerName": ''
+                "customerName": ticket_data.customer_name
             }
         else:
             ticket_data.scanned = True
             ticket_data.save()
-
-        data = {
-                "isValid": True,
-                "already_scanned": False,
-                "customerName": ticket_data.customer_name
-            }
+            data = {
+                    "isValid": True,
+                    "already_scanned": False,
+                    "customerName": ticket_data.customer_name
+                }
         return Response({
                 "success": True,
                 "user_not_logged_in": False,

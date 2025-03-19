@@ -1,0 +1,41 @@
+###---> Backing up user data from server to local machine <---###
+-> get bakcup from server with this command (cd to main dir):
+python manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 2 > backup.json
+
+-> copy the content of backup.json and paste it to local dir and run this command (make sure the encoding of the file is UTF-8):
+python manage.py loaddata backup.json
+python manage.py makemigrations
+python manage.py migrate
+
+-> make sure to copy the folder 'media' from the server side
+-> follow this commands and execute them in the console
+-> first we need to zip the folder 'media' make sure to cd in the main file (Bakers-Hub)
+zip -r /home/divyam/media media
+-> download the zip file from home/divyam
+-> unzip the folder in local machine and copy all the files to the media folder of Bakers-Hub
+
+
+
+###---> Pushing new code to server via github <---###
+## in local machine ##
+->copy all files from BakersHub folder to Bakers-Hub folder
+->Open Git Bash with administration permission
+->cd to onedrive/desktop/Bakers-Hub (make sure the dir is main)
+->write this commands one by one
+git add.
+git commit -m "{commit message}"
+git push origin main
+
+## in server console ##
+-> change the name of exisiting folder
+-> make the repository in git hub public
+-> run this command in the console one by one 
+git clone https://github.com/DivyamShah02/Bakers-Hub.git
+cd Bakers-Hub
+python manage.py loaddata backup.json
+python manage.py makemigrations
+python manage.py migrate
+-> make the repository in git hub private
+-> Reload the server
+
+$$$ BOOM WEBSITE IS UPDATED $$$

@@ -543,7 +543,7 @@
                   <circle cx="12" cy="13" r="4"></circle>
                 </svg>
               </span>
-              Start Scanner
+              Scan
             </button>
             <button id="switchCameraButton" class="btn btn-outline-primary d-none">
               <span class="icon">
@@ -722,7 +722,7 @@
         }
 
         scanning = false
-        startButton.textContent = "Start Scanner"
+        startButton.textContent = "Scan"
         startButton.classList.remove("btn-danger")
         startButton.classList.add("btn-primary")
         switchCameraButton.classList.add("d-none")
@@ -771,7 +771,7 @@
 
             // Pause scanning
             scanning = false
-            startButton.textContent = "Start Scanner"
+            startButton.textContent = "Scan"
             startButton.classList.remove("btn-danger")
             startButton.classList.add("btn-primary")
           }
@@ -805,7 +805,7 @@
               showSuccessScreen(result.data.customerName)
             } else {
               if (result.data.already_scanned) {
-                showAlreadyScannedScreen()
+                showAlreadyScannedScreen(result.data.customerName)
               }
               else {
                 showErrorScreen()
@@ -874,7 +874,7 @@
             document.body.removeChild(successOverlay)
             // Reset scanner
             if (!scanning) {
-              startButton.textContent = "Start Scanner"
+              startButton.textContent = "Scan"
               startButton.classList.remove("btn-danger")
               startButton.classList.add("btn-primary")
               updateStatus("", "Ready to scan")
@@ -919,7 +919,7 @@
             document.body.removeChild(errorOverlay)
             // Reset scanner
             if (!scanning) {
-              startButton.textContent = "Start Scanner"
+              startButton.textContent = "Scan"
               startButton.classList.remove("btn-danger")
               startButton.classList.add("btn-primary")
               updateStatus("", "Ready to scan")
@@ -928,7 +928,7 @@
         }, 4000)
       }
 
-      function showAlreadyScannedScreen() {
+      function showAlreadyScannedScreen(customerName) {
         // Create error overlay
         const errorOverlay = document.createElement("div")
         errorOverlay.className = "error-overlay"
@@ -940,8 +940,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </div>
                 <div class="error-message">
-                    <h2>Already Scanned</h2>
-                    <p>This ticket is already scanned</p>
+                    <h2>Already Scanned</h2>                    
+                    <p class="customer-name text-white">${customerName}</p>
                 </div>
             </div>
         `
@@ -964,7 +964,7 @@
             document.body.removeChild(errorOverlay)
             // Reset scanner
             if (!scanning) {
-              startButton.textContent = "Start Scanner"
+              startButton.textContent = "Scan"
               startButton.classList.remove("btn-danger")
               startButton.classList.add("btn-primary")
               updateStatus("", "Ready to scan")
