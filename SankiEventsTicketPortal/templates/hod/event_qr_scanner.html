@@ -804,7 +804,12 @@
             if (result.data.isValid) {
               showSuccessScreen(result.data.customerName)
             } else {
-              showErrorScreen()
+              if (result.data.already_scanned) {
+                showAlreadyScannedScreen()
+              }
+              else {
+                showErrorScreen()
+              }              
             }
           }
           else {
@@ -833,7 +838,6 @@
         // }, 1500) // Simulate API delay
       }
 
-      // Add this function to show the success screen
       function showSuccessScreen(customerName) {
         // Create success overlay
         const successOverlay = document.createElement("div")
@@ -879,7 +883,6 @@
         }, 4000)
       }
 
-      // Add this function to show the error screen
       function showErrorScreen() {
         // Create error overlay
         const errorOverlay = document.createElement("div")
@@ -894,6 +897,51 @@
                 <div class="error-message">
                     <h2>Invalid Ticket</h2>
                     <p>This ticket cannot be accepted</p>
+                </div>
+            </div>
+        `
+
+        // Add to body
+        document.body.appendChild(errorOverlay)
+
+        // Add animation class after a small delay (for animation to work)
+        setTimeout(() => {
+          errorOverlay.classList.add("show")
+        }, 10)
+
+        // Update status
+        updateStatus("error", "Invalid ticket")
+
+        // Remove the overlay after 4 seconds
+        setTimeout(() => {
+          errorOverlay.classList.remove("show")
+          setTimeout(() => {
+            document.body.removeChild(errorOverlay)
+            // Reset scanner
+            if (!scanning) {
+              startButton.textContent = "Start Scanner"
+              startButton.classList.remove("btn-danger")
+              startButton.classList.add("btn-primary")
+              updateStatus("", "Ready to scan")
+            }
+          }, 500)
+        }, 4000)
+      }
+
+      function showAlreadyScannedScreen() {
+        // Create error overlay
+        const errorOverlay = document.createElement("div")
+        errorOverlay.className = "error-overlay"
+
+        // Create error content
+        errorOverlay.innerHTML = `
+            <div class="error-content">
+                <div class="error-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+                <div class="error-message">
+                    <h2>Already Scanned</h2>
+                    <p>This ticket is already scanned</p>
                 </div>
             </div>
         `

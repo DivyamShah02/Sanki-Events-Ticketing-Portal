@@ -511,7 +511,7 @@
     </div>
     
     <!-- Thank You Modal -->
-    <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -525,8 +525,11 @@
             <!-- <button id="downloadTicket" class="download-btn">
               <i class="bi bi-download me-1"></i> Download Ticket
             </button> -->
-            <a type="button" class="btn btn-primary btn-lg px-5 mt-3" id="downloadTicket" href="#" download="ticket.png">
-              <i class="fas fa-download me-2"></i> Download Ticket
+            <a type="button" class="btn btn-primary px-5 mt-3" id="downloadTicket" href="#" download="ticket.png">
+              <i class="fas fa-download me-2"></i> Download Front Ticket
+            </a>
+            <a type="button" class="btn btn-primary px-5 mt-3" href="/static/assets/img/back_ticket.png" download="back_ticket.png">
+              <i class="fas fa-download me-2"></i> Download Back Ticket
             </a>
           </div>
         </div>
@@ -651,7 +654,8 @@
               errorDiv.style.color = "#721c24";
               errorDiv.style.border = "1px solid #f5c6cb";
               errorDiv.style.borderRadius = "10px";
-              errorDiv.innerText = result.error;
+              // errorDiv.innerText = result.error;
+              errorDiv.innerHTML = `${result.error} <a href="https://www.instagram.com/sankievents/">@SankiEvents</a>`;
               document.body.appendChild(errorDiv);
             } else {
               errorDiv.style.display = "block";

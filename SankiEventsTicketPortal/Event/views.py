@@ -556,7 +556,8 @@ class TicketSaleEventDetailViewSet(viewsets.ViewSet):
                     "user_not_logged_in": False,
                     "user_unauthorized": False,
                     "data": None,
-                    "error": "Event Date not found."
+                    # "error": "Event Date not found."
+                    "error": "Event Registration has been closed. For further updates check our insta page - "
                 }, status=status.HTTP_404_NOT_FOUND)
 
         event_date_data = EventDateSerializer(event_date_obj).data

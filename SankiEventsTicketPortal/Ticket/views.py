@@ -389,7 +389,16 @@ class TicketPassViewSet(viewsets.ViewSet):
                     "error": f"Ticket not found."
                 }, status=status.HTTP_404_NOT_FOUND)
 
-        buffer = generate_pass(ticket_id, ticket_data.customer_name)
+        all_ticket_count = Ticket.objects.filter(event_date_id=ticket_data.event_date_id).count()
+        if (all_ticket_count > 1000) and (all_ticket_count < 2000):
+            buffer = generate_pass(ticket_id, ticket_data.customer_name, 2)
+        
+        elif (all_ticket_count > 3000) and (all_ticket_count < 4000):
+            buffer = generate_pass(ticket_id, ticket_data.customer_name, 2)
+        
+        else:
+            buffer = generate_pass(ticket_id, ticket_data.customer_name, 1)
+        
         response = HttpResponse(buffer, content_type="image/png")
         response["Content-Disposition"] = 'attachment; filename="Event_Pass.png"'
 
@@ -415,7 +424,7 @@ class ValidateTicketPassViewSet(viewsets.ViewSet):
                     "error": f"All details are required."
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        ticket_data = Ticket.objects.filter(ticket_id=ticket_id).first()
+        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
         if not ticket_data:
             data = {
                 "isValid": False,
@@ -429,8 +438,19 @@ class ValidateTicketPassViewSet(viewsets.ViewSet):
                     "error": f"Ticket not found."
                 }, status=status.HTTP_404_NOT_FOUND)
 
+        if ticket_data.scanned:
+            data = {
+                "isValid": False,
+                "already_scanned": True,
+                "customerName": ''
+            }
+        else:
+            ticket_data.scanned = True
+            ticket_data.save()
+
         data = {
                 "isValid": True,
+                "already_scanned": False,
                 "customerName": ticket_data.customer_name
             }
         return Response({
