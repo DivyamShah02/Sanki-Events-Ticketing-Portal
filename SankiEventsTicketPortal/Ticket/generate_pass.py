@@ -6,7 +6,8 @@ from django.conf import settings
 
 def generate_pass(ticket_id, name, gate_no):
     # pass_image_path = "Vaayu'24 Pronite Pass.png"
-    pass_image_path = os.path.join(settings.BASE_DIR, f"static/assets/img/front_{gate_no}.png")
+    # pass_image_path = os.path.join(settings.BASE_DIR, f"static/assets/img/front_{gate_no}.png")
+    pass_image_path = os.path.join(settings.BASE_DIR, f"static/assets/img/Navratri_Garba_Night_Invitation.png")
 
     base_img = Image.open(pass_image_path)
 
@@ -16,22 +17,22 @@ def generate_pass(ticket_id, name, gate_no):
     
     qr_img = qr.make_image(fill="black", back_color="white").convert("RGBA")
     
-    qr_size = (275, 275)  
+    qr_size = (475, 475)  
     qr_img = qr_img.resize(qr_size)
     
-    qr_position = (265, 710)  # (w, h)
+    qr_position = (380, 620)  # (w, h)
     base_img.paste(qr_img, qr_position, qr_img)
 
     # try:
     #     font = ImageFont.truetype("arialbd.ttf", 50)
     # except IOError:
     #     font = ImageFont.load_default(size=50)
-    font = ImageFont.load_default(size=50)
+    font = ImageFont.load_default(size=70)
 
     draw = ImageDraw.Draw(base_img)
 
-    text_position = (265, 1030)  
-    text_color = (255, 255, 255)  
+    text_position = (370, 1120)  
+    text_color = (0, 0, 0)  
 
     draw.text(text_position, name, font=font, fill=text_color)
 

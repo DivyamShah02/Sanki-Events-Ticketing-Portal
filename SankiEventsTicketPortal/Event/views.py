@@ -646,7 +646,7 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
         reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
         
         all_ticket_obj = Ticket.objects.all()
-        all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+        # all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
         all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
@@ -665,8 +665,8 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
             'reseller_data': reseller_data[::-1],
             'len_reseller_data': len(reseller_data),
 
-            'all_ticket_data': all_ticket_data,
-            'len_all_ticket_data': len(all_ticket_data),
+            # 'all_ticket_data': all_ticket_data,
+            # 'len_all_ticket_data': len(all_ticket_data),
 
             'all_tickets_sold': all_tickets_sold,
             'all_tickets_sold_amount': all_tickets_sold_amount,
