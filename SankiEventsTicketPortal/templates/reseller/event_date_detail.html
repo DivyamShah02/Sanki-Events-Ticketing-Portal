@@ -87,6 +87,7 @@
   .copy-btn:hover {
     background-color: #1765cc;
   }
+
   .nav-tabs {
     border-bottom: 1px solid #dee2e6;
     width: 100%;
@@ -282,6 +283,7 @@
                   <!-- Dynamic ticket sales data will be populated here -->
                 </tbody>
               </table>
+              <div class="pagination mt-3 text-center" id="paginationControls"></div>
             </div>
           </div>
         </div>
@@ -437,8 +439,12 @@
     let assigned_tickets = null;
     let total_event_ticket_sold = null;
     let total_approved_event_ticket = null;
+    let event_data = null;
+    let event_date_data = null;
     let digital_pass = null;
-    
+    let currentPage = 1;
+    const ticketsPerPage = 10;
+
     const event_date_id = new URLSearchParams(window.location.search).get(
       "event_date_id"
     );
@@ -446,42 +452,42 @@
     document.getElementById('copy_sale_link').value = `https://${domain}:8000/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
 
     function copyToClipboard(button, input, message) {
-          // Select the text
-          input.select();
-          input.setSelectionRange(0, 99999); // For mobile devices
-          
-          // Copy the text
-          navigator.clipboard.writeText(input.value)
-              .then(() => {
-                  // Show the toast with appropriate message
-                  copyToast.textContent = message;
-                  copyToast.classList.add('show');
-                  
-                  // Change button text temporarily
-                  const originalText = button.textContent;
-                  console.log(originalText);
-                  button.textContent = 'Copied';
-                  
-                  // Reset button text after 2 seconds
-                  setTimeout(() => {
-                      button.textContent = originalText;
-                  }, 2000);
-                  
-                  // Hide the toast after 3 seconds
-                  setTimeout(() => {
-                      copyToast.classList.remove('show');
-                  }, 3000);
-              })
-              .catch(err => {
-                  console.error('Could not copy text: ', err);
-              });
-      }
+      // Select the text
+      input.select();
+      input.setSelectionRange(0, 99999); // For mobile devices
 
-    const copyLinkBtn = document.getElementById('copyLinkBtn');    
+      // Copy the text
+      navigator.clipboard.writeText(input.value)
+        .then(() => {
+          // Show the toast with appropriate message
+          copyToast.textContent = message;
+          copyToast.classList.add('show');
+
+          // Change button text temporarily
+          const originalText = button.textContent;
+          console.log(originalText);
+          button.textContent = 'Copied';
+
+          // Reset button text after 2 seconds
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2000);
+
+          // Hide the toast after 3 seconds
+          setTimeout(() => {
+            copyToast.classList.remove('show');
+          }, 3000);
+        })
+        .catch(err => {
+          console.error('Could not copy text: ', err);
+        });
+    }
+
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
     const linkInputs = document.querySelectorAll('.link-input');
     const copyToast = document.getElementById('copyToast');
-    copyLinkBtn.addEventListener('click', function() {
-        copyToClipboard(this, linkInputs[0], 'Link copied');
+    copyLinkBtn.addEventListener('click', function () {
+      copyToClipboard(this, linkInputs[0], 'Link copied');
     });
 
     window.onload = async function () {
@@ -501,8 +507,8 @@
           if (result.success) {
             const data = result.data; // Extract actual data object
             console.log(data);
-            let event_data = data.event_data;
-            let event_date_data = data.event_date_data;
+            event_data = data.event_data;
+            event_date_data = data.event_date_data;
 
             assigned_tickets = event_data.assigned_tickets;
             total_event_ticket_sold = event_data.total_event_ticket_sold;
@@ -516,59 +522,8 @@
 
             // Populate ticket sales table dynamically
             const ticketTableBody = document.getElementById("ticket-sales-table-body");
-            ticketTableBody.innerHTML = "";
-            event_data.all_tickets.forEach((ticket) => {
-              let actionBtn = "";
-              let statusClass = "";
-
-              if (ticket.status.toLowerCase() === "approved") {
-                if (!digital_pass) {
-                  statusClass = "text-primary";
-                  actionBtn = 'No Action';
-                }
-                else {
-                  statusClass = "text-success";
-                  actionBtn = `<button onclick="sendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-primary text-nowrap"><i class="ti ti-mail f-18"></i> Send Mail</button>`;
-                }
-              }
-
-              else if (ticket.status.toLowerCase() === "mail sent") {
-                statusClass = "text-primary";
-                actionBtn = 'No Action';
-              }
-
-              else {
-                statusClass = "text-danger";
-                actionBtn = `<button onclick="approveTicket('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-success text-nowrap"><i class="ti ti-check f-18"></i> Approve</button>`;
-              }
-
-              const ticketRow = `
-                <tr>
-                    <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
-                    <td class="text-center">${ticket.customer_email}</td>
-                    <td class="text-center">${ticket.qty}</td>
-                    <td class="text-center">${ticket.amount}</td>
-                    <td class="text-center text-nowrap" id="status-class-${ticket.ticket_id}">
-                          <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
-                    </td>
-                    <td class="text-center text-nowrap" id="action-btn-${ticket.ticket_id}">${actionBtn}</td>
-                </tr>`;
-
-              // <ul class="list-inline me-auto mb-0 d-flex justify-content-between">
-              //   <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Approve">
-              //     <a href="#" class="avtar avtar-xs btn-link-primary">
-              //       <i class="ti ti-check f-18"></i> Approve
-              //     </a>
-              //   </li>
-              //   <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Send Mail">
-              //     <a href="#" class="avtar avtar-xs btn-link-secondary">
-              //       <i class="ti ti-mail f-18"></i> Mail sent
-              //     </a>
-              //   </li>
-              // </ul>
-
-              ticketTableBody.innerHTML += ticketRow;
-            });
+            ticketTableBody.innerHTML = "";            
+            renderTickets(event_data.all_tickets, currentPage);
 
             document.getElementById(
               "event-details-modal-event_name"
@@ -620,6 +575,73 @@
         console.error("Error fetching data:", error);
       }
     }
+    
+
+    function renderTickets(tickets, page = 1) {
+      const ticketTableBody = document.getElementById("ticket-sales-table-body");
+      ticketTableBody.innerHTML = "";
+
+      const start = (page - 1) * ticketsPerPage;
+      const end = start + ticketsPerPage;
+      const paginatedTickets = tickets.slice(start, end);
+
+      paginatedTickets.forEach(ticket => {
+        let actionBtn = "";
+        let statusClass = "";
+        const status = ticket.status.toLowerCase();
+
+        if (status === "approved") {
+          if (!digital_pass) {
+            statusClass = "text-primary";
+            actionBtn = 'No Action';
+          } else {
+            statusClass = "text-success";
+            actionBtn = `<button onclick="sendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-primary text-nowrap"><i class="ti ti-mail f-18"></i> Send Mail</button>`;
+          }
+        } else if (status === "mail sent") {
+          statusClass = "text-primary";
+          actionBtn = 'No Action';
+        } else {
+          statusClass = "text-danger";
+          actionBtn = `<button onclick="approveTicket('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-success text-nowrap"><i class="ti ti-check f-18"></i> Approve</button>`;
+        }
+
+        const ticketRow = `
+      <tr>
+        <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
+        <td class="text-center">${ticket.customer_email}</td>
+        <td class="text-center">${ticket.qty}</td>
+        <td class="text-center">₹${ticket.amount.toLocaleString("en-IN")}</td>
+        <td class="text-center text-nowrap" id="status-class-${ticket.ticket_id}">
+          <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
+        </td>
+        <td class="text-center text-nowrap" id="action-btn-${ticket.ticket_id}">${actionBtn}</td>
+      </tr>`;
+
+        ticketTableBody.innerHTML += ticketRow;
+      });
+
+      renderPagination(tickets.length);
+    }
+
+    function renderPagination(totalTickets) {
+      const paginationControls = document.getElementById("paginationControls");
+      paginationControls.innerHTML = "";
+
+      const totalPages = Math.ceil(totalTickets / ticketsPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = `btn btn-sm mx-1 ${i === currentPage ? "btn-primary" : "btn-outline-primary"}`;
+        btn.onclick = () => {
+          currentPage = i;
+          renderTickets(event_data.all_tickets, currentPage);
+        };
+        paginationControls.appendChild(btn);
+      }
+    }
+
 
     async function approveTicket(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
       if (parseInt(total_approved_event_ticket) + parseInt(qty) > assigned_tickets) {
