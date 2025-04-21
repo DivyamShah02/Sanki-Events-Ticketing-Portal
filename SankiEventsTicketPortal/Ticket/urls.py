@@ -10,6 +10,7 @@ router.register(r'approve-ticket-api', ApproveTicketViewSet, basename='approve-t
 router.register(r'send-ticket-mail-api', SendTicketMailViewSet, basename='send-ticket-mail-api')
 
 router.register(r'assign-ticket-api', AssignTicketViewSet, basename='assign-ticket-api')
+router.register(r'add-available-ticket-api', AddAvailableTicketsViewSet, basename='add-available-ticket-api')
 
 urlpatterns = [
     path('', include(router.urls))

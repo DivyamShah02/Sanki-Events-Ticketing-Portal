@@ -167,18 +167,7 @@
                     <div class="flex-grow-1 mx-3">
                       <h6 class="mb-1" id="event-best-seller-name"></h6>
                       <p class="text-muted text-sm mb-0" id="event-best-seller-date"></p>
-                    </div>
-                    <div class="dropdown">
-                      <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="ti ti-dots-vertical f-18"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#">Preview</a>
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
-                      </div>
-                    </div>
+                    </div>                    
                   </div>
                 </div>
                 <div class="card-body">
@@ -209,8 +198,8 @@
                 <div class="card-footer">
                   <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#user-modal">
-                      Preview
+                    <button class="btn btn-sm btn-outline-primary">
+                      Event Details
                     </button>
                   </div>
                 </div>
@@ -381,7 +370,7 @@
 
 
         // Global variables to store event with max revenue
-        let maxEventAmount = 0;
+        let maxEventAmount = -1;
         let maxEvent = null;
 
         let maxResellerAmount = 0;
@@ -396,7 +385,7 @@
             maxEvent = event;
           }
           const eventItem = `
-                      <a href="#" class="list-group-item list-group-item-action">
+                      <a href="{% url 'event_detail-list' %}?event_id=${event.event_id}" class="list-group-item list-group-item-action">
                           <div class="d-flex">                              
                               <div class="flex-grow-1">
                                   <h6 class="mb-1">${event.event_name}</h6>

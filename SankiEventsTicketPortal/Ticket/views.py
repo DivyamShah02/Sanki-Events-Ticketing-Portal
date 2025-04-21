@@ -267,11 +267,7 @@ class SendTicketMailViewSet(viewsets.ViewSet):
                     "error": "Ticket not found."
                 }, status=status.HTTP_404_NOT_FOUND)
 
-        event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()
-        event_data = EventSerializer(event_data).data
-
-        event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()
-        event_date_data = EventDateSerializer(event_date_data_obj).data
+        event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
 
         if event_data_obj.digital_pass == True:
             mail_sent = self.send_mail()
@@ -360,3 +356,33 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 "error": None
             }, status=status.HTTP_200_OK)
 
+
+class AddAvailableTicketsViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    @check_authentication('hod')
+    def create(self, request):        
+        event_date_id = request.data.get('event_date_id')
+        new_available_tickets = request.data.get('new_available_tickets')
+
+        if (not event_date_id) or (not new_available_tickets):
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        event_date_obj = EventDate.objects.filter(event_date_id=event_date_id).first()        
+
+        event_date_obj.total_number_of_tickets = int(event_date_obj.total_number_of_tickets) + int(new_available_tickets)
+        event_date_obj.save()
+
+        return Response({
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": {'new_available_tickets': new_available_tickets},
+                "error": None
+            }, status=status.HTTP_200_OK)

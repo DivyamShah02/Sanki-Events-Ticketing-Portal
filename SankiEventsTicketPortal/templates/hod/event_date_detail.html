@@ -134,17 +134,6 @@
             </p>
           </div>
         </div>
-        <div class="dropdown">
-          <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="ti ti-dots-vertical f-18"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">Share</a>
-            <a class="dropdown-item" href="#">Edit</a>
-            <a class="dropdown-item" href="#">Delete</a>
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -202,7 +191,7 @@
                 </h6>
               </li>
               <div class="mt-4 card-footer px-0 py-2">
-                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateEventModal">
+                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#AddAvailableTickets">
                   <b>Update available tickets</b>
                 </button>
               </div>
@@ -378,8 +367,51 @@
         </div>
       </div>
 
+      <!-- Add Available Modal -->
+      <div class="modal fade " id="AddAvailableTickets" tabindex="-1" aria-labelledby="AddAvailableTicketsLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="AddAvailableTicketsLabel">
+                Add Available Tickets
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <p class="mb-0" id="add-available-ticket-available-tickets">
+                  Available Tickets: Loading.. </p>
+              </div>
+
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <p class="mb-0" id="add-available-ticket-updated-available-tickets">
+                  Updated Available Tickets: Loading.. </p>
+              </div>
+
+              <h5 for="new_available_tickets" class="form-label mt-3">Add Available Ticket</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="new_available_tickets" placeholder="Add Available Ticket" />
+              </div>
+
+            </div>
+            <div class="modal-footer p-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="add-available-ticket-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="add-available-ticket-btn">
+                Update Tickets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
+
 
   <!-- [ Main Content ] end -->
 
@@ -418,8 +450,7 @@
           event_date_id: event_date_id,
         };
 
-        const url =
-          "{% url 'hod-event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+        const url = "{% url 'hod-event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
         const [success, result] = await callApi("GET", url);
         if (success) {
           if (result.success) {
@@ -427,6 +458,9 @@
             console.log(data);
             event_data = data.event_data;
             event_date_data = data.event_date_data;
+            document.getElementById('add-available-ticket-available-tickets').innerText = `Available Tickets: ${event_date_data.total_number_of_tickets}`;
+            document.getElementById('add-available-ticket-updated-available-tickets').innerText = `Updated Available Tickets: ${event_date_data.total_number_of_tickets}`;
+
             let date_html = "";
             event_data.all_dates.forEach((date) => {
               date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
@@ -440,7 +474,7 @@
             data.reseller_data.forEach((reseller) => {
               const ticketRow = `
               <tr>
-                  <td class="text-nowrap"><b>${reseller.name}</b></td>
+                  <td class="text-nowrap"><b>${reseller.name} - ${reseller.user_id}</b></td>
                   <td class="text-center">${reseller.email}</td>
                   <td class="text-center">${reseller.total_tickets_sold_seller} ( ₹${reseller.total_tickets_sold_seller_amount.toLocaleString("en-IN")} )</td>
                   <td class="text-center">${reseller.available_tickets}</td>
@@ -585,6 +619,57 @@
         alert("Error assigning tickets");
       }
     });
+
+    document.getElementById("new_available_tickets").addEventListener("input", function (e) {
+      const addedTickets = parseInt(e.target.value, 10);
+
+      if (!isNaN(addedTickets)) {
+        const updatedTotal = parseInt(event_date_data.total_number_of_tickets) + addedTickets;
+
+        document.getElementById("add-available-ticket-updated-available-tickets").textContent =
+          "Updated Available Tickets: " + updatedTotal;
+      } else {
+        document.getElementById("add-available-ticket-updated-available-tickets").textContent =
+          "Updated Available Tickets: Invalid input";
+      }
+    });
+
+    document.getElementById("add-available-ticket-btn").addEventListener("click", async () => {
+      const new_available_tickets = document.getElementById("new_available_tickets").value;
+      if (new_available_tickets === "") {
+        alert("Please enter the number of tickets to be added");
+        return;
+      }
+      if (isNaN(new_available_tickets)) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (parseInt(new_available_tickets) <= 0) {
+        alert("Please enter a valid number");
+        return;
+      }
+
+      const bodyData = {
+        new_available_tickets: new_available_tickets,
+        event_date_id: event_date_id,
+        assigned_tickets: new_available_tickets
+      };
+      const url = "{% url 'add-available-ticket-api-list' %}";
+      const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+      console.log(result);
+      if (success) {
+        if (result.success) {
+          alert("Tickets Added successfully");
+          fetchHodEventsData();
+          document.getElementById('add-available-ticket-close-btn').click();
+        } else {
+          alert(`Error assigning tickets: ${result.error}`);
+        }
+      } else {
+        alert("Error assigning tickets");
+      }
+    });
+
   </script>
 
 </body>
