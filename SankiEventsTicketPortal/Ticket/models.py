@@ -21,6 +21,8 @@ class Ticket(models.Model):
     customer_number = models.CharField(max_length=20)
     customer_payment_ss = models.ImageField(upload_to='screen_shots/', storage=S3Boto3Storage(), null=True, blank=True)
     
+    scanned = models.BooleanField(default=False)
+    
     approved = models.BooleanField(default=False)
     mail_sent = models.BooleanField(default=False)
     ticket_sent_codes = models.CharField(max_length=255, default='')

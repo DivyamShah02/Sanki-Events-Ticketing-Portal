@@ -27,7 +27,13 @@ class EventViewSet(viewsets.ViewSet):
         city = request.data.get('city')
         state = request.data.get('state')
         digital_pass = request.data.get('digital_pass', False)
-        
+        event_banner = request.FILES.get('event_banner', None)
+
+        if str(digital_pass).lower() == 'true':
+            digital_pass = True
+        elif str(digital_pass).lower() == 'false':
+            digital_pass = False
+
         if (event_name and event_details and event_venue and event_date_range and event_address and city and state) is None:
             return Response(
             {
@@ -40,7 +46,6 @@ class EventViewSet(viewsets.ViewSet):
         
         event_id = self.generate_event_id()
         hod_id = request.user.user_id
-        # hod_id = 'HO6870923320'
         event_dates = []
 
         start_date, end_date = event_date_range.split(" | ")
@@ -60,7 +65,7 @@ class EventViewSet(viewsets.ViewSet):
             event_dates.append(current_date)
 
         s3_bucket_folder = create_event_folders_s3(event_name=event_name, event_dates=event_dates)
-        event = Event.objects.create(
+        new_event = Event.objects.create(
             event_id=event_id,
             hod_id=hod_id,
             event_name=event_name,
@@ -71,7 +76,8 @@ class EventViewSet(viewsets.ViewSet):
             city=city,
             state=state,
             digital_pass=digital_pass,
-            s3_bucket_folder=s3_bucket_folder
+            s3_bucket_folder=s3_bucket_folder,
+            event_banner=event_banner
         )
 
         

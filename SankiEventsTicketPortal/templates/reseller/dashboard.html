@@ -120,7 +120,7 @@
         <div id="events-section" class=" row" >
           <div class="col-sm-12 col-xl-8 ">
             <h5 class="mb-3">All Events</h5>
-            <div class="card h-100">
+            <div class="card" style="max-height: 375px;">
               <div class="list-group overflow-y-scroll" id="events-list"></div>
             </div>
           </div>
@@ -146,23 +146,7 @@
                         class="text-muted text-sm mb-0"
                         id="event-best-seller-date"
                       ></p>
-                    </div>
-                    <div class="dropdown">
-                      <a
-                        class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                        href="#"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i class="ti ti-dots-vertical f-18"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#">Preview</a>
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
-                      </div>
-                    </div>
+                    </div>                    
                   </div>
                 </div>
                 <div class="card-body">
@@ -191,16 +175,10 @@
 
                 </div>
                 <div class="card-footer">
-                  <div
-                    class="d-flex align-items-center justify-content-between"
-                  >
+                  <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#user-modal"
-                    >
-                      Preview
+                    <button class="btn btn-sm btn-outline-primary">
+                      Event Details
                     </button>
                   </div>
                 </div>
@@ -275,15 +253,15 @@
 
         document.getElementById(
           "total-events"
-        ).innerHTML = `${data.len_events_data} <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i> </span>`;
+        ).innerHTML = `${data.len_events_data}`;
         
         document.getElementById(
           "total-tickets-sold"
-        ).innerHTML = `${data.all_tickets_sold} <span class="badge bg-light-warning border border-warning"><i class="ti ti-trending-up"></i></span>`;
+        ).innerHTML = `${data.all_tickets_sold}`;
        
         document.getElementById(
           "total-sales"
-        ).innerHTML = `₹${data.all_tickets_sold_amount} <span class="badge bg-light-success border border-success"><i class="ti ti-trending-up"></i></span>`;
+        ).innerHTML = `₹${data.all_tickets_sold_amount}`;
        
 
         // Global variables to store event with max revenue
@@ -300,7 +278,7 @@
             maxEvent = event;
           }
           const eventItem = `
-                    <a href="#" class="list-group-item list-group-item-action">
+                    <a href="{% url 'event_detail-list' %}?event_id=${event.event_id}" class="list-group-item list-group-item-action">
                         <div class="d-flex">
                             <div class="flex-shrink-0">
                                 <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">

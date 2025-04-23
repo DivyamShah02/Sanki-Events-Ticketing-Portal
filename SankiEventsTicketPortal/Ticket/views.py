@@ -7,11 +7,13 @@ from rest_framework.response import Response
 
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
+from django.http import HttpResponse
 
 from utils.decorators import *
 
 from .models import *
 from .serializers import *
+from .generate_pass import generate_pass
 
 from UserDetail.models import *
 from Event.models import *
@@ -386,3 +388,101 @@ class AddAvailableTicketsViewSet(viewsets.ViewSet):
                 "data": {'new_available_tickets': new_available_tickets},
                 "error": None
             }, status=status.HTTP_200_OK)
+
+
+class TicketPassViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    def list(self, request):
+        ticket_id = request.GET.get('ticket_id')
+
+        if not ticket_id:
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        ticket_data = Ticket.objects.filter(ticket_id=ticket_id).first()
+        if not ticket_data:
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        event_data = Event.objects.filter(event_id=ticket_data.event_id).first()
+        pass_qr_dimension = str(event_data.pass_qr_dimension)
+        pass_path = event_data.event_pass.url
+
+        qr_size = tuple(map(int, pass_qr_dimension.split('|')[0].strip().split(',')))
+        qr_position = tuple(map(int, pass_qr_dimension.split('|')[1].strip().split(',')))
+        text_position = tuple(map(int, pass_qr_dimension.split('|')[2].strip().split(',')))
+
+        buffer = generate_pass(ticket_id=ticket_id, name=ticket_data.customer_name, qr_size=qr_size, qr_position=qr_position, text_position=text_position, pass_path=pass_path)
+        
+        response = HttpResponse(buffer, content_type="image/png")
+        response["Content-Disposition"] = 'attachment; filename="Event_Pass.png"'
+
+        return response
+
+
+class ValidateTicketPassViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    def list(self, request):
+        ticket_id = request.GET.get('ticket_id')
+
+        if not ticket_id:
+            data = {
+                "isValid": False,
+                "customerName": ''
+            }
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": data,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        if not ticket_data:
+            data = {
+                "isValid": False,
+                "customerName": ''
+            }
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": data,
+                    "error": f"Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        if ticket_data.scanned:
+            data = {
+                "isValid": False,
+                "already_scanned": True,
+                "customerName": ticket_data.customer_name
+            }
+        else:
+            ticket_data.scanned = True
+            ticket_data.save()
+            data = {
+                    "isValid": True,
+                    "already_scanned": False,
+                    "customerName": ticket_data.customer_name
+                }
+        return Response({
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+

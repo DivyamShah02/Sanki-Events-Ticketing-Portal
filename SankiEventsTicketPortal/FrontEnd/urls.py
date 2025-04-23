@@ -15,6 +15,8 @@ router.register(r'event_date_detail', EventDateDetailFrontEndViewSet, basename='
 
 router.register(r'ticket_sale', TicketSaleFrontEndViewSet, basename='ticket_sale')
 
+router.register(r'event_qr_scanner', EventQrCodeFrontEndViewSet, basename='event_qr_scanner')
+
 urlpatterns = [
     path('', include(router.urls))
 ]
