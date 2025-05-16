@@ -10,6 +10,7 @@ from django.utils.timezone import now
 from django.http import HttpResponse
 
 from utils.decorators import *
+from utils.handle_s3_bucket import *
 
 from .models import *
 from .serializers import *
@@ -270,12 +271,20 @@ class SendTicketMailViewSet(viewsets.ViewSet):
                 }, status=status.HTTP_404_NOT_FOUND)
 
         event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
+        event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()        
 
-        if event_data_obj.digital_pass == True:
-            mail_sent = self.send_mail()
+        print(event_data_obj.event_name)
+        print(event_date_data_obj.date)
+        print(ticket_data.customer_email)
+
+        if event_data_obj.digital_pass == True:            
+            mail_sent, status_text = self.send_mail(event_name=event_data_obj.event_name,
+                                                    date=event_date_data_obj.date,
+                                                    recipient_email=ticket_data.customer_email)
 
             if mail_sent:
                 ticket_data.mail_sent = True
+                ticket_data.ticket_sent_codes = status_text
                 ticket_data.save()
 
                 return Response(
@@ -294,7 +303,7 @@ class SendTicketMailViewSet(viewsets.ViewSet):
                         "user_not_logged_in": False,
                         "user_unauthorized": False,
                         "data": None,
-                        "error": 'Unable to send mail.'
+                        "error": f'Unable to send mail: {status_text}'
                     }, status=status.HTTP_400_BAD_REQUEST)
 
         else:
@@ -307,8 +316,21 @@ class SendTicketMailViewSet(viewsets.ViewSet):
                     "error": 'Event does not has digital pass.'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-    def send_mail(self):
-        return True
+    def send_mail(self, event_name, date, recipient_email):
+        filename, success, *error = send_ticket_and_move(
+                event_name=event_name,
+                # date="2025-05-20 00:00:00",
+                date=f"{date} 00:00:00",
+                recipient_email=recipient_email
+            )
+
+        if success:
+            print(f"Sent and moved file: {filename}")
+            return True, filename
+
+        else:
+            print("Failed:", error[0])
+            return False, error[0]
 
 
 class AssignTicketViewSet(viewsets.ViewSet):
