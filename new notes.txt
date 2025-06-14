@@ -1,0 +1,19 @@
+-> flip the phnoe call icon
+
+->inko jis resseler ko alocate kiya uska bhav date event / event date chahiye (track sheet)
+-> shakjal of resller
+-> resller ka logo in tyicket sale
+
+
+-> take approved ticket back and avg the price
+so 100 @ 10 and 200 @ 10 and 10 amt of taking back will be entered manyallt add in rmemanining
+
+-> add resned and edit options of cusotmer
+
+manually from admin sale ticket
+
+
+date	res	qty	amt		
+04-Jun	tirth	10	100	nesco	1st day
+04-Jun	tirth	10	200	nesco	1st day
+04-Jun	tirth	10	-125	nesco	1st day

@@ -1,0 +1,101 @@
+<div class="modal fade" id="createResellerModal" tabindex="-1" aria-labelledby="createResellerModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="createResellerModalLabel">
+        Create New Reseller
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form id="resellerForm">
+        <!-- Profile Photo Upload -->
+        <!-- <div class="mb-3 text-center">
+          <label for="resellerPhoto" class="form-label d-block">Upload Photo</label>
+          <input type="file" class="form-control" id="resellerPhoto" accept="image/*" required />
+        </div> -->
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="resellerEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="resellerEmail" required />
+        </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="resellerName" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="resellerName" required />
+        </div>
+
+        <!-- Number -->
+        <div class="mb-3">
+          <label for="resellerNumber" class="form-label">Phone Number</label>
+          <input type="number" maxlength="10" max="9999999999" min="0000000000" class="form-control" id="resellerNumber" required />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="resellerPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="resellerPassword" required />
+        </div>
+
+        <div class="modal-footer px-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Create Reseller
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+document.getElementById("resellerForm").addEventListener("submit", async (event) => {
+    toggle_loader();
+    const form = event.target;
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    showModal(
+        'Confirm Action',
+        '<p>Are you sure you want to create new reseller?</p>',
+        async () => {
+            let resellerName = document.getElementById('resellerName').value;
+            let resellerPassword = document.getElementById('resellerPassword').value;
+            let resellerNumber = document.getElementById('resellerNumber').value;
+            let resellerEmail = document.getElementById('resellerEmail').value;
+
+            const bodyData = {
+              'name': resellerName,
+              'password': resellerPassword,
+              'contact_number': resellerNumber,
+              'email': resellerEmail,
+              'role': 'reseller'
+            };
+
+            const url = "{% url 'user-api-list' %}";
+            const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+            if (success) {
+                if (result.success) {
+                    location.reload();
+                }
+                else {
+                    alert("Unexpected Error occured : " + result.error);
+                }
+            } else {
+                alert('Unable to create new reseller');
+            }
+        }
+    );
+    toggle_loader();
+});
+
+</script>

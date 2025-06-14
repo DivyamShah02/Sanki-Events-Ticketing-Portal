@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- [Head] start -->
+
+<head>
+  <title>Sanki Events | Login</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description"
+    content="Ticketing portal for Sanki Events. A platform to manage events, tickets and users.">
+  <meta name="keywords"
+    content="Ticketing portal for Sanki Events. A platform to manage events, tickets and users.">
+  <meta name="author" content="Dynamic Labz">
+
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon"> <!-- [Google Font] Family -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link">
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css">
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/feather.css">
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css">
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/material.css">
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="/static/assets/css/style-preset.css">
+
+</head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
+
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+
+  <div id="main-content" class="blur eh-background-image">
+    <div class="d-flex justify-content-center align-items-center vh-100">
+      <div class="container p-3">
+        <div class="mb-1 text-center">
+          <img src="/static/assets/img/sanki_logo.png" alt="" class="img-fluid" style="mix-blend-mode: multiply;">
+        </div>
+        <div class="p-3">
+          <form id="login_form">
+            <div class="alert alert-danger" role="alert" id="error-wrong-password" style="display: none;">
+              Wrong Password!
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="error-user-not-found" style="display: none;">
+              User not registered!
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="error-unexpected" style="display: none;">
+              Unexpected Error occured!
+            </div>
+
+            <div class="form-floating mb-2">
+              <input type="email" class="form-control dark-input" id="username" placeholder="name@mail.com" required
+                autofocus>
+              <label for="username">Email address</label>
+            </div>
+
+            <div class="form-floating mb-2">
+              <input type="password" class="form-control dark-input" id="password" placeholder="" required>
+              <label for="password">Password</label>
+            </div>
+
+            <div class="mb-2 mt-4">
+              <button type="submit"
+                class="btn btn-primary eh-btn-blue-primary-no-hover w-100 d-flex justify-content-between align-items-center">
+                <b class="mx-auto">Login</b>
+                <i class="fa fa-arrow-right fa-xl"></i>
+              </button>
+            </div>
+            <!-- <p class="text-center eh-text-blue-primary"><b><u>Reset Password</u></b></p> -->
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- [ Main Content ] end -->
+  <!-- Required Js -->
+  <script src="/static/assets/js/plugins/popper.min.js"></script>
+  <script src="/static/assets/js/plugins/simplebar.min.js"></script>
+  <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="/static/assets/js/fonts/custom-font.js"></script>
+  <script src="/static/assets/js/pcoded.js"></script>
+  <script src="/static/assets/js/plugins/feather.min.js"></script>
+  <script src="/static/assets/js/api_caller.js"></script>
+
+
+
+
+  <script>layout_change('light');</script>
+
+
+  <script>change_box_container('false');</script>
+
+
+
+  <script>layout_rtl_change('false');</script>
+
+
+  <script>preset_change("preset-1");</script>
+
+
+  <script>font_change("Public-Sans");</script>
+
+
+  <script>
+    async function LoginUser(username, password) {
+        const loginUserData = {
+            email: username,
+            password: password,
+        };
+
+        const url = "{% url 'login-api-list' %}";
+        const [success, result] = await callApi("POST", url, loginUserData, "{{csrf_token}}");
+        if (success) {
+            console.log("Login User Success:", result);
+
+            if (result.success){
+                let user_id = result.data.user_id;
+                window.location.href=`{% url 'dashboard-list' %}?user_id=${user_id}`;
+            }
+            
+            else if (result.user_does_not_exist) {
+                document.getElementById('error-user-not-found').style.display = '';
+            }
+
+            else if (result.wrong_password) {
+                document.getElementById('error-wrong-password').style.display = '';
+            }
+
+            else {
+                document.getElementById('error-unexpected').style.display = '';
+            }
+
+        } else {
+            console.error("Login User Failed:", result);
+            document.getElementById('error-unexpected').style.display = '';
+        }
+    }
+
+    document.getElementById("login_form").addEventListener("submit", async (event) => {
+        // toggle_loader();
+        document.getElementById('error-wrong-password').style.display = 'none';
+        document.getElementById('error-user-not-found').style.display = 'none';
+        document.getElementById('error-unexpected').style.display = 'none';
+
+        const form = event.target;
+
+        // Prevent the form from submitting
+        event.preventDefault();
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            // Trigger the browser's built-in validation tooltips
+            form.reportValidity();
+            return;
+        }
+
+        // Get form values
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        // Call the login API
+        await LoginUser(username, password);
+        // toggle_loader();
+
+    });
+
+</script>
+
+
+
+</body>
+<!-- [Body] end -->
+
+</html>

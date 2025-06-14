@@ -1,0 +1,220 @@
+<style>
+  .file-upload-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+  }
+
+  .file-upload-label:hover {
+    border-color: var(--primary);
+    background-color: rgba(37, 99, 235, 0.05);
+  }
+
+  .file-upload-label i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+
+  .file-upload-text {
+    font-weight: 500;
+    color: var(--secondary);
+  }
+
+  .file-upload-input {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .file-name-display {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--secondary);
+    text-align: center;
+    display: none;
+  }
+</style>
+<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="eventForm">
+          <div class="mb-3">
+            <label for="eventName" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="eventName" required />
+          </div>
+          <div class="mb-3">
+            <label for="eventVenue" class="form-label">Event Venue</label>
+            <input type="text" class="form-control" id="eventVenue" required />
+          </div>
+          <div class="input-group mb-3">
+            <label for="eventDateRange" class="form-label col-12">Event Date Range</label>
+            <input type="text" id="eventDateRange" class="form-control" placeholder="Select date range" readonly
+              required />
+            <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventCity" class="form-label">Event City</label>
+            <input type="text" class="form-control" id="eventCity" required />
+          </div>
+          <div class="mb-3">
+            <label for="eventState" class="form-label">Event State</label>
+            <input type="text" class="form-control" id="eventState" required />
+          </div>
+          <div class="mb-3">
+            <label for="eventAddress" class="form-label">Event Address</label>
+            <textarea class="form-control" id="eventAddress" rows="2" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="eventDetails" class="form-label">Event Details</label>
+            <textarea class="form-control" id="eventDetails" rows="3"></textarea>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="digitalPass" />
+            <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
+          </div>
+          <div class="mb-3">
+            <div class="file-upload-container">
+              <label for="event_banner" class="file-upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span class="file-upload-text">Upload Event Banner</span>
+                <span class="file-upload-hint mt-2 text-muted text-center">Click or drag and drop your file here</span>
+              </label>
+              <input type="file" class="file-upload-input" id="event_banner" accept="image/*" />
+              <div id="file-name" class="file-name-display"></div>
+            </div>
+          </div>
+          <div class="modal-footer px-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Create Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#eventDateRange").daterangepicker({
+      autoUpdateInput: false,
+      singleDatePicker: false,
+      showDropdowns: true,
+      // Ensures selection is within a month
+      opens: "right",
+      locale: {
+        format: "YYYY-MM-DD",
+        cancelLabel: "Clear",
+      },
+    });
+
+    $("#eventDateRange").on("apply.daterangepicker", function (ev, picker) {
+      $(this).val(
+        picker.startDate.format("YYYY-MM-DD") +
+        " | " +
+        picker.endDate.format("YYYY-MM-DD")
+      );
+    });
+
+    $("#eventDateRange").on(
+      "cancel.daterangepicker",
+      function (ev, picker) {
+        $(this).val("");
+      }
+    );
+  });
+
+  const fileInput = document.getElementById("event_banner");
+  const fileNameDisplay = document.getElementById("file-name");
+  let selectedFile = null;
+
+  fileInput.addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      selectedFile = this.files[0];
+      fileNameDisplay.textContent = this.files[0].name;
+      fileNameDisplay.style.display = "block";
+
+      // Change the upload icon to a success icon
+      const uploadIcon = this.previousElementSibling.querySelector("i");
+      uploadIcon.className = "fas fa-check-circle";
+      uploadIcon.style.color = "#10b981";
+    } else {
+      fileNameDisplay.style.display = "none";
+    }
+  });
+
+  document.getElementById("eventForm").addEventListener("submit", async (event) => {
+    toggle_loader();
+    const form = event.target;
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    showModal(
+      'Confirm Action',
+      '<p>Are you sure you want to create new event?</p>',
+      async () => {
+        let eventName = document.getElementById('eventName').value;
+        let eventVenue = document.getElementById('eventVenue').value;
+        let eventDateRange = document.getElementById('eventDateRange').value;
+        let eventCity = document.getElementById('eventCity').value;
+        let eventState = document.getElementById('eventState').value;
+        let eventAddress = document.getElementById('eventAddress').value;
+        let eventDetails = document.getElementById('eventDetails').value;
+        let digitalPass = document.getElementById('digitalPass').checked;
+
+        const formData = new FormData();
+        formData.append('event_name', eventName);
+        formData.append('event_details', eventDetails);
+        formData.append('event_venue', eventVenue);
+        formData.append('event_date_range', eventDateRange);
+        formData.append('event_address', eventAddress);
+        formData.append('city', eventCity);
+        formData.append('state', eventState);
+        formData.append('digital_pass', digitalPass);
+        formData.append(`event_banner`, selectedFile);
+
+        const url = "{% url 'event-api-list' %}";
+        const [success, result] = await callApi("POST", url, formData, "{{csrf_token}}", true);
+        if (success) {
+          if (result.success) {
+            location.reload();
+          }
+          else {
+            alert("Unexpected Error occured : " + result.error);
+          }
+        } else {
+          alert('Unable to create new event');
+        }
+      }
+    );
+    toggle_loader();
+  });
+</script>

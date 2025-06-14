@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- [Head] start -->
+
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- [Google Font] Family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link" />
+
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
+  <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+
+  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+</head>
+<!-- [Head] end -->
+<style>
+  /* Custom styles for tabs to match the image */
+  .link-section {
+    margin-bottom: 16px;
+  }
+
+  .link-label {
+    font-size: 14px;
+    color: #5f6368;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .link-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f1f3f4;
+  }
+
+  .link-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #3c4043;
+    font-size: 14px;
+    padding: 10px 12px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .copy-btn {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+  }
+
+  .copy-btn:hover {
+    background-color: #1765cc;
+  }
+
+  .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    width: 100%;
+    display: flex;
+  }
+
+  .nav-tabs .nav-item {
+    flex: 1;
+  }
+
+  .nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    font-size: 18px;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: center;
+    margin-right: 30px;
+    background-color: transparent;
+    transition: color 0.3s ease;
+  }
+
+  .nav-tabs .nav-link:hover {
+    color: #000;
+    border: none;
+  }
+
+  .nav-tabs .nav-link.active {
+    color: #000;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid #000;
+    background-color: transparent;
+  }
+
+  /* Remove focus outline for cleaner look */
+  .nav-link:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Add spacing between tabs and content */
+  .tab-content {
+    padding-top: 20px;
+  }
+</style>
+<!-- [Body] Start -->
+
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+
+  <!-- [ Sidebar Menu ] start -->
+  {% include 'hod/nav_bar.html' %}
+  <!-- [ Sidebar Menu ] end -->
+
+  <!-- Create Event Modal -->
+  {% include 'hod/create_event_modal.html' %}
+
+  <!-- Create Reseller Modal -->
+  {% include 'hod/create_reseller_modal.html' %}
+
+  <!-- [ Header Topbar ] start -->
+  {% include 'header.html' %}
+  <!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ Main Content ] start -->
+
+      <div class="d-flex w-100 align-items-center">
+        <!-- <div class="flex-shrink-0">
+          <div
+            class="avatar avatar-sm rounded-circle text-success bg-light-success d-flex align-items-center justify-content-center"
+            style="width: 40px; height: 40px;">
+            <i class="ti ti-calendar f-18"></i>
+          </div>
+        </div> -->
+        <div class="flex-grow-1">
+          <h2 class="mb-1" id="event-details-modal-event_name">Loading...</h2>
+
+          <div class="col-md-6 d-flex align-items-center mb-3">
+            <i class="ti ti-map-pin me-1"></i>
+            <p class="text-muted text-lg mb-0" id="event-details-modal-event_venue">
+              Loading...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-calendar me-2"></i>
+                  <p class="mb-0" id="event-details-modal-event_date_range">
+                    Loading...
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-map-pin me-2"></i>
+                  <p class="mb-0" id="event-details-modal-event_city">
+                    Loading...
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Total Tickets:
+                    <span id="event-details-modal-event_total_available_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Tickets Assigned:
+                    <span id="event-details-modal-event_assigned_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Tickets Available:
+                    <span id="event-details-modal-event_available_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Total Tickets in S3 Bucket:
+                    <span id="event-details-modal-event_tickets_s3_bucket">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
+                  <p class="mb-0">Digital Pass</p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-clock me-2"></i>
+                  <p class="mb-0">
+                    Event Days:
+                    <span id="event-details-modal-event_days">Loading...</span>
+                  </p>
+                </div>
+              </div>
+              <li class="list-group-item px-0 pb-0">
+                <p class="mb-1 text-muted">Address</p>
+                <h6 class="mb-0" id="event-details-modal-event_address">
+                  Loading...
+                </h6>
+              </li>
+              <div class="mt-4 card-footer px-0 py-2">
+                <!-- <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#shareLinkModal"> -->
+                <button class="btn btn-primary mt-2" id="export-assigned-tickets-btn">
+                  <b>Export assigned ticket</b>
+                </button>
+                
+                <input type="file" id="file_input" multiple hidden>
+
+                <button id="upload_btn" class="btn btn-primary mt-2">Upload Tickets</button>
+
+                <div id="status_message"></div>
+                
+                <a class="btn btn-outline-primary mt-2" href="{% url 'event_qr_scanner-list' %}" id="event-details-modal-event_qr_scanner" style="display: none;">
+                  <b>Scan tickets</b>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header">
+              <h5>Commercial Details</h5>
+            </div>
+            <div class="card-body">
+              <p class="mb-1 text-muted">Tickets Sold</p>
+              <h6 class="mb-4" id="event-details-modal-event_ticket_sold">
+                Loading...
+              </h6>
+              <p class="mb-1 text-muted">Total Sales</p>
+              <h6 class="mb-4" id="event-details-modal-event_total_sales">
+                Loading...
+              </h6>
+
+              <div class="mt-4 card-footer px-0 py-2">
+                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#AddAvailableTickets">
+                  <b>Update available tickets</b>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mt-4 flex">
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="resellers-tab" data-bs-toggle="tab" data-bs-target="#resellers-section"
+              type="button" role="tab" aria-controls="resellers-section" aria-selected="true">
+              All Resellers
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets-section"
+              type="button" role="tab" aria-controls="tickets-section" aria-selected="false">
+              All Tickets
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="myTabContent">
+          <!-- Resellers Section -->
+          <div class="tab-pane fade show active" id="resellers-section" role="tabpanel" aria-labelledby="resellers-tab">
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">All Resellers</h5> -->
+              <div class="card tbl-card">
+                <div class="card-body pt-0">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-borderless mb-0">
+                      <thead>
+                        <tr>
+                          <th>NAME</th>
+                          <th class="text-center text-nowrap">EMAIL</th>
+                          <th class="text-center text-nowrap">TICKETS SOLD</th>
+                          <th class="text-center text-nowrap">AVAILABLE</th>
+                          <th class="text-center text-nowrap">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody id="resellers-list">
+                        <!-- Dynamic ticket sales data will be populated here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resellers List -->
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">All Resellers</h5> -->
+              <div class="card" style="max-height: 495px">
+                <div class="list-group list-group-flush overflow-y-scroll" id="resellers-list"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Tickets Section -->
+          <div class="tab-pane fade" id="tickets-section" role="tabpanel" aria-labelledby="tickets-tab">
+            <div class="col-md-12 col-xl-12">
+              <!-- <h5 class="mb-3">Ticket Status</h5> -->
+              <div class="card tbl-card">
+                <div class="card-body mt-0">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-borderless mb-0">
+                      <thead>
+                        <tr>
+                          <th>RESELLER NAME</th>
+                          <th class="text-center">CUSTOMER NAME</th>
+                          <th class="text-center">CUSTOMER EMAIL</th>
+                          <th class="text-center">QUANTITY</th>
+                          <th class="text-center">AMOUNT</th>
+                          <th class="text-center">STATUS</th>
+                          <th class="text-center">ACTIONS</th>
+                        </tr>
+                      </thead>
+                      <tbody id="ticket-sales-table-body">
+                        <!-- Dynamic ticket sales data will be populated here -->
+                      </tbody>
+                    </table>
+                    <div class="pagination mt-3 text-center" id="paginationControls"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assign Tickets Modal -->
+      <div class="modal fade " id="AssignticketsModal" tabindex="-1" aria-labelledby="AssignticketsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="AssignticketsModalLabel">
+                Assign Tickets
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-reseller_name">
+                    Reseller Name :- Loading..
+                  </p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-reseller_email">
+                    Reseller Email :- Loading..
+                  </p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-event_name">
+                    Event Name :- Loading...
+                  </p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-event_date">
+                    Event Date :- Loading.. </p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-assigned_tickets">
+                    Assigned Tickets :- Loading.. </p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <p class="mb-0" id="assign-tickets-modal-available_tickets">
+                    Available Tickets :- Loading.. </p>
+                </div>
+
+                <h5 for="assigntickets" class="form-label mt-3">Assign more tickets</h5>
+                <div class="col-md-12 d-flex align-items-center mb-3">
+                  <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets" />
+                  <input type="hidden" id="assign-tickets-modal-reseller_id" />
+                </div>
+                <h5 for="assignticketsPrice" class="form-label mt-3">Enter price of ticket</h5>
+                <div class="col-md-12 d-flex align-items-center mb-3">
+                  <input type="text" class="form-control" id="assignticketsPrice" placeholder="Enter price of ticket" />
+                </div>
+                <div class="col-md-12 d-flex mb-1">
+                  <input type="checkbox" class="form-check-input" id="assign-tickets-modal-adjust_total_tickets" />
+                  <label class="form-check-label" for="assign-tickets-modal-adjust_total_tickets"> &nbsp;Adjust total
+                    available tickets</label>
+                </div>
+              </div>
+              <div class="modal-footer p-0 pt-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                  id="assign-tickets-modal-assigned_modal_close_btn">
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary" id="assign-tickets-modal-assigned_tickets_btn">
+                  Assign Tickets
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Available Modal -->
+      <div class="modal fade " id="AddAvailableTickets" tabindex="-1" aria-labelledby="AddAvailableTicketsLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="AddAvailableTicketsLabel">
+                Add Available Tickets
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <p class="mb-0" id="add-available-ticket-available-tickets">
+                  Available Tickets: Loading.. </p>
+              </div>
+
+              <div class="col-md-6 d-flex align-items-center mb-3">
+                <p class="mb-0" id="add-available-ticket-updated-available-tickets">
+                  Updated Available Tickets: Loading.. </p>
+              </div>
+
+              <h5 for="new_available_tickets" class="form-label mt-3">Add Available Ticket</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="new_available_tickets" placeholder="Add Available Ticket" />
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="add-available-ticket-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="add-available-ticket-btn">
+                Update Tickets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approve Ticket Modal -->
+      <div class="modal fade " id="ApproveTicketModal" tabindex="-1" aria-labelledby="ApproveTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ApproveTicketModalLabel">
+                Approve Ticket
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Name</u>:</b>&nbsp; <span id="approve-ticket-customer-name">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Email</u>:</b>&nbsp; <span id="approve-ticket-customer-email">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Number</u>:</b>&nbsp; <span id="approve-ticket-customer-number">Loading.. </span>
+              </div>
+
+              <h5 for="approve-ticket-customer-qty" class="form-label mt-3">Number of tickets</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="approve-ticket-customer-qty"
+                  placeholder="Number of tickets" />
+              </div>
+
+              <h5 for="approve-ticket-customer-amount" class="form-label mt-3">Total Amount</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="approve-ticket-customer-amount"
+                  placeholder="Total Amount" />
+              </div>
+
+              <input type="hidden" class="form-control" id="approve-ticket-id">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="approve-ticket-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="approve-ticket-btn">
+                Approve Tickets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Ticket Mail Modal -->
+      <div class="modal fade " id="SendTicketMailModal" tabindex="-1" aria-labelledby="SendTicketMailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="SendTicketMailModalLabel">
+                Send Ticket Mail
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Name</u>:</b>&nbsp; <span id="send-ticket-mail-customer-name">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Email</u>:</b>&nbsp; <span id="send-ticket-mail-customer-email">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Number</u>:</b>&nbsp; <span id="send-ticket-mail-customer-number">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>QTY</u>:</b>&nbsp; <span id="send-ticket-mail-customer-qty">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Amount</u>:</b>&nbsp; <span id="send-ticket-mail-customer-amount">Loading.. </span>
+              </div>
+
+              <input type="hidden" class="form-control" id="send-ticket-mail-id">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="send-ticket-mail-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="send-ticket-mail-btn">
+                Send Mail
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ReSend Ticket Mail Modal -->
+      <div class="modal fade " id="ReSendTicketMailModal" tabindex="-1" aria-labelledby="ReSendTicketMailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ReSendTicketMailModalLabel">
+                ReSend Ticket Mail
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Name</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-name">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Email</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-email">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Number</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-number">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>QTY</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-qty">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Amount</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-amount">Loading.. </span>
+              </div>
+
+              <input type="hidden" class="form-control" id="re-send-ticket-mail-id">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="re-send-ticket-mail-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="re-send-ticket-mail-btn">
+                ReSend Mail
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share Link Modal -->
+      <div class="modal fade" id="shareLinkModal" tabindex="-1" aria-labelledby="shareLinkModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="shareLinkModalLabel">Share link</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="link-section">
+                <div class="link-label">link</div>
+                <div class="link-container">
+                  <input type="text" class="link-input" value="" id="copy_sale_link" readonly>
+                  <button class="copy-btn" id="copyLinkBtn">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- [ Main Content ] end -->
+
+  {% include 'footer.html' %}
+
+  <!-- [Page Specific JS] start -->
+  <!-- <script src="/static/assets/js/plugins/apexcharts.min.js"></script> -->
+  <!-- <script src="/static/assets/js/pages/dashboard-default.js"></script> -->
+  <!-- [Page Specific JS] end -->
+
+  <!-- Required Js -->
+  <script src="/static/assets/js/plugins/popper.min.js"></script>
+  <script src="/static/assets/js/plugins/simplebar.min.js"></script>
+  <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="/static/assets/js/fonts/custom-font.js"></script>
+  <script src="/static/assets/js/pcoded.js"></script>
+  <script src="/static/assets/js/plugins/feather.min.js"></script>
+  <script src="/static/assets/js/api_caller.js"></script>
+  <script src="/static/assets/js/script.js"></script>
+
+  <!--scripts for dynamic data-->
+  <script>
+    let data = {};
+    let event_data = null;
+    let event_date_data = null;
+    const domain = window.location.hostname;
+    let assigned_tickets = null;
+    let total_event_ticket_sold = null;
+    let total_approved_event_ticket = null;
+    let digital_pass = null;
+    let currentPage = 1;
+    const ticketsPerPage = 10;
+
+    const event_date_id = new URLSearchParams(window.location.search).get(
+      "event_date_id"
+    );
+
+    document.getElementById("export-assigned-tickets-btn").addEventListener("click", () => {
+      window.location = `/ticket/export-assigned-ticket-api/?event_date_id=${event_date_id}`
+    });
+
+    document.getElementById('copy_sale_link').value = `https://${domain}:8000/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
+
+    function copyToClipboard(button, input, message) {
+      // Select the text
+      input.select();
+      input.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the text
+      navigator.clipboard.writeText(input.value)
+        .then(() => {
+          // Show the toast with appropriate message
+          copyToast.textContent = message;
+          copyToast.classList.add('show');
+
+          // Change button text temporarily
+          const originalText = button.textContent;
+          console.log(originalText);
+          button.textContent = 'Copied';
+
+          // Reset button text after 2 seconds
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2000);
+
+          // Hide the toast after 3 seconds
+          setTimeout(() => {
+            copyToast.classList.remove('show');
+          }, 3000);
+        })
+        .catch(err => {
+          console.error('Could not copy text: ', err);
+        });
+    }
+
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const linkInputs = document.querySelectorAll('.link-input');
+    const copyToast = document.getElementById('copyToast');
+    copyLinkBtn.addEventListener('click', function () {
+      copyToClipboard(this, linkInputs[0], 'Link copied');
+    });
+
+    window.onload = async function () {
+      fetchHodEventsData();
+    };
+
+    async function fetchHodEventsData() {
+      try {
+        const Params = {
+          event_date_id: event_date_id,
+        };
+
+        const url = "{% url 'hod-event-date-data-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
+        const [success, result] = await callApi("GET", url);
+        if (success) {
+          if (result.success) {
+            data = result.data; // Extract actual data object
+            console.log(data);
+            event_data = data.event_data;
+            event_date_data = data.event_date_data;
+
+            digital_pass = event_data.digital_pass;
+
+            document.getElementById('add-available-ticket-available-tickets').innerText = `Available Tickets: ${event_date_data.total_number_of_tickets}`;
+            document.getElementById('add-available-ticket-updated-available-tickets').innerText = `Updated Available Tickets: ${event_date_data.total_number_of_tickets}`;
+
+            let date_html = "";
+            event_data.all_dates.forEach((date) => {
+              date_html += `<span class="badge bg-light-secondary border border-secondary bg-transparent f-14 me-1 mt-1">${date}</span>`;
+            });
+
+            //populate reseller list 
+            const resellerTable = document.getElementById(
+              "resellers-list"
+            );
+            resellerTable.innerHTML = "";
+            data.reseller_data.forEach((reseller) => {
+              const ticketRow = `
+              <tr>
+                  <td class="text-nowrap"><b>${reseller.name} - ${reseller.user_id}</b></td>
+                  <td class="text-center">${reseller.email}</td>
+                  <td class="text-center">${reseller.total_tickets_sold_seller} ( ₹${reseller.total_tickets_sold_seller_amount.toLocaleString("en-IN")} )</td>
+                  <td class="text-center">${reseller.available_tickets}</td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-primary text-nowrap"
+                    onclick="handleAssignTicketsModal('${reseller.name}', '${reseller.email}', '${event_data.event_name}', '${event_date_data.date}', '${reseller.assigned_tickets}', '${reseller.available_tickets}', '${reseller.user_id}')"
+                    >Assign Tickets</button>
+                  </td>
+              </tr>`;
+              resellerTable.innerHTML += ticketRow;
+            });
+
+            // Populate ticket sales table dynamically
+            const ticketTableBody = document.getElementById(
+              "ticket-sales-table-body"
+            );
+            ticketTableBody.innerHTML = "";
+            // event_data.all_tickets.forEach((ticket) => {
+            //   let statusClass =
+            //     ticket.status.toLowerCase() === "approved"
+            //       ? "text-success"
+            //       : "text-danger";
+            //   if (ticket.status.toLowerCase() === "mail sent") {
+            //     statusClass = "text-primary";
+            //   }
+            //   const ticketRow = `
+            //   <tr>
+            //       <td><a href="#" class="text-muted">${ticket.customer_name
+            //     }</a></td>
+            //       <td>${ticket.event_name}</td>
+            //       <td>${ticket.qty}</td>
+            //       <td>
+            //            <span class="d-flex align-items-center gap-2">
+            //                     <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status
+            //     }
+            //             </span>
+            //       </td>
+            //       <td class="text-end">₹${ticket.amount.toLocaleString("en-IN")}</td>
+            //   </tr>`;
+            //   ticketTableBody.innerHTML += ticketRow;
+            // });
+
+            renderTickets(event_data.all_tickets, currentPage);
+            if (event_data.is_rented_event) {
+              document.getElementById('event-details-modal-event_qr_scanner').style.display = '';
+            }
+            document.getElementById(
+              "event-details-modal-event_name"
+            ).innerText = event_data.event_name;
+            document.getElementById(
+              "event-details-modal-event_venue"
+            ).innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
+            // document.getElementById('event-details-modal-event_details').innerText = '';
+            document.getElementById(
+              "event-details-modal-event_date_range"
+            ).innerText = event_data.event_date_range;
+            document.getElementById(
+              "event-details-modal-event_city"
+            ).innerText = `${event_data.city}, ${event_data.state}`;
+            document.getElementById(
+              "event-details-modal-event_total_available_tickets"
+            ).innerText = event_date_data.total_number_of_tickets;
+            document.getElementById(
+              "event-details-modal-event_assigned_tickets"
+            ).innerText = event_date_data.number_of_tickets;
+            
+            document.getElementById(
+              "event-details-modal-event_available_tickets"
+            ).innerText = Number(event_date_data.total_number_of_tickets) - Number(event_date_data.number_of_tickets);
+            
+            document.getElementById(
+              "event-details-modal-event_tickets_s3_bucket"
+            ).innerText = data.total_tickets_in_s3;
+            
+            document.getElementById(
+              "event-details-modal-event_digital_pass"
+            ).className =
+              event_data.digital_pass === true
+                ? "ti ti-check me-2"
+                : "ti ti-x me-2";
+            document.getElementById(
+              "event-details-modal-event_address"
+            ).innerText = event_data.event_address;
+            document.getElementById(
+              "event-details-modal-event_ticket_sold"
+            ).innerText = event_data.total_event_ticket_sold;
+            document.getElementById(
+              "event-details-modal-event_total_sales"
+            ).innerText = `₹${event_data.total_event_ticket_sold_amount.toLocaleString(
+              "en-IN"
+            )}`;
+            document.getElementById(
+              "event-details-modal-event_days"
+            ).innerHTML = date_html;
+
+          }
+        } else {
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    function renderTickets(tickets, page = 1) {
+      const ticketTableBody = document.getElementById("ticket-sales-table-body");
+      ticketTableBody.innerHTML = "";
+
+      const start = (page - 1) * ticketsPerPage;
+      const end = start + ticketsPerPage;
+      const paginatedTickets = tickets.slice(start, end);
+
+      paginatedTickets.forEach(ticket => {
+        let actionBtn = "";
+        let statusClass = "";
+
+        if (ticket.seller_id === "{{user}}") {
+          if (ticket.status.toLowerCase() === "approved") {
+            if (!digital_pass) {
+              statusClass = "text-primary";
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+
+            }
+            else {
+              statusClass = "text-success";
+              actionBtn = `<button onclick="sendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-primary text-nowrap"><i class="ti ti-mail f-18"></i> Send Mail</button>`;
+            }
+          }
+
+          else if (ticket.status.toLowerCase() === "mail sent") {
+            statusClass = "text-primary";
+            // actionBtn = 'No Action';
+            actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+          }
+
+          else {
+            statusClass = "text-danger";
+            actionBtn = `<button onclick="approveTicket('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-success text-nowrap"><i class="ti ti-check f-18"></i> Approve</button>`;
+          }
+
+        }
+
+        else {
+          if (ticket.status.toLowerCase() === "approved") {
+            if (!digital_pass) {
+              statusClass = "text-primary";
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+            }
+            else {
+              statusClass = "text-success";
+              actionBtn = `Reseller will take action`;
+            }
+          }
+
+          else if (ticket.status.toLowerCase() === "mail sent") {
+            statusClass = "text-primary";
+            // actionBtn = 'No Action';
+            actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+          }
+
+          else {
+            statusClass = "text-danger";
+            actionBtn = `Reseller will take action`;
+          }
+        }
+
+        const ticketRow = `
+                <tr>
+                    <td>${ticket.seller_name}</td>
+                    <td class="text-center">${ticket.customer_name}</td>
+                    <td class="text-center">${ticket.customer_email}</td>
+                    <td class="text-center">${ticket.qty}</td>
+                    <td class="text-center">₹${ticket.amount.toLocaleString("en-IN")}</td>
+                    <td class="text-center text-nowrap" id="status-class-${ticket.ticket_id}">
+                          <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
+                    </td>
+                    <td class="text-center text-nowrap" id="action-btn-${ticket.ticket_id}">${actionBtn}</td>
+                </tr>`;
+
+        ticketTableBody.innerHTML += ticketRow;
+      });
+
+      renderPagination(tickets.length);
+    }
+
+    function renderPagination(totalTickets) {
+      const paginationControls = document.getElementById("paginationControls");
+      paginationControls.innerHTML = "";
+
+      const totalPages = Math.ceil(totalTickets / ticketsPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = `btn btn-sm mx-1 ${i === currentPage ? "btn-primary" : "btn-outline-primary"}`;
+        btn.onclick = () => {
+          currentPage = i;
+          renderTickets(event_data.all_tickets, currentPage);
+        };
+        paginationControls.appendChild(btn);
+      }
+    }
+
+    function handleAssignTicketsModal(reseller_name, reseller_email, event_name, event_date, assigned_tickets, available_tickets, reseller_id) {
+      document.getElementById('assign-tickets-modal-reseller_name').innerText = `Reseller Name :  ${reseller_name}`;
+      document.getElementById('assign-tickets-modal-reseller_email').innerText = `Reseller Email :  ${reseller_email}`;
+      document.getElementById('assign-tickets-modal-event_name').innerText = `Event Name :  ${event_name}`;
+      document.getElementById('assign-tickets-modal-event_date').innerText = `Event Date :  ${formatDate(event_date)}`;
+      document.getElementById('assign-tickets-modal-assigned_tickets').innerText = `Assigned Tickets :  ${assigned_tickets}`;
+      document.getElementById('assign-tickets-modal-available_tickets').innerText = `Available Tickets :  ${available_tickets}`;
+      document.getElementById('assign-tickets-modal-reseller_id').value = reseller_id;
+      const assignTicketsModal = new bootstrap.Modal(
+        document.getElementById("AssignticketsModal")
+      );
+      assignTicketsModal.show();
+    }
+
+    document.getElementById("assign-tickets-modal-assigned_tickets_btn").addEventListener("click", async () => {
+      const assignTickets = document.getElementById("assigntickets").value;
+      if (assignTickets === "") {
+        alert("Please enter the number of tickets to assign");
+        return;
+      }
+      if (isNaN(assignTickets)) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (parseInt(assignTickets) <= 0) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (!document.getElementById('assign-tickets-modal-adjust_total_tickets').checked) {
+        if (parseInt(assignTickets) > (parseInt(event_date_data.total_number_of_tickets) - parseInt(event_date_data.number_of_tickets))) {
+          alert("Tickets assigned cannot be more than available tickets");
+          return;
+        }
+      }
+      const bodyData = {
+        reseller_id: document.getElementById('assign-tickets-modal-reseller_id').value,
+        event_date_id: event_date_id,
+        assigned_tickets: assignTickets,
+        ticket_price: document.getElementById('assignticketsPrice').value || 0,
+      };
+      const url = "{% url 'assign-ticket-api-list' %}";
+      const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+      console.log(result);
+      if (success) {
+        if (result.success) {
+          alert("Tickets assigned successfully");
+          fetchHodEventsData();
+          document.getElementById('assign-tickets-modal-assigned_modal_close_btn').click();
+        } else {
+          alert(`Error assigning tickets: ${result.error}`);
+        }
+      } else {
+        alert("Error assigning tickets");
+      }
+    });
+
+    document.getElementById("new_available_tickets").addEventListener("input", function (e) {
+      const addedTickets = parseInt(e.target.value, 10);
+
+      if (!isNaN(addedTickets)) {
+        const updatedTotal = parseInt(event_date_data.total_number_of_tickets) + addedTickets;
+
+        document.getElementById("add-available-ticket-updated-available-tickets").textContent =
+          "Updated Available Tickets: " + updatedTotal;
+      } else {
+        document.getElementById("add-available-ticket-updated-available-tickets").textContent =
+          "Updated Available Tickets: Invalid input";
+      }
+    });
+
+    document.getElementById("add-available-ticket-btn").addEventListener("click", async () => {
+      const new_available_tickets = document.getElementById("new_available_tickets").value;
+      if (new_available_tickets === "") {
+        alert("Please enter the number of tickets to be added");
+        return;
+      }
+      if (isNaN(new_available_tickets)) {
+        alert("Please enter a valid number");
+        return;
+      }
+      if (parseInt(new_available_tickets) <= 0) {
+        alert("Please enter a valid number");
+        return;
+      }
+
+      const bodyData = {
+        new_available_tickets: new_available_tickets,
+        event_date_id: event_date_id,
+        assigned_tickets: new_available_tickets
+      };
+      const url = "{% url 'add-available-ticket-api-list' %}";
+      const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+      console.log(result);
+      if (success) {
+        if (result.success) {
+          alert("Tickets Added successfully");
+          fetchHodEventsData();
+          document.getElementById('add-available-ticket-close-btn').click();
+        } else {
+          alert(`Error assigning tickets: ${result.error}`);
+        }
+      } else {
+        alert("Error assigning tickets");
+      }
+    });
+
+    async function approveTicket(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      // if (parseInt(total_approved_event_ticket) + parseInt(qty) > assigned_tickets) {
+      //   alert("You cannot approve more tickets than assigned.");
+      //   return;
+      // }
+      // if (parseInt(qty) > parseInt(assigned_tickets)) {
+      //   alert("You cannot approve more tickets than assigned.");
+      //   return;
+      // }
+      document.getElementById("approve-ticket-customer-name").innerText = ` ${customer_name}`;
+      document.getElementById("approve-ticket-customer-email").innerText = ` ${customer_email}`;
+      document.getElementById("approve-ticket-customer-number").innerText = ` ${customer_number}`;
+      document.getElementById("approve-ticket-customer-qty").value = qty;
+      document.getElementById("approve-ticket-customer-amount").value = amount;
+      document.getElementById("approve-ticket-id").value = ticket_id;
+
+      // Show the modal
+      $("#ApproveTicketModal").modal("show");
+
+      // Handle approve button click
+      document.getElementById("approve-ticket-btn").onclick = async function () {
+        const qty = document.getElementById("approve-ticket-customer-qty").value;
+        const amount = document.getElementById("approve-ticket-customer-amount").value;
+        const ticket_id = document.getElementById("approve-ticket-id").value;
+
+        // Call API to approve tickets (implement this function)
+        await approveTicketsAPI(customer_name, customer_email, customer_number, qty, amount, ticket_id);
+      };
+    }
+
+    async function approveTicketsAPI(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      // if (total_approved_event_ticket > assigned_tickets) {
+      //   alert("You cannot approve more tickets than assigned.");
+      //   return;
+      // }
+      // if (parseInt(qty) > parseInt(assigned_tickets)) {
+      //   alert("You cannot approve more tickets than assigned.");
+      //   return;
+      // }
+      try {
+        const bodyData = {
+          qty: qty,
+          amount: amount,
+          ticket_id: ticket_id,
+        };
+        const url = "{% url 'approve-ticket-api-list' %}";
+        const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        if (success) {
+          if (result.success) {
+            console.log("Tickets approved successfully:", result.data);
+            if (!digital_pass) {
+              document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
+              document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Approved`;
+            }
+            else {
+              document.getElementById('action-btn-' + ticket_id).innerHTML = `<button onclick="sendTicketMail('${customer_name}', '${customer_email}', '${customer_number}', '${qty}', '${amount}', '${ticket_id}')" class="btn btn-primary text-nowrap"><i class="ti ti-mail f-18"></i> Send Mail</button>`;
+              document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-success f-10 m-r-5"></i> Approved`;
+            }
+
+            $("#ApproveTicketModal").modal("hide");
+
+          } else {
+            console.error("Error approving tickets:", result.error);
+          }
+        } else {
+          console.error("API call failed:", result.error);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    async function sendTicketMail(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      document.getElementById("send-ticket-mail-customer-name").innerText = ` ${customer_name}`;
+      document.getElementById("send-ticket-mail-customer-email").innerText = ` ${customer_email}`;
+      document.getElementById("send-ticket-mail-customer-number").innerText = ` ${customer_number}`;
+      document.getElementById("send-ticket-mail-customer-qty").innerText = ` ${qty}`;
+      document.getElementById("send-ticket-mail-customer-amount").innerText = ` ${amount}`;
+      document.getElementById("send-ticket-mail-id").value = ticket_id;
+
+      // Show the modal
+      $("#SendTicketMailModal").modal("show");
+
+      // Handle approve button click
+      document.getElementById("send-ticket-mail-btn").onclick = async function () {
+        const ticket_id = document.getElementById("send-ticket-mail-id").value;
+
+        // Call API to approve tickets (implement this function)
+        await sendTicketMailAPI(ticket_id);
+      };
+
+    }
+
+    async function ResendTicketMail(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      document.getElementById("re-send-ticket-mail-customer-name").innerText = ` ${customer_name}`;
+      document.getElementById("re-send-ticket-mail-customer-email").innerText = ` ${customer_email}`;
+      document.getElementById("re-send-ticket-mail-customer-number").innerText = ` ${customer_number}`;
+      document.getElementById("re-send-ticket-mail-customer-qty").innerText = ` ${qty}`;
+      document.getElementById("re-send-ticket-mail-customer-amount").innerText = ` ${amount}`;
+      document.getElementById("re-send-ticket-mail-id").value = ticket_id;
+
+      // Show the modal
+      $("#ReSendTicketMailModal").modal("show");
+
+      // Handle approve button click
+      document.getElementById("re-send-ticket-mail-btn").onclick = async function () {
+        const ticket_id = document.getElementById("re-send-ticket-mail-id").value;
+
+        // Call API to approve tickets (implement this function)
+        await ResendTicketMailAPI(ticket_id);
+      };
+
+    }
+
+    async function sendTicketMailAPI(ticket_id) {
+      try {
+        const bodyData = {
+          ticket_id: ticket_id,
+        };
+        const url = "{% url 'send-ticket-mail-api-list' %}";
+        const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        if (success) {
+          if (result.success) {
+            console.log("Tickets approved successfully:", result.data);
+            document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
+            document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Mail Sent`;
+
+            $("#SendTicketMailModal").modal("hide");
+
+          }else {
+            console.log("Error approving tickets:", result.error);
+            alert(`${result.error}`);
+          }
+        } else {
+          console.log("API call failed:", result.error);
+          alert(`${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert(`${error}`);
+      }
+
+    }
+
+    async function ResendTicketMailAPI(ticket_id) {
+      try {
+        const bodyData = {
+          ticket_id: ticket_id,
+        };
+        const url = "{% url 're-send-ticket-mail-api-list' %}";
+        const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        if (success) {
+          if (result.success) {
+            console.log("Tickets approved successfully:", result.data);
+            document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
+            document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Mail Sent`;
+
+            $("#SendTicketMailModal").modal("hide");
+
+          }else {
+            console.log("Error approving tickets:", result.error);
+            alert(`${result.error}`);
+          }
+        } else {
+          console.log("API call failed:", result.error);
+          alert(`${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert(`${error}`);
+      }
+
+    }
+
+    async function eventTicketUpload(apiUrl) {
+        const eventDateId = event_date_id;
+        const files = document.getElementById("file_input").files;
+
+        const statusDiv = document.getElementById("status_message");
+        statusDiv.innerText = "Uploading...";
+
+        if (!eventDateId) {
+            statusDiv.innerText = "Please enter both Event ID and Event Date ID.";
+            return;
+        }
+
+        if (files.length === 0) {
+            statusDiv.innerText = "Please select at least one file.";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("event_date_id", eventDateId);
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append(`files[${i}]`, files[i]);
+        }
+
+        try {            
+            const url = "{% url 'event-ticket-api-list' %}"
+            const [success, result] = await callApi("POST", url, formData, "{{csrf_token}}", true);
+            if (success) {
+              if (result.success) {
+                  const data = result.data;
+                  statusDiv.innerText = `Uploaded ${data.total_files_uploaded} files successfully. Failed: ${data.error_files.length}`;
+              } else {
+                  statusDiv.innerText = `Error: ${result.error}`;
+              }
+              } else {
+              alert('Unable to create new event');
+            }
+        } catch (err) {
+            console.error(err);
+            statusDiv.innerText = "Something went wrong.";
+        }
+    }
+
+    document.getElementById("upload_btn").addEventListener("click", () => {
+      const fileInput = document.getElementById("file_input");
+      fileInput.click();
+    });
+
+    document.getElementById('file_input').addEventListener('change', function(event) {
+      eventTicketUpload();
+    
+    });
+
+
+
+  </script>
+
+</body>
+<!-- [Body] end -->
+
+</html>

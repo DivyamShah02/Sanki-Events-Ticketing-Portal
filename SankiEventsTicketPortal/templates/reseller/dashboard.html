@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- [Head] start -->
+
+<head>
+  <title>Sanki Events</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <!-- [Google Font] Family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    id="main-font-link" />
+  
+    <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/static/assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/static/assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
+  <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
+  
+  <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  
+</head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
+
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+ 
+  <!-- [ Sidebar Menu ] start -->
+  {% include 'reseller/nav_bar.html' %}
+  <!-- [ Sidebar Menu ] end -->
+
+  <!-- [ Header Topbar ] start -->
+  {% include 'header.html' %}
+  <!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <!-- <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <div class="page-header-title">
+                <h5 class="m-b-10">@@breadcrumb-item-active</h5>
+              </div>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item" aria-current="page">Home</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- [ breadcrumb ] end -->
+
+      <!-- [ Main Content ] start -->
+      <div class="row">
+        <!-- [ sample-page ] start -->
+        <div class="row">
+          <!-- Total Events -->
+          <div class="col-md-6 col-xl-4">
+            <div class="card" id="total-events-card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Events</h6>
+                <h4 class="mb-3" id="total-events">Loading...</h4>
+              </div>
+            </div>
+          </div>
+        
+          
+        
+          <!-- Total Tickets Sold -->
+          <div class="col-md-6 col-xl-4">
+            <div class="card" id="total-tickets-card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Tickets Sold</h6>
+                <h4 class="mb-3" id="total-tickets-sold">Loading...</h4>
+              </div>
+            </div>
+          </div>
+        
+        
+          <div class="col-md-6 col-xl-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                <h4 class="mb-3" id="total-sales">Loading...</h4>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="events-section" class=" row" >
+          <div class="col-sm-12 col-xl-8 ">
+            <h5 class="mb-3">All Events</h5>
+            <div class="card" style="max-height: 375px;">
+              <div class="list-group overflow-y-scroll" id="events-list"></div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-xl-4">
+            
+            <h5 class="mt-1 text-start">Best Seller</h5>
+            <div class="mt-1">
+              <div class="card text-start">
+                <div class="card-header">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <div
+                        class="avtar avtar-s rounded-circle text-success bg-light-success"
+                      >
+                        <i class="ti ti-gift f-18"></i>
+                      </div>
+                      <!-- <img src="../assets/images/user/avatar-5.jpg" alt="user" class="wid-40 rounded-circle"> -->
+                    </div>
+                    <div class="flex-grow-1 mx-3">
+                      <h6 class="mb-1" id="event-best-seller-name"></h6>
+                      <p
+                        class="text-muted text-sm mb-0"
+                        id="event-best-seller-date"
+                      ></p>
+                    </div>                    
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p class="mb-4" id = "event-best-seller-description"></p>
+                  </p>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+                        
+                          <h6 class="" id="event-best-seller-sales">
+                          </h6>
+                  
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                      <div class="">
+                        <h6 class="mb-2 f-w-400 text-muted">Tickets Sold</h6>
+                        <h6 class="" id="event-best-seller-tickets"></h6>
+                        
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-0 text-muted" id="event-best-seller-venue"></p>
+                    <button class="btn btn-sm btn-outline-primary">
+                      Event Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+        <div id="tickets-section" style="display:none" >
+          <div class="col-md-12 col-xl-12" id>
+            <h5 class="mb-3">Ticket Status</h5>
+            <div class="card tbl-card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-borderless mb-0">
+                    <thead>
+                      <tr>
+                        <th>CUSTOMER NAME</th>
+                        <th>EVENT NAME</th>
+                        <th>QUANTITY</th>
+                        <th>STATUS</th>
+                        <th class="text-end">TOTAL AMOUNT</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ticket-sales-table-body">
+                      <!-- Dynamic ticket sales data will be populated here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       
+        
+      </div>
+    </div>
+  </div>
+  <!-- [ Main Content ] end -->
+
+  {% include 'footer.html' %}
+
+  <!-- [Page Specific JS] start -->
+  <!-- <script src="../../static/assets/js/plugins/apexcharts.min.js"></script> -->
+  <!-- <script src="../../static/assets/js/pages/dashboard-default.js"></script> -->
+  <!-- [Page Specific JS] end -->
+
+  <!-- Required Js -->
+  <script src="/static/assets/js/plugins/popper.min.js"></script>
+  <script src="/static/assets/js/plugins/simplebar.min.js"></script>
+  <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="/static/assets/js/fonts/custom-font.js"></script>
+  <script src="/static/assets/js/pcoded.js"></script>
+  <script src="/static/assets/js/plugins/feather.min.js"></script>
+  <script src="/static/assets/js/api_caller.js"></script>
+  <script src="/static/assets/js/script.js"></script>
+
+   <!--scripts for dynamic data-->
+   <script>
+      window.onload = async function () {
+        await fetchResellerDashboardData();
+        handleDashboardFuncitonality();
+      };
+
+    async function fetchResellerDashboardData() {
+      try {
+        const response = await fetch("/event/reseller-dashboard-api"); // API endpoint
+        const result = await response.json();
+        const data = result.data; // Extract actual data object
+
+        document.getElementById(
+          "total-events"
+        ).innerHTML = `${data.len_events_data}`;
+        
+        document.getElementById(
+          "total-tickets-sold"
+        ).innerHTML = `${data.all_tickets_sold}`;
+       
+        document.getElementById(
+          "total-sales"
+        ).innerHTML = `₹${data.all_tickets_sold_amount}`;
+       
+
+        // Global variables to store event with max revenue
+        let maxEventAmount = 0;
+        let maxEvent = null;
+
+
+        // Populate events list dynamically
+        const eventsList = document.getElementById("events-list");
+        eventsList.innerHTML = "";
+        data.events_data.forEach((event) => {
+          if (event.total_event_ticket_sold_amount > maxEventAmount) {
+            maxEventAmount = event.total_event_ticket_sold_amount;
+            maxEvent = event;
+          }
+          const eventItem = `
+                    <a href="{% url 'event_detail-list' %}?event_id=${event.event_id}" class="list-group-item list-group-item-action">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
+                                    <i class="ti ti-message-circle f-18"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">${event.event_name}</h6>
+                                <p class="mb-0 text-muted">${event.event_date_range} | ${event.event_venue}</p>
+                            </div>
+                            <div class="flex-shrink-0 text-end">
+                                <h6 class="mb-1">+ ₹${event.total_event_ticket_sold_amount}</h6>
+                                <p class="mb-0 text-muted">
+                                    <span class="font-bold">Tickets Sold:</span> ${event.total_event_ticket_sold}
+                                </p>
+                            </div>
+                        </div>
+                    </a>`;
+          eventsList.innerHTML += eventItem;
+        });
+
+        //best Seller
+        if (maxEvent) {
+          document.getElementById("event-best-seller-name").innerText =
+            maxEvent.event_name;
+          document.getElementById("event-best-seller-date").innerText =
+            maxEvent.event_date_range;
+          document.getElementById(
+            "event-best-seller-sales"
+          ).innerText = `₹${maxEvent.total_event_ticket_sold_amount}`;
+          document.getElementById("event-best-seller-description").innerText =
+            maxEvent.event_details;
+          document.getElementById("event-best-seller-venue").innerText =
+            maxEvent.event_venue;
+          document.getElementById("event-best-seller-tickets").innerText =
+            maxEvent.total_event_ticket_sold;
+        }
+
+    
+
+        // Populate ticket sales table dynamically
+        const ticketTableBody = document.getElementById(
+          "ticket-sales-table-body"
+        );
+        ticketTableBody.innerHTML = "";
+        data.all_ticket_data.forEach((ticket) => {
+          const statusClass =
+            ticket.status.toLowerCase() === "approved"
+              ? "text-success"
+              : "text-danger";
+          const ticketRow = `
+            <tr>
+                <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
+                <td>${ticket.event_name}</td>
+                <td>${ticket.qty}</td>
+                <td>
+                     <span class="d-flex align-items-center gap-2">
+                              <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
+                      </span>
+                </td>
+                <td class="text-end">₹${ticket.amount}</td>
+            </tr>`;
+          ticketTableBody.innerHTML += ticketRow;
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+  </script>
+  <script>
+    function handleDashboardFuncitonality() {
+      // Select the cards
+      const totalEventsCard = document.getElementById("total-events-card");
+      const totalTicketsCard = document.getElementById("total-tickets-card");
+  
+      // Select the sections
+      const eventsSection = document.getElementById("events-section");
+      const ticketsSection = document.getElementById("tickets-section");
+  
+      
+      
+      // Function to hide all sections
+      function hideAllSections() {
+        eventsSection.style.display = "none";
+        ticketsSection.style.display = "none";
+      }
+  
+      // Make Events Section visible by default
+      eventsSection.style.display = "flex";
+     
+
+      // Event Listeners for each card
+      totalEventsCard.addEventListener("click", function () {
+        hideAllSections();
+        eventsSection.style.display = "flex"; // Show Events Section
+       
+      });
+  
+  
+      totalTicketsCard.addEventListener("click", function () {
+        hideAllSections();
+        ticketsSection.style.display = "block"; // Show Tickets List
+
+      });
+    }
+  </script>
+  
+</body>
+<!-- [Body] end -->
+
+</html>
