@@ -393,10 +393,10 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
+                <label for="phone" class="form-label">Phone Number <small class="text-muted" style="font-weight: 200;">(Don't add <b>'+91'</b> in the number)</small></label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                  <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required />
+                  <input type="tel" class="form-control" maxlength="10" id="phone" placeholder="Enter your phone number" required />
                 </div>
               </div>
             </div>
@@ -409,14 +409,14 @@
             </h4>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
+                <label for="quantity" class="form-label">Quantity<br><small class="text-muted" style="font-weight: 200;"> (You may request up to 10 tickets at a time. To purchase more, kindly submit the form again.)</small></label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
-                  <input type="number" class="form-control" id="quantity" min="1" max="10" value="1" required />
+                  <input type="number" class="form-control" id="quantity" min="1"  max="10" value="1" required />
                 </div>
               </div>
               <div class="col-md-6 mb-3" id="total-amount-section">
-                <label for="total-amount" class="form-label">Total Amount</label>
+                <label for="total-amount" class="form-label">Total Amount<br><small class="text-muted" style="font-weight: 200;"> (Provide the full amount submitted for this purchase)</small></label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-rupee-sign"></i></span>
                   <input type="number" class="form-control" id="total-amount" required />
@@ -428,7 +428,7 @@
           <!-- Payment Screenshot Upload -->
           <div class="mb-4" id="payment-screenshot-section">
             <h4 class="form-section-title">
-              <i class="ti ti-file-invoice"></i> Payment Information
+              <i class="ti ti-file-invoice"></i> Payment Information <small class="text-muted" style="font-weight: 200;">(please upload the screenshot with UPI transaction id)</small>
             </h4>
 
             <div class="file-upload-container">

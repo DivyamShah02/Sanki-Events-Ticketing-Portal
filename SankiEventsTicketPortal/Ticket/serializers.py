@@ -92,3 +92,24 @@ class AssignedTicketSerializer(serializers.ModelSerializer):
         model = AssignedTicket        
         fields = '__all__'
 
+class AssignedTicketHistorySerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format='%H:%M | %d-%m-%Y')
+    class Meta:
+        model = AssignedTicketHistory        
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        if 'reseller_id' in representation:
+            user_details = User.objects.filter(user_id=representation['reseller_id']).first()
+            representation['reseller_name'] = user_details.name
+
+        if 'event_date_id' in representation:
+            event_date_data = EventDate.objects.filter(event_date_id=representation['event_date_id']).first()
+            event_data = Event.objects.filter(event_id=event_date_data.event_id).first()
+
+            representation['event_name'] = event_data.event_name
+            representation['event_date'] = event_date_data.date
+
+        return representation

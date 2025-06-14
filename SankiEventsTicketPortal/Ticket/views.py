@@ -1,5 +1,9 @@
+import csv
+import json
 import random
 import string
+import xlsxwriter
+from io import BytesIO
 from datetime import datetime, timedelta
 
 from rest_framework import viewsets, status
@@ -276,11 +280,13 @@ class SendTicketMailViewSet(viewsets.ViewSet):
         print(event_data_obj.event_name)
         print(event_date_data_obj.date)
         print(ticket_data.customer_email)
+        print(ticket_data.qty)
 
         if event_data_obj.digital_pass == True:            
             mail_sent, status_text = self.send_mail(event_name=event_data_obj.event_name,
                                                     date=event_date_data_obj.date,
-                                                    recipient_email=ticket_data.customer_email)
+                                                    recipient_email=ticket_data.customer_email,
+                                                    qty=ticket_data.qty)
 
             if mail_sent:
                 ticket_data.mail_sent = True
@@ -316,16 +322,121 @@ class SendTicketMailViewSet(viewsets.ViewSet):
                     "error": 'Event does not has digital pass.'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-    def send_mail(self, event_name, date, recipient_email):
+    def send_mail(self, event_name, date, recipient_email, qty):
         filename, success, *error = send_ticket_and_move(
                 event_name=event_name,
                 # date="2025-05-20 00:00:00",
                 date=f"{date} 00:00:00",
-                recipient_email=recipient_email
+                recipient_email=recipient_email,
+                qty=qty
             )
 
         if success:
             print(f"Sent and moved file: {filename}")
+            return True, filename
+
+        else:
+            print("Failed:", error[0])
+            return False, error[0]
+
+
+class ReSendTicketMailViewSet(viewsets.ViewSet):
+    
+    @handle_exceptions
+    @check_authentication()
+    def create(self, request):
+        ticket_id = request.data.get('ticket_id')
+        if not ticket_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "ticket_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        if not ticket_data:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
+        event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()        
+
+        print(event_data_obj.event_name)
+        print(event_date_data_obj.date)
+        print(ticket_data.customer_email)
+        print(ticket_data.qty)
+        print(ticket_data.ticket_sent_codes)
+        
+        ticket_sent_codes = ticket_data.ticket_sent_codes
+        try:
+            ticket_sent_codes = json.loads(ticket_sent_codes.replace("'", '"'))
+        except:
+            ticket_sent_codes = []
+
+        if event_data_obj.digital_pass == True:            
+            mail_sent, status_text = self.re_send_mail(event_name=event_data_obj.event_name,
+                                                    date=event_date_data_obj.date,
+                                                    recipient_email=ticket_data.customer_email,
+                                                    qty=ticket_data.qty,sent_files=ticket_sent_codes)
+
+            if mail_sent:
+                ticket_data.mail_sent = True
+                ticket_data.ticket_sent_codes = status_text
+                ticket_data.save()
+
+                return Response(
+                    {
+                        "success": True,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,
+                        "data": {"ticket_id": ticket_id},
+                        "error": None
+                    }, status=status.HTTP_200_OK)
+
+            else:
+                return Response(
+                    {
+                        "success": False,
+                        "user_not_logged_in": False,
+                        "user_unauthorized": False,
+                        "data": None,
+                        "error": f'Unable to send mail: {status_text}'
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": 'Event does not has digital pass.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+    def re_send_mail(self, event_name, date, recipient_email, qty, sent_files):
+        filename, success, *error = resend_ticket(
+                event_name=event_name,
+                # date="2025-05-20 00:00:00",
+                date=f"{date} 00:00:00",
+                recipient_email=recipient_email,
+                qty=qty,
+                sent_files=sent_files
+            )
+        if len(sent_files) == 0:
+            print("No files to resend.")
+            return False, "No files to resend."
+
+        if success:
+            print(f"ReSent file: {filename}")
             return True, filename
 
         else:
@@ -341,6 +452,7 @@ class AssignTicketViewSet(viewsets.ViewSet):
         reseller_id = request.data.get('reseller_id')
         event_date_id = request.data.get('event_date_id')
         assigned_tickets = request.data.get('assigned_tickets')
+        ticket_price = request.data.get('ticket_price')
 
         if (not reseller_id) or (not event_date_id) or (not assigned_tickets):
             return Response({
@@ -358,6 +470,7 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 event_date_id=event_date_id,
                 assigned_tickets=assigned_tickets,
             )
+            assign_ticket.save()
         else:
             ticket_already_assigned.assigned_tickets = int(ticket_already_assigned.assigned_tickets) + int(assigned_tickets)
             ticket_already_assigned.save()
@@ -372,6 +485,14 @@ class AssignTicketViewSet(viewsets.ViewSet):
         event_date_obj.number_of_tickets = int(event_date_obj.number_of_tickets) + int(assigned_tickets)
         event_date_obj.save()
 
+        assigned_ticket_history = AssignedTicketHistory.objects.create(
+            ticket_qty=assigned_tickets,
+            ticket_price=ticket_price,
+            reseller_id=reseller_id,
+            event_date_id=event_date_id
+        )
+        assigned_ticket_history.save()
+
         return Response({
                 "success": True,
                 "user_not_logged_in": False,
@@ -379,6 +500,86 @@ class AssignTicketViewSet(viewsets.ViewSet):
                 "data": {'assigned_tickets': assigned_tickets},
                 "error": None
             }, status=status.HTTP_200_OK)
+
+
+class AdminExportAssignedTicketDataViewSet(viewsets.ViewSet):
+
+    # @handle_exceptions
+    @check_authentication('hod')
+    def list(self, request, pk='csv'):
+        """
+        Export orders to CSV or Excel
+        """
+        event_date_id = request.GET.get('event_date_id')
+        if not event_date_id:
+            return Response({"success": False, "error": "event_date_id is required"}, status=400)
+
+        assigned_tickets_obj = AssignedTicketHistory.objects.filter(event_date_id=event_date_id)
+        assigned_tickets_data = AssignedTicketHistorySerializer(assigned_tickets_obj, many=True).data
+        if not assigned_tickets_data:
+            return Response({"success": False, "error": "No tickets found for the given event date"}, status=404)
+
+        file_name = f"{assigned_tickets_data[0]['event_name']} - {assigned_tickets_data[0]['event_date']} Tickets assigned" if assigned_tickets_data else 'Event_data'
+        if pk == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}.csv"'
+            
+            writer = csv.writer(response)
+            writer.writerow([
+                'Date', 'Event Name', 'Event Date', 'Reseller Name', 'Ticket Quantity', 'Total Ticket Price'
+            ])
+            
+            for assigned_ticket in assigned_tickets_data:
+                writer.writerow([
+                    assigned_ticket['created_at'],
+                    assigned_ticket['event_name'],
+                    assigned_ticket['event_date'],
+                    assigned_ticket['reseller_name'],
+                    assigned_ticket['ticket_qty'],
+                    assigned_ticket['ticket_price'],
+                ])
+            
+            return response
+        
+        elif pk == 'excel':
+            output = BytesIO()
+            workbook = xlsxwriter.Workbook(output)
+            worksheet = workbook.add_worksheet()
+            
+            # Add header row
+            headers = [
+                'Date', 'Event Name', 'Event Date', 'Reseller Name', 'Ticket Quantity', 'Total Ticket Price'
+            ]
+            
+            for col, header in enumerate(headers):
+                worksheet.write(0, col, header)
+            
+            # Add data rows
+            for row, assigned_ticket in enumerate(assigned_tickets_data, start=1):
+                worksheet.write(row, 0, assigned_ticket['created_at'])
+                worksheet.write(row, 1, assigned_ticket['event_name'])
+                worksheet.write(row, 2, assigned_ticket['event_date'])
+                worksheet.write(row, 3, assigned_ticket['reseller_name'])
+                worksheet.write(row, 4, assigned_ticket['ticket_qty'])
+                worksheet.write(row, 5, assigned_ticket['ticket_price'])                
+            
+            workbook.close()
+            output.seek(0)
+            
+            response = HttpResponse(
+                output.read(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = f'attachment; filename="{file_name}.xlsx"'
+            return response
+        
+        elif pk == 'pdf':
+            # PDF export would require a PDF library like ReportLab
+            # This is a placeholder for future implementation
+            return Response({"success": False, "error": "PDF export not implemented yet"}, status=501)
+        
+        else:
+            return Response({"success": False, "error": f"Invalid export format: {pk}"}, status=400)
 
 
 class AddAvailableTicketsViewSet(viewsets.ViewSet):

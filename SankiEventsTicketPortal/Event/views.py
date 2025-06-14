@@ -61,8 +61,8 @@ class EventViewSet(viewsets.ViewSet):
                 number_of_tickets=0,
                 total_number_of_tickets=0
             )
-            current_date += timedelta(days=1)
             event_dates.append(current_date)
+            current_date += timedelta(days=1)
 
         s3_bucket_folder = create_event_folders_s3(event_name=event_name, event_dates=event_dates)
         new_event = Event.objects.create(
@@ -230,7 +230,7 @@ class EventViewSet(viewsets.ViewSet):
 class EventTicketsViewSet(viewsets.ViewSet):
     
     @check_authentication()
-    @handle_exceptions
+    # @handle_exceptions
     def create(self, request):
         event_date_id = request.data.get('event_date_id')
         if not event_date_id:
@@ -245,24 +245,14 @@ class EventTicketsViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-        event_id = request.data.get('event_id')
-        if not event_id:
-            return Response(
-                    {
-                        "success": False,
-                        "user_not_logged_in": False,
-                        "user_unauthorized": False,                            
-                        "data": None,
-                        "error": "event_id required."
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        
         event_date_data = EventDate.objects.filter(event_date_id=event_date_id).first()
+        event_id = event_date_data.event_id
+
         event_data = Event.objects.filter(event_id=event_id).first()
         
         s3_bucket_folder = event_data.s3_bucket_folder
-        event_date = datetime(event_date_data.date).strftime("%Y-%m-%d")
+        # print(event_date_data.date)
+        # event_date = datetime(event_date_data.date).strftime("%Y-%m-%d")
 
         ind = 0
         document_paths = []
@@ -273,9 +263,9 @@ class EventTicketsViewSet(viewsets.ViewSet):
             else:
                 break
 
-        event_date_folder = f"{s3_bucket_folder}/{event_date}"
+        event_date_folder = f"{s3_bucket_folder}{event_date_data.date} 00:00:00/Available Tickets"
         total_files_uploaded, error_files = upload_ticket_to_s3_event_folder(uploaded_files=document_paths, event_folder=event_date_folder)
-
+        print(total_files_uploaded, error_files)
         data = {
             'total_files_uploaded': total_files_uploaded,
             'error_files': error_files
@@ -295,22 +285,10 @@ class EventTicketsViewSet(viewsets.ViewSet):
     @check_authentication()
     @handle_exceptions
     def list(self, request):
-        event_id = request.GET.get('event_id')
-        if not event_id:
-            return Response(
-                    {
-                        "success": False,
-                        "user_not_logged_in": False,
-                        "user_unauthorized": False,                            
-                        "data": None,
-                        "error": "event_id required."
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
         event_date_id = request.GET.get('event_date_id')
         if event_date_id:
             event_date_data = EventDate.objects.filter(event_date_id=event_date_id).first()
+            event_id = event_date_data.event_id
             event_data = Event.objects.filter(event_id=event_id).first()
             
             s3_bucket_folder = event_data.s3_bucket_folder
@@ -453,12 +431,19 @@ class HodEventDateDetailViewSet(viewsets.ViewSet):
         reseller_obj = User.objects.filter(role='reseller')
         reseller_data = HodEventDateDetailUserSerializer(reseller_obj, context={'event_date_id': event_date_id}, many=True).data
 
+        s3_bucket_folder = event_data['s3_bucket_folder']
+        event_date_folder = f"{s3_bucket_folder}{event_date_data['date']} 00:00:00/Available Tickets"
+        total_tickets_in_s3 = get_number_of_tickets_in_event_folder(folder_name=event_date_folder)
+        # total_tickets_in_s3 = 0
         data = {
             "event_data": event_data,
             "event_date_data": event_date_data,
             
             "reseller_data": reseller_data[::-1],
             "len_reseller_data": len(reseller_data),   
+
+            'total_tickets_in_s3': total_tickets_in_s3
+
         }
 
         return Response(

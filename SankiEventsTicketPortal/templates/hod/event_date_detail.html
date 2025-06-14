@@ -206,8 +206,8 @@
                 <div class="col-md-6 d-flex align-items-center mb-3">
                   <i class="ti ti-ticket me-2"></i>
                   <p class="mb-0">
-                    Tickets Available:
-                    <span id="event-details-modal-event_available_tickets">Loading...</span>
+                    Total Tickets:
+                    <span id="event-details-modal-event_total_available_tickets">Loading...</span>
                   </p>
                 </div>
 
@@ -216,6 +216,22 @@
                   <p class="mb-0">
                     Tickets Assigned:
                     <span id="event-details-modal-event_assigned_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Tickets Available:
+                    <span id="event-details-modal-event_available_tickets">Loading...</span>
+                  </p>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mb-3">
+                  <i class="ti ti-ticket me-2"></i>
+                  <p class="mb-0">
+                    Total Tickets in S3 Bucket:
+                    <span id="event-details-modal-event_tickets_s3_bucket">Loading...</span>
                   </p>
                 </div>
 
@@ -239,9 +255,17 @@
                 </h6>
               </li>
               <div class="mt-4 card-footer px-0 py-2">
-                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#shareLinkModal">
-                  <b>Get Selling link</b>
+                <!-- <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#shareLinkModal"> -->
+                <button class="btn btn-primary mt-2" id="export-assigned-tickets-btn">
+                  <b>Export assigned ticket</b>
                 </button>
+                
+                <input type="file" id="file_input" multiple hidden>
+
+                <button id="upload_btn" class="btn btn-primary mt-2">Upload Tickets</button>
+
+                <div id="status_message"></div>
+                
                 <a class="btn btn-outline-primary mt-2" href="{% url 'event_qr_scanner-list' %}" id="event-details-modal-event_qr_scanner" style="display: none;">
                   <b>Scan tickets</b>
                 </a>
@@ -406,6 +430,10 @@
                   <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets" />
                   <input type="hidden" id="assign-tickets-modal-reseller_id" />
                 </div>
+                <h5 for="assignticketsPrice" class="form-label mt-3">Enter price of ticket</h5>
+                <div class="col-md-12 d-flex align-items-center mb-3">
+                  <input type="text" class="form-control" id="assignticketsPrice" placeholder="Enter price of ticket" />
+                </div>
                 <div class="col-md-12 d-flex mb-1">
                   <input type="checkbox" class="form-check-input" id="assign-tickets-modal-adjust_total_tickets" />
                   <label class="form-check-label" for="assign-tickets-modal-adjust_total_tickets"> &nbsp;Adjust total
@@ -568,6 +596,54 @@
         </div>
       </div>
 
+      <!-- ReSend Ticket Mail Modal -->
+      <div class="modal fade " id="ReSendTicketMailModal" tabindex="-1" aria-labelledby="ReSendTicketMailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ReSendTicketMailModalLabel">
+                ReSend Ticket Mail
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Name</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-name">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Email</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-email">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Number</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-number">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>QTY</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-qty">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Amount</u>:</b>&nbsp; <span id="re-send-ticket-mail-customer-amount">Loading.. </span>
+              </div>
+
+              <input type="hidden" class="form-control" id="re-send-ticket-mail-id">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="re-send-ticket-mail-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="re-send-ticket-mail-btn">
+                ReSend Mail
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Share Link Modal -->
       <div class="modal fade" id="shareLinkModal" tabindex="-1" aria-labelledby="shareLinkModalLabel"
         aria-hidden="true">
@@ -629,6 +705,10 @@
     const event_date_id = new URLSearchParams(window.location.search).get(
       "event_date_id"
     );
+
+    document.getElementById("export-assigned-tickets-btn").addEventListener("click", () => {
+      window.location = `/ticket/export-assigned-ticket-api/?event_date_id=${event_date_id}`
+    });
 
     document.getElementById('copy_sale_link').value = `https://${domain}:8000/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
 
@@ -769,11 +849,20 @@
               "event-details-modal-event_city"
             ).innerText = `${event_data.city}, ${event_data.state}`;
             document.getElementById(
-              "event-details-modal-event_available_tickets"
+              "event-details-modal-event_total_available_tickets"
             ).innerText = event_date_data.total_number_of_tickets;
             document.getElementById(
               "event-details-modal-event_assigned_tickets"
             ).innerText = event_date_data.number_of_tickets;
+            
+            document.getElementById(
+              "event-details-modal-event_available_tickets"
+            ).innerText = Number(event_date_data.total_number_of_tickets) - Number(event_date_data.number_of_tickets);
+            
+            document.getElementById(
+              "event-details-modal-event_tickets_s3_bucket"
+            ).innerText = data.total_tickets_in_s3;
+            
             document.getElementById(
               "event-details-modal-event_digital_pass"
             ).className =
@@ -819,7 +908,9 @@
           if (ticket.status.toLowerCase() === "approved") {
             if (!digital_pass) {
               statusClass = "text-primary";
-              actionBtn = 'No Action';
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+
             }
             else {
               statusClass = "text-success";
@@ -829,7 +920,8 @@
 
           else if (ticket.status.toLowerCase() === "mail sent") {
             statusClass = "text-primary";
-            actionBtn = 'No Action';
+            // actionBtn = 'No Action';
+            actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
           }
 
           else {
@@ -843,7 +935,8 @@
           if (ticket.status.toLowerCase() === "approved") {
             if (!digital_pass) {
               statusClass = "text-primary";
-              actionBtn = 'No Action';
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
             }
             else {
               statusClass = "text-success";
@@ -853,7 +946,8 @@
 
           else if (ticket.status.toLowerCase() === "mail sent") {
             statusClass = "text-primary";
-            actionBtn = 'No Action';
+            // actionBtn = 'No Action';
+            actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
           }
 
           else {
@@ -936,7 +1030,8 @@
       const bodyData = {
         reseller_id: document.getElementById('assign-tickets-modal-reseller_id').value,
         event_date_id: event_date_id,
-        assigned_tickets: assignTickets
+        assigned_tickets: assignTickets,
+        ticket_price: document.getElementById('assignticketsPrice').value || 0,
       };
       const url = "{% url 'assign-ticket-api-list' %}";
       const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
@@ -1097,6 +1192,27 @@
 
     }
 
+    async function ResendTicketMail(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      document.getElementById("re-send-ticket-mail-customer-name").innerText = ` ${customer_name}`;
+      document.getElementById("re-send-ticket-mail-customer-email").innerText = ` ${customer_email}`;
+      document.getElementById("re-send-ticket-mail-customer-number").innerText = ` ${customer_number}`;
+      document.getElementById("re-send-ticket-mail-customer-qty").innerText = ` ${qty}`;
+      document.getElementById("re-send-ticket-mail-customer-amount").innerText = ` ${amount}`;
+      document.getElementById("re-send-ticket-mail-id").value = ticket_id;
+
+      // Show the modal
+      $("#ReSendTicketMailModal").modal("show");
+
+      // Handle approve button click
+      document.getElementById("re-send-ticket-mail-btn").onclick = async function () {
+        const ticket_id = document.getElementById("re-send-ticket-mail-id").value;
+
+        // Call API to approve tickets (implement this function)
+        await ResendTicketMailAPI(ticket_id);
+      };
+
+    }
+
     async function sendTicketMailAPI(ticket_id) {
       try {
         const bodyData = {
@@ -1126,6 +1242,91 @@
       }
 
     }
+
+    async function ResendTicketMailAPI(ticket_id) {
+      try {
+        const bodyData = {
+          ticket_id: ticket_id,
+        };
+        const url = "{% url 're-send-ticket-mail-api-list' %}";
+        const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        if (success) {
+          if (result.success) {
+            console.log("Tickets approved successfully:", result.data);
+            document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
+            document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Mail Sent`;
+
+            $("#SendTicketMailModal").modal("hide");
+
+          }else {
+            console.log("Error approving tickets:", result.error);
+            alert(`${result.error}`);
+          }
+        } else {
+          console.log("API call failed:", result.error);
+          alert(`${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert(`${error}`);
+      }
+
+    }
+
+    async function eventTicketUpload(apiUrl) {
+        const eventDateId = event_date_id;
+        const files = document.getElementById("file_input").files;
+
+        const statusDiv = document.getElementById("status_message");
+        statusDiv.innerText = "Uploading...";
+
+        if (!eventDateId) {
+            statusDiv.innerText = "Please enter both Event ID and Event Date ID.";
+            return;
+        }
+
+        if (files.length === 0) {
+            statusDiv.innerText = "Please select at least one file.";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("event_date_id", eventDateId);
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append(`files[${i}]`, files[i]);
+        }
+
+        try {            
+            const url = "{% url 'event-ticket-api-list' %}"
+            const [success, result] = await callApi("POST", url, formData, "{{csrf_token}}", true);
+            if (success) {
+              if (result.success) {
+                  const data = result.data;
+                  statusDiv.innerText = `Uploaded ${data.total_files_uploaded} files successfully. Failed: ${data.error_files.length}`;
+              } else {
+                  statusDiv.innerText = `Error: ${result.error}`;
+              }
+              } else {
+              alert('Unable to create new event');
+            }
+        } catch (err) {
+            console.error(err);
+            statusDiv.innerText = "Something went wrong.";
+        }
+    }
+
+    document.getElementById("upload_btn").addEventListener("click", () => {
+      const fileInput = document.getElementById("file_input");
+      fileInput.click();
+    });
+
+    document.getElementById('file_input').addEventListener('change', function(event) {
+      eventTicketUpload();
+    
+    });
+
+
 
   </script>
 

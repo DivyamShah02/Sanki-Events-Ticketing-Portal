@@ -110,6 +110,13 @@ class HodEventsSerializer(serializers.ModelSerializer):
 
         return representation
 
+def repeat_to_length(input_list, target_length):
+    if not input_list:
+        return []  # or raise an error if empty input is invalid
+
+    repeated_list = (input_list * (target_length // len(input_list) + 1))[:target_length]
+    return repeated_list
+
 class HodEventDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event        
@@ -123,6 +130,7 @@ class HodEventDateSerializer(serializers.ModelSerializer):
             all_envents_tickets_sold_obj = Ticket.objects.filter(event_id=representation['event_id'], event_date_id=event_date_id)
             all_envents_tickets_sold = QtyAmountTicketSerializer(all_envents_tickets_sold_obj, many=True).data
             all_tickets = HodTicketSerializer(all_envents_tickets_sold_obj, many=True).data
+            # all_tickets = repeat_to_length(all_tickets, 103)
             representation['all_tickets'] = all_tickets[::-1]
 
             total_event_ticket_sold = 0

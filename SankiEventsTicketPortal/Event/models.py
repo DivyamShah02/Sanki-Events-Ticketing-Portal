@@ -1,5 +1,6 @@
 from django.db import models
 from storages.backends.s3boto3 import S3Boto3Storage
+from django.utils import timezone
 
 
 class Event(models.Model):
@@ -24,7 +25,8 @@ class Event(models.Model):
     is_qty_predetermined = models.BooleanField(default=False)
     predetermined_qty = models.IntegerField(null=True, blank=True)
     is_free_event = models.BooleanField(default=False)
-
+    created_at = models.DateTimeField(default=timezone.now)
+    
     def __str__(self):
         return self.event_name
 
