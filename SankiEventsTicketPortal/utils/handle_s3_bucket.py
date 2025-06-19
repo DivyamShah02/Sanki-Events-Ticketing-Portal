@@ -130,17 +130,17 @@ def upload_ticket_to_s3_event_folder(uploaded_files, event_folder):
             counter = 1
 
             # Check if file exists and rename if necessary
-            while True:
-                try:
-                    s3.head_object(Bucket=bucket_name, Key=s3_key)
-                    # If file exists, update the filename
-                    file_name = f"{base_name}({counter}){extension}"
-                    s3_key = f"{event_folder}/{file_name}"
-                    counter += 1
-                except s3.exceptions.ClientError as ee:
-                    print('hrtrt')
-                    print(ee)
-                    break  # File does not exist, proceed with upload
+            # while True:
+            #     try:
+            #         s3.head_object(Bucket=bucket_name, Key=s3_key)
+            #         # If file exists, update the filename
+            #         file_name = f"{base_name}({counter}){extension}"
+            #         s3_key = f"{event_folder}/{file_name}"
+            #         counter += 1
+            #     except s3.exceptions.ClientError as ee:
+            #         print('hrtrt')
+            #         print(ee)
+            #         break  # File does not exist, proceed with upload
 
             # Upload file
             s3.upload_fileobj(uploaded_file, bucket_name, s3_key)
@@ -166,7 +166,6 @@ def get_number_of_tickets_in_event_folder(folder_name):
         )
 
     response = s3.list_objects_v2(Bucket=bucket_name, Prefix=folder_name)
-    print(response)
 
     if "Contents" in response:
         return len(response["Contents"]) - 1
@@ -264,7 +263,7 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
     gmail_user = 'support@sankievents.in'
     gmail_app_password = 'jxkf hdmb hjwf yrgv'
 
-    base_path = f"Events/{event_name}/{date}/Available Tickets/"
+    base_path = f"{event_name}{date}/Available Tickets/"
 
     try:
         # List files in 'Available Tickets'
@@ -284,10 +283,10 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
 
         # Prepare email
         msg = EmailMessage()
-        msg['Subject'] = f"Your {qty} Ticket(s) for {event_name} on {date}"
+        msg['Subject'] = f"Your {qty} Ticket(s) for {event_name} on {str(date).replace(' 00:00:00', '')}"
         msg['From'] = gmail_user
         msg['To'] = recipient_email
-        msg.set_content(f"Attached are your {qty} ticket(s) for {event_name} on {date}.")
+        msg.set_content(f"Attached are your {qty} ticket(s) for {event_name} on {str(date).replace(' 00:00:00', '')}.")
 
         with tempfile.TemporaryDirectory() as tmpdirname:
             for file_key in selected_files:
@@ -309,6 +308,7 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
             smtp.login(gmail_user, gmail_app_password)
             smtp.send_message(msg)
 
+        import pdb; pdb.set_trace()
         # Move files to 'Sent Tickets'
         for file_key in selected_files:
             sent_key = file_key.replace("Available Tickets", "Sent Tickets")
@@ -321,6 +321,55 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
         return [], False, str(e)
     except Exception as e:
         return [], False, str(e)
+
+def send_approve_mail(event_name, date, recipient_email, qty):
+    """
+    Sends `qty` tickets from 'Available Tickets' in S3 via Gmail, moves them to 'Sent Tickets' if successful.
+
+    :param event_name: Name of the event.
+    :param date: Date string in YYYY-MM-DD.
+    :param recipient_email: Email to send to.
+    :param gmail_user: Gmail address to send from.
+    :param gmail_app_password: Gmail App Password.
+    :param qty: Number of tickets/files to send.
+    :return: ([filenames], True) on success, or ([], False, error_message)
+    """
+    
+    gmail_user = 'support@sankievents.in'
+    gmail_app_password = 'jxkf hdmb hjwf yrgv'
+
+    try:
+
+        # Prepare email
+        msg = EmailMessage()
+        msg['Subject'] = f"Your {qty} Ticket(s) for {event_name} on {str(date).replace(' 00:00:00', '')}"
+        msg['From'] = gmail_user
+        msg['To'] = recipient_email
+        msg.set_content(f'''
+Hi,
+
+Your booking for {event_name} on {str(date).replace(' 00:00:00', '')} has been successfully confirmed!
+
+We’ll be sending your {qty} ticket(s) shortly in a separate email.
+
+Thank you for booking with us. Stay tuned!
+
+Best regards,
+Team, Sanki Events''')
+
+        # Send email
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(gmail_user, gmail_app_password)
+            smtp.send_message(msg)
+
+        return True
+
+    except ClientError as e:
+        print(e)
+        return False
+    except Exception as e:
+        print(e)
+        return False
 
 def resend_ticket(event_name, date, recipient_email, qty, sent_files):
     """

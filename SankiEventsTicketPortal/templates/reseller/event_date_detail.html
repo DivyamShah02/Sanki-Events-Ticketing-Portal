@@ -549,7 +549,7 @@
       "event_date_id"
     );
 
-    document.getElementById('copy_sale_link').value = `https://${domain}:8000/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
+    document.getElementById('copy_sale_link').value = `https://${domain}/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
 
     function copyToClipboard(button, input, message) {
       // Select the text
@@ -693,8 +693,8 @@
         if (status === "approved") {
           if (!digital_pass) {
             statusClass = "text-primary";
-            // actionBtn = 'No Action';
-            actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+            actionBtn = 'No Action';
+            // actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
           } else {
             statusClass = "text-success";
             actionBtn = `<button onclick="sendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-primary text-nowrap"><i class="ti ti-mail f-18"></i> Send Mail</button>`;
@@ -747,11 +747,14 @@
 
 
     async function approveTicket(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      toggle_loader();
       if (parseInt(total_approved_event_ticket) + parseInt(qty) > assigned_tickets) {
+        toggle_loader();
         alert("You cannot approve more tickets than assigned.");
         return;
       }
       if (parseInt(qty) > parseInt(assigned_tickets)) {
+        toggle_loader();
         alert("You cannot approve more tickets than assigned.");
         return;
       }
@@ -762,6 +765,7 @@
       document.getElementById("approve-ticket-customer-amount").value = amount;
       document.getElementById("approve-ticket-id").value = ticket_id;
 
+      toggle_loader();
       // Show the modal
       $("#ApproveTicketModal").modal("show");
 
@@ -841,6 +845,7 @@
 
     async function sendTicketMailAPI(ticket_id) {
       try {
+        toggle_loader();
         const bodyData = {
           ticket_id: ticket_id,
         };
@@ -848,6 +853,7 @@
         const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
         if (success) {
           if (result.success) {
+            toggle_loader();
             console.log("Tickets approved successfully:", result.data);
             document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
             document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Mail Sent`;
@@ -855,14 +861,17 @@
             $("#SendTicketMailModal").modal("hide");
 
           } else {
+            toggle_loader();
             console.log("Error approving tickets:", result.error);
             alert(`${result.error}`);
           }
         } else {
+          toggle_loader();
           console.log("API call failed:", result.error);
           alert(`${result.error}`);
         }
       } catch (error) {
+        toggle_loader();
         console.error("Error fetching data:", error);
         alert(`${error}`);
       }
@@ -892,6 +901,7 @@
 
     async function ResendTicketMailAPI(ticket_id) {
       try {
+        toggle_loader();
         const bodyData = {
           ticket_id: ticket_id,
         };
@@ -899,6 +909,7 @@
         const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
         if (success) {
           if (result.success) {
+            toggle_loader();
             console.log("Tickets approved successfully:", result.data);
             document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
             document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-primary f-10 m-r-5"></i> Mail Sent`;
@@ -906,14 +917,17 @@
             $("#SendTicketMailModal").modal("hide");
 
           }else {
+            toggle_loader();
             console.log("Error approving tickets:", result.error);
             alert(`${result.error}`);
           }
         } else {
+          toggle_loader();
           console.log("API call failed:", result.error);
           alert(`${result.error}`);
         }
       } catch (error) {
+        toggle_loader();
         console.error("Error fetching data:", error);
         alert(`${error}`);
       }

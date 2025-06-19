@@ -156,7 +156,7 @@
     }
 
     document.getElementById("login_form").addEventListener("submit", async (event) => {
-        // toggle_loader();
+        toggle_loader();
         document.getElementById('error-wrong-password').style.display = 'none';
         document.getElementById('error-user-not-found').style.display = 'none';
         document.getElementById('error-unexpected').style.display = 'none';
@@ -179,7 +179,7 @@
 
         // Call the login API
         await LoginUser(username, password);
-        // toggle_loader();
+        toggle_loader();
 
     });
 

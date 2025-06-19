@@ -206,7 +206,7 @@ class AllTicketViewSet(viewsets.ViewSet):
 
 class ApproveTicketViewSet(viewsets.ViewSet):
     
-    @handle_exceptions
+    # @handle_exceptions
     @check_authentication()
     def create(self, request):
         ticket_id = request.data.get('ticket_id')
@@ -235,7 +235,16 @@ class ApproveTicketViewSet(viewsets.ViewSet):
         ticket_data.amount=int(request.data.get('amount', ticket_data.amount))
         ticket_data.approved = True
 
-        ticket_data.save()
+        event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
+        event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()        
+
+        mail_sent = self.send_mail(event_name=event_data_obj.event_name,
+                                    date=event_date_data_obj.date,
+                                    recipient_email=ticket_data.customer_email,
+                                    qty=ticket_data.qty)
+
+        if mail_sent:
+            ticket_data.save()
 
         return Response(
             {
@@ -245,6 +254,22 @@ class ApproveTicketViewSet(viewsets.ViewSet):
                 "data": {"ticket_id": ticket_id},
                 "error": None
             }, status=status.HTTP_200_OK)
+
+    def send_mail(self, event_name, date, recipient_email, qty):
+        success = send_approve_mail(
+                event_name=event_name,
+                # date="2025-05-20 00:00:00",
+                date=f"{date} 00:00:00",
+                recipient_email=recipient_email,
+                qty=qty
+            )
+
+        if success:
+            print(f"Sent Mail!")
+            return True
+
+        else:
+            return False
 
 
 class SendTicketMailViewSet(viewsets.ViewSet):
@@ -283,7 +308,7 @@ class SendTicketMailViewSet(viewsets.ViewSet):
         print(ticket_data.qty)
 
         if event_data_obj.digital_pass == True:            
-            mail_sent, status_text = self.send_mail(event_name=event_data_obj.event_name,
+            mail_sent, status_text = self.send_mail(event_name=event_data_obj.s3_bucket_folder,
                                                     date=event_date_data_obj.date,
                                                     recipient_email=ticket_data.customer_email,
                                                     qty=ticket_data.qty)

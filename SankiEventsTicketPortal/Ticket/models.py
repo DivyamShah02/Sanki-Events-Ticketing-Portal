@@ -26,7 +26,7 @@ class Ticket(models.Model):
     
     approved = models.BooleanField(default=False)
     mail_sent = models.BooleanField(default=False)
-    ticket_sent_codes = models.CharField(max_length=255, default='')
+    ticket_sent_codes = models.CharField(max_length=255, default='', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

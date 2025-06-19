@@ -241,8 +241,10 @@
    <!--scripts for dynamic data-->
    <script>
       window.onload = async function () {
+        toggle_loader();
         await fetchResellerDashboardData();
         handleDashboardFuncitonality();
+        toggle_loader();
       };
 
     async function fetchResellerDashboardData() {

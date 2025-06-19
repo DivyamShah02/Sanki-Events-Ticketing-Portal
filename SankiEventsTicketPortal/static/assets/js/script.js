@@ -101,9 +101,59 @@ function showModal(title, content, callback, submit_not_needed=false) {
     });
 }
 
-function toggle_loader(){
-    console.log('loader toggled');
+// function toggle_loader(){
+//     console.log('loader toggled');
+// }
+
+
+function toggle_loader() {
+    let existingLoader = document.getElementById('dynamic-page-loader');
+
+    if (existingLoader) {
+        // If loader exists, remove it
+        existingLoader.remove();
+    } else {
+        // Create loader container
+        const loader = document.createElement('div');
+        loader.id = 'dynamic-page-loader';
+        loader.style.position = 'fixed';
+        loader.style.top = 0;
+        loader.style.left = 0;
+        loader.style.width = '100%';
+        loader.style.height = '100%';
+        loader.style.background = 'rgba(255, 255, 255, 0.7)';
+        loader.style.display = 'flex';
+        loader.style.justifyContent = 'center';
+        loader.style.alignItems = 'center';
+        loader.style.zIndex = 9999;
+
+        // Create spinner
+        const spinner = document.createElement('div');
+        spinner.style.width = '3rem';
+        spinner.style.height = '3rem';
+        spinner.style.border = '6px solid #ccc';
+        spinner.style.borderTop = '6px solid #007bff';
+        spinner.style.borderRadius = '50%';
+        spinner.style.animation = 'spin 1s linear infinite';
+
+        // Inject keyframe animation (once)
+        if (!document.getElementById('loader-spin-style')) {
+            const style = document.createElement('style');
+            style.id = 'loader-spin-style';
+            style.innerHTML = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
 }
+
 
 function formatDate(dateStr) {
     const date = new Date(dateStr);

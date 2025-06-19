@@ -262,12 +262,12 @@ class LogoutApiViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
             logout(request)
-            return HttpResponse('DONE')
+            # return HttpResponse('DONE')
             return redirect('dashboard-list')
 
         except Exception as e:
             print(e)
-            return HttpResponse('DONE')
+            # return HttpResponse('DONE')
             return redirect('dashboard-list')
 
 

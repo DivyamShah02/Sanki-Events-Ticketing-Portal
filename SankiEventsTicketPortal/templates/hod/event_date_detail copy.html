@@ -260,9 +260,9 @@
                   <b>Export assigned ticket</b>
                 </button>
                 
-                <input type="file" id="file_input" multiple hidden style="display: none;">
+                <input type="file" id="file_input" multiple hidden>
 
-                <button id="upload_btn" class="btn btn-primary mt-2" style="display: none;">Upload Tickets</button>
+                <button id="upload_btn" class="btn btn-primary mt-2">Upload Tickets</button>
 
                 <div id="status_message"></div>
                 
@@ -430,9 +430,9 @@
                   <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets" />
                   <input type="hidden" id="assign-tickets-modal-reseller_id" />
                 </div>
-                <h5 for="assignticketsPrice" class="form-label mt-3">Enter total price of ticket</h5>
+                <h5 for="assignticketsPrice" class="form-label mt-3">Enter price of ticket</h5>
                 <div class="col-md-12 d-flex align-items-center mb-3">
-                  <input type="text" class="form-control" id="assignticketsPrice" placeholder="Enter total price of ticket" />
+                  <input type="text" class="form-control" id="assignticketsPrice" placeholder="Enter price of ticket" />
                 </div>
                 <div class="col-md-12 d-flex mb-1">
                   <input type="checkbox" class="form-check-input" id="assign-tickets-modal-adjust_total_tickets" />
@@ -665,63 +665,6 @@
           </div>
         </div>
       </div>
-
-            <!-- View Customer Modal -->
-      <div class="modal fade " id="ViewCustomerModal" tabindex="-1" aria-labelledby="ViewCustomerModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="ViewCustomerModalLabel">
-                Customer Info
-              </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-              <div class="col-md-12 d-flex align-items-center mb-3">
-                <b><u>Customer Name</u>:</b>&nbsp; <span id="view-customer-customer-name">Loading.. </span>
-              </div>
-
-              <div class="col-md-12 d-flex align-items-center mb-3">
-                <b><u>Customer Email</u>:</b>&nbsp; <span id="view-customer-customer-email">Loading.. </span>
-              </div>
-
-              <div class="col-md-12 d-flex align-items-center mb-3">
-                <b><u>Customer Number</u>:</b>&nbsp; <span id="view-customer-customer-number">Loading.. </span>
-              </div>
-
-              <div class="col-md-12 d-flex align-items-center mb-3">
-                <b><u>QTY</u>:</b>&nbsp; <span id="view-customer-customer-qty">Loading.. </span>
-              </div>
-
-              <div class="col-md-12 d-flex align-items-center mb-3">
-                <b><u>Amount</u>:</b>&nbsp; <span id="view-customer-customer-amount">Loading.. </span>
-              </div>
-
-              <div class="col-md-12 mb-3">
-                <b><u>Screen Shot</u>:</b><br>
-                  <img src="" alt="Customer Screenshot" id="view-customer-screenshot-img" class="img-fluid mt-2"
-                    style="max-width: 100%; height: auto;">
-
-              </div>
-
-              <input type="hidden" class="form-control" id="view-customer-id">
-
-            </div>
-            <div class="modal-footer">
-              <a type="button" class="btn btn-primary" id="view-customer-edit-btn" target="_blank">
-                Edit
-              </a>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="view-customer-close-btn">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
     </div>
 
   </div>
@@ -767,7 +710,7 @@
       window.location = `/ticket/export-assigned-ticket-api/?event_date_id=${event_date_id}`
     });
 
-    document.getElementById('copy_sale_link').value = `https://${domain}/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
+    document.getElementById('copy_sale_link').value = `https://${domain}:8000/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
 
     function copyToClipboard(button, input, message) {
       // Select the text
@@ -809,9 +752,7 @@
     });
 
     window.onload = async function () {
-      toggle_loader();
-      await fetchHodEventsData();
-      toggle_loader();
+      fetchHodEventsData();
     };
 
     async function fetchHodEventsData() {
@@ -830,28 +771,6 @@
             event_date_data = data.event_date_data;
 
             digital_pass = event_data.digital_pass;
-
-            if (digital_pass) {
-              document.getElementById("upload_btn").style.display = '';
-              document.getElementById("file_input").style.display = '';
-
-
-              document.getElementById("upload_btn").addEventListener("click", () => {
-                const fileInput = document.getElementById("file_input");
-                fileInput.click();
-              });
-          
-              document.getElementById('file_input').addEventListener('change', function(event) {
-                eventTicketUpload();
-              
-              });
-            }
-
-            else {
-              document.getElementById("upload_btn").style.display = 'none';
-              document.getElementById("file_input").style.display = 'none';
-            }
-
 
             document.getElementById('add-available-ticket-available-tickets').innerText = `Available Tickets: ${event_date_data.total_number_of_tickets}`;
             document.getElementById('add-available-ticket-updated-available-tickets').innerText = `Updated Available Tickets: ${event_date_data.total_number_of_tickets}`;
@@ -989,8 +908,8 @@
           if (ticket.status.toLowerCase() === "approved") {
             if (!digital_pass) {
               statusClass = "text-primary";
-              actionBtn = 'No Action';
-              // actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
 
             }
             else {
@@ -1016,8 +935,8 @@
           if (ticket.status.toLowerCase() === "approved") {
             if (!digital_pass) {
               statusClass = "text-primary";
-              actionBtn = 'No Action';
-              // actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
+              // actionBtn = 'No Action';
+              actionBtn = `<button onclick="ResendTicketMail('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-secondary text-nowrap"><i class="ti ti-mail f-18"></i> ReSend Mail</button>`;
             }
             else {
               statusClass = "text-success";
@@ -1036,12 +955,11 @@
             actionBtn = `Reseller will take action`;
           }
         }
-        console.log(ticket)
 
         const ticketRow = `
                 <tr>
                     <td>${ticket.seller_name}</td>
-                    <td onclick="viewCustomerModalHandler('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}', '${ticket.customer_payment_ss}', '${ticket.id}')"><a href="#" class="text-muted" id="view-customer-${ticket.ticket_id}">${ticket.customer_name}</a></td>
+                    <td class="text-center">${ticket.customer_name}</td>
                     <td class="text-center">${ticket.customer_email}</td>
                     <td class="text-center">${ticket.qty}</td>
                     <td class="text-center">₹${ticket.amount.toLocaleString("en-IN")}</td>
@@ -1090,26 +1008,21 @@
     }
 
     document.getElementById("assign-tickets-modal-assigned_tickets_btn").addEventListener("click", async () => {
-      toggle_loader();
       const assignTickets = document.getElementById("assigntickets").value;
       if (assignTickets === "") {
-        toggle_loader();
         alert("Please enter the number of tickets to assign");
         return;
       }
       if (isNaN(assignTickets)) {
-        toggle_loader();
         alert("Please enter a valid number");
         return;
       }
       if (parseInt(assignTickets) <= 0) {
-        toggle_loader();
         alert("Please enter a valid number");
         return;
       }
       if (!document.getElementById('assign-tickets-modal-adjust_total_tickets').checked) {
         if (parseInt(assignTickets) > (parseInt(event_date_data.total_number_of_tickets) - parseInt(event_date_data.number_of_tickets))) {
-          toggle_loader();
           alert("Tickets assigned cannot be more than available tickets");
           return;
         }
@@ -1125,16 +1038,13 @@
       console.log(result);
       if (success) {
         if (result.success) {
-          toggle_loader();
           alert("Tickets assigned successfully");
           fetchHodEventsData();
           document.getElementById('assign-tickets-modal-assigned_modal_close_btn').click();
         } else {
-          toggle_loader();
           alert(`Error assigning tickets: ${result.error}`);
         }
       } else {
-        toggle_loader();
         alert("Error assigning tickets");
       }
     });
@@ -1228,7 +1138,6 @@
       //   alert("You cannot approve more tickets than assigned.");
       //   return;
       // }
-      toggle_loader();
       try {
         const bodyData = {
           qty: qty,
@@ -1253,18 +1162,12 @@
 
           } else {
             console.error("Error approving tickets:", result.error);
-            alert(`Error approving tickets:, ${result.error}`);
-            toggle_loader();
           }
         } else {
           console.error("API call failed:", result.error);
-          alert(`API call failed:, ${result.error}`);
-          toggle_loader();
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        alert(`Error fetching data:, ${error}`);
-        toggle_loader();
       }
     }
 
@@ -1311,7 +1214,6 @@
     }
 
     async function sendTicketMailAPI(ticket_id) {
-      toggle_loader();
       try {
         const bodyData = {
           ticket_id: ticket_id,
@@ -1328,24 +1230,20 @@
 
           }else {
             console.log("Error approving tickets:", result.error);
-            toggle_loader();
             alert(`${result.error}`);
           }
         } else {
           console.log("API call failed:", result.error);
-          toggle_loader();
           alert(`${result.error}`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        toggle_loader();
         alert(`${error}`);
       }
 
     }
 
     async function ResendTicketMailAPI(ticket_id) {
-      toggle_loader();
       try {
         const bodyData = {
           ticket_id: ticket_id,
@@ -1360,27 +1258,22 @@
 
             $("#SendTicketMailModal").modal("hide");
 
-            toggle_loader();
-
           }else {
             console.log("Error approving tickets:", result.error);
-            toggle_loader();
             alert(`${result.error}`);
           }
         } else {
           console.log("API call failed:", result.error);
-          toggle_loader();
           alert(`${result.error}`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        toggle_loader();
         alert(`${error}`);
       }
+
     }
 
     async function eventTicketUpload(apiUrl) {
-      toggle_loader();
         const eventDateId = event_date_id;
         const files = document.getElementById("file_input").files;
 
@@ -1415,29 +1308,25 @@
                   statusDiv.innerText = `Error: ${result.error}`;
               }
               } else {
-                  statusDiv.innerText = `Error: ${result.error}`;              
+              alert('Unable to create new event');
             }
         } catch (err) {
             console.error(err);
             statusDiv.innerText = "Something went wrong.";
         }
-
-        toggle_loader();
     }
 
-    function viewCustomerModalHandler(customer_name, customer_email, customer_number, qty, amount, ticket_id, ss_path, id) {
-      document.getElementById("view-customer-customer-name").innerText = ` ${customer_name}`;
-      document.getElementById("view-customer-customer-email").innerText = ` ${customer_email}`;
-      document.getElementById("view-customer-customer-number").innerText = ` ${customer_number}`;
-      document.getElementById("view-customer-customer-qty").innerText = ` ${qty}`;
-      document.getElementById("view-customer-customer-amount").innerText = ` ${amount}`;
-      document.getElementById("view-customer-screenshot-img").src = ss_path;
-      document.getElementById("view-customer-id").value = ticket_id;
-      document.getElementById("view-customer-edit-btn").href = `/admin/Ticket/ticket/${id}/change/`;
+    document.getElementById("upload_btn").addEventListener("click", () => {
+      const fileInput = document.getElementById("file_input");
+      fileInput.click();
+    });
 
-      // Show the modal
-      $("#ViewCustomerModal").modal("show");
-    }
+    document.getElementById('file_input').addEventListener('change', function(event) {
+      eventTicketUpload();
+    
+    });
+
+
 
   </script>
 

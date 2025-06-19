@@ -341,8 +341,10 @@
   <!--scripts for dynamic data-->
   <script>
     window.onload = async function () {
+      toggle_loader();
       await fetchHodDashboardData();
       handleDashboardFuncitonality();
+      toggle_loader();
     };
 
     async function fetchHodDashboardData() {

@@ -270,7 +270,9 @@
       "event_id"
     );
     window.onload = async function () {
+      toggle_loader();
       await fetchHodEventsData();
+      toggle_loader();
     };
 
     async function fetchHodEventsData() {
