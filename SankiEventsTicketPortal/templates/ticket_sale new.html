@@ -367,7 +367,7 @@
               <label for="date" class="form-label">Event Date</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                <input type="text" class="form-control" id="date" value="2025-03-11" disabled />
+                <input type="date" class="form-control" id="date" value="2025-03-11" />
               </div>
             </div>
           </div>
@@ -604,6 +604,20 @@
       }
     }
 
+    function restrictDatePicker(rangeStr) {
+        const [start, end] = rangeStr.split('|').map(d => d.trim());
+        const dateInput = document.getElementById('date');
+        
+        if (dateInput) {
+            dateInput.min = start;
+            dateInput.max = end;
+
+            // Optional: Clear existing value if it's outside the new range
+            if (dateInput.value && (dateInput.value < start || dateInput.value > end)) {
+                dateInput.value = '';
+            }
+        }
+    }
   </script>
 
   <script>
@@ -683,6 +697,11 @@
         }
       );
     });
+  
+    const thankYouModal = document.getElementById('thankYouModal');
+      thankYouModal.addEventListener('hidden.bs.modal', function () {
+        location.reload(); // Reload the page when modal is closed
+      });
   </script>
 </body>
 
