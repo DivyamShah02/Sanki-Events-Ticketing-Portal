@@ -502,7 +502,7 @@ class ResellerEventDateDetailViewSet(viewsets.ViewSet):
             }, status=status.HTTP_200_OK)
 
 
-class TicketSaleEventDetailViewSet(viewsets.ViewSet):
+class TicketSaleEventDateDetailViewSet(viewsets.ViewSet):
 
     @handle_exceptions
     def list(self, request):
@@ -561,6 +561,72 @@ class TicketSaleEventDetailViewSet(viewsets.ViewSet):
         data = {
             "event_data": event_data,
             'event_date_data': event_date_data,
+            "seller_data": seller_data,
+        }
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+
+class TicketSaleEventDetailViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    def list(self, request):
+        event_id = request.GET.get('event_id')
+        if not event_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        seller_id = request.GET.get('seller_id')
+        if not seller_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Seller_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        seller_data_obj = User.objects.filter(user_id=seller_id).first()
+        if not seller_data_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Seller not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        event_obj = Event.objects.filter(event_id=event_id).first()
+        if not event_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event Date not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        event_data = EventSerializer(event_obj).data
+        seller_data = UserSerializer(seller_data_obj).data
+
+        data = {
+            "event_data": event_data,
             "seller_data": seller_data,
         }
 

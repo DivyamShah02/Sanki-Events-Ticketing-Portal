@@ -3,6 +3,7 @@ import json
 import random
 import string
 import xlsxwriter
+import pandas as pd
 from io import BytesIO
 from datetime import datetime, timedelta
 
@@ -57,6 +58,159 @@ class TicketViewSet(viewsets.ViewSet):
             ticket_id=ticket_id,
             seller_id=request.data.get('seller_id'),
             event_date_id=request.data.get('event_date_id'),
+            event_id=request.data.get('event_id'),
+            qty=int(request.data.get('qty')),
+            amount=int(request.data.get('amount')),
+            sold_date=datetime.now(),
+            customer_name=request.data.get('customer_name'),
+            customer_email=request.data.get('customer_email'),
+            customer_number=request.data.get('customer_number'),
+            customer_payment_ss=request.FILES.get('customer_payment_ss', None),
+            approved=False,
+            mail_sent=False,
+            ticket_sent_codes=""
+        )
+
+        return Response({
+            "success": True,
+            "user_not_logged_in": False,
+            "user_unauthorized": False,
+            "data": {'ticket_id': ticket_id},
+            "error": None
+        }, status=status.HTTP_201_CREATED)
+
+    def generate_ticket_id(self):
+        while True:
+            ticket_id = ''.join(random.choices(string.digits, k=10))
+            if not Ticket.objects.filter(ticket_id=ticket_id).exists():
+                return ticket_id
+
+    @handle_exceptions
+    @check_authentication()
+    def list(self, request):
+        ticket_id = request.data.get('ticket_id')
+        if not ticket_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "ticket_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        ticket_data_obj = Ticket.objects.filter(ticket_id=ticket_id).first()
+        if not ticket_data_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        ticket_data = TicketSerializer(ticket_data_obj).data
+        data = {
+            'ticket_data': ticket_data
+        }
+        
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+    @handle_exceptions
+    @check_authentication()
+    def update(self, request):
+        ticket_id = request.data.get('ticket_id')
+        if not ticket_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "ticket_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        if not ticket_data:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        ticket_data.qty=int(request.data.get('qty', ticket_data.qty))
+        ticket_data.amount=int(request.data.get('amount', ticket_data.amount))
+        ticket_data.customer_name=request.data.get('customer_name', ticket_data.customer_name)
+        ticket_data.customer_email=request.data.get('customer_email', ticket_data.customer_email)
+        ticket_data.customer_number=request.data.get('customer_number', ticket_data.customer_number)
+
+        ticket_data.save()
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": {"ticket_id": ticket_id},
+                "error": None
+            }, status=status.HTTP_200_OK)
+
+class EventTicketViewSet(viewsets.ViewSet):
+    
+    @handle_exceptions
+    def create(self, request):
+        required_fields = ['seller_id', 'event_date', 'event_id', 'qty', 'amount',
+                           'customer_name', 'customer_email', 'customer_number']
+        for field in required_fields:
+            if field not in request.data:
+                return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"{field} is required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        seller_data = User.objects.filter(user_id=request.data['seller_id']).first()
+        if not seller_data:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Seller not found."
+                }, status=status.HTTP_400_BAD_REQUEST)
+        
+        event_date_obj = EventDate.objects.filter(event_id=request.data.get('event_id'), date=request.data.get('event_date')).first()
+        if not event_date_obj:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Event date not found."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        event_date_id = event_date_obj.event_date_id
+        
+        ticket_id = self.generate_ticket_id()
+        
+        new_ticket = Ticket.objects.create(
+            ticket_id=ticket_id,
+            seller_id=request.data.get('seller_id'),
+            event_date_id=event_date_id,
             event_id=request.data.get('event_id'),
             qty=int(request.data.get('qty')),
             amount=int(request.data.get('amount')),
@@ -408,7 +562,7 @@ class ReSendTicketMailViewSet(viewsets.ViewSet):
             ticket_sent_codes = []
 
         if event_data_obj.digital_pass == True:            
-            mail_sent, status_text = self.re_send_mail(event_name=event_data_obj.event_name,
+            mail_sent, status_text = self.re_send_mail(event_name=event_data_obj.s3_bucket_folder,
                                                     date=event_date_data_obj.date,
                                                     recipient_email=ticket_data.customer_email,
                                                     qty=ticket_data.qty,sent_files=ticket_sent_codes)
@@ -734,3 +888,135 @@ class ValidateTicketPassViewSet(viewsets.ViewSet):
                 "error": None
             }, status=status.HTTP_200_OK)
 
+
+class TicketExportViewSet(viewsets.ViewSet):
+
+    
+    def list(self, request):
+        # Get filters
+        seller_id = request.query_params.get('seller_id')      # Optional
+        event_id = request.query_params.get('event_id')        # Optional
+        event_date = request.query_params.get('event_date')  # Optional
+        created_from = request.query_params.get('created_from')    # Optional
+        created_to = request.query_params.get('created_to')        # Optional
+
+        # Initial queryset
+        tickets = Ticket.objects.all()
+
+        # Apply time filter (always included)
+        if created_from:
+            tickets = tickets.filter(created_at__gte=created_from)
+        if created_to:
+            tickets = tickets.filter(created_at__lte=created_to)
+
+        # Apply other filters if present
+        if event_id:
+            tickets = tickets.filter(event_id=event_id)
+        if event_date:
+            event_date_data = EventDate.objects.filter(event_id=event_id, date=event_date).first()
+            if event_date_data:
+                event_date_id = event_date_data.event_date_id
+                tickets = tickets.filter(event_date_id=event_date_id)
+
+        # CASE A: Single seller
+        if seller_id:
+            tt_seller_name = User.objects.filter(user_id=seller_id).first()
+            seller_tickets = tickets.filter(seller_id=seller_id)
+            df = self.serialize_tickets(seller_tickets)
+            return self.export_excel(df, f"{tt_seller_name.name}_Tickets")
+
+        # CASE B: All or multiple sellers – multi-sheet export
+        buffer = BytesIO()
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            sellers = tickets.values_list('seller_id', flat=True).distinct()
+            for sid in sellers:
+                seller_tickets = tickets.filter(seller_id=sid)
+                if seller_tickets.exists():
+                    seller_name = User.objects.filter(user_id=sid).first()
+                    sheet_name = (seller_name.name if seller_name else sid)[:31]
+                    df = self.serialize_tickets(seller_tickets)
+                    df.to_excel(writer, sheet_name=sheet_name, index=False)
+
+        buffer.seek(0)
+        response = HttpResponse(
+            buffer.read(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        filename = f"Tickets_Export_{timezone.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response
+
+
+    def serialize_tickets(self, queryset):
+        data = []
+
+        # Cache event and event date info
+        event_map = {e.event_id: e for e in Event.objects.all()}
+        event_date_map = {ed.event_date_id: ed for ed in EventDate.objects.all()}
+
+        # Group EventDate by event_id to compute positions
+        event_date_positions = {}
+        for ed in EventDate.objects.all():
+            event_date_positions.setdefault(ed.event_id, []).append(ed.date)
+
+        # Sort all date lists
+        for k in event_date_positions:
+            event_date_positions[k].sort()
+
+        for t in queryset:
+            event = event_map.get(t.event_id)
+            ed = event_date_map.get(t.event_date_id)
+
+            event_name = event.event_name if event else ''
+            event_date = ed.date if ed else None
+
+            day_of_event = ''
+            weekday_name = ''
+
+            if event_date and event:
+                sorted_dates = event_date_positions.get(t.event_id, [])
+                try:
+                    day_index = sorted_dates.index(event_date)
+                    day_of_event = f"{day_index + 1} Day"
+                    weekday_name = event_date.strftime('%A')
+                except ValueError:
+                    day_of_event = 'N/A'
+                    weekday_name = 'N/A'
+            status_ticket = 'Unapproved'
+            if t.approved:
+                status_ticket = 'Approved'
+            if t.mail_sent:
+                status_ticket = 'Mail Sent'
+            data.append({
+                "Event Name": event_name,
+                "Event ID": t.event_id,
+                "Ticket ID": t.ticket_id,
+                "Event Date ID": t.event_date_id,
+                "Event Date": event_date.strftime('%Y-%m-%d') if event_date else '',
+                "Day of Event": day_of_event,
+                "Weekday": weekday_name,
+                "Seller ID": t.seller_id,
+                "Qty": t.qty,
+                "Amount": t.amount,
+                "Sold Date": t.sold_date.strftime('%Y-%m-%d'),
+                "Customer Name": t.customer_name,
+                "Customer Email": t.customer_email,
+                "Customer Number": t.customer_number,
+                "Status": status_ticket,
+                "Created At": t.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            })
+
+        return pd.DataFrame(data)
+
+    def export_excel(self, df, sheet_name):
+        buffer = BytesIO()
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            df.to_excel(writer, sheet_name=sheet_name[:31], index=False)
+        buffer.seek(0)
+        response = HttpResponse(
+            buffer.read(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        filename = f"{sheet_name}_Export_{timezone.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response

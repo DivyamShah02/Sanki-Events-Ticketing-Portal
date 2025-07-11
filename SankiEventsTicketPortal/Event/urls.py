@@ -18,6 +18,7 @@ router.register(r'hod-dashboard-api', HodDashboardDetailsViewSet, basename='hod-
 
 router.register(r'reseller-dashboard-api', ResellerDashboardDetailsViewSet, basename='reseller-dashboard-api')
 
+router.register(r'ticket-sale-event-date-data-api', TicketSaleEventDateDetailViewSet, basename='ticket-sale-event-date-data-api')
 router.register(r'ticket-sale-event-data-api', TicketSaleEventDetailViewSet, basename='ticket-sale-event-data-api')
 
 urlpatterns = [

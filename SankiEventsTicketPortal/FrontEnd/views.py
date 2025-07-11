@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from utils.decorators import *
 
 from Event.models import *
-
+from UserDetail.models import User
 
 class HomeViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -36,7 +36,11 @@ class DashboardFrontEndViewSet(viewsets.ViewSet):
             return HttpResponse('Not logged in')
         # if user.role == 'admin':
         if user.role == 'hod':
-            return render(request, 'hod/dashboard.html')
+            data = {
+                'sellers': User.objects.filter(role='reseller'),
+                'events': Event.objects.all().order_by('-event_id'),
+            }
+            return render(request, 'hod/dashboard.html', data)
         
         elif user.role == 'reseller':
             return render(request, 'reseller/dashboard.html')
@@ -99,6 +103,24 @@ class EventDateDetailFrontEndViewSet(viewsets.ViewSet):
 class TicketSaleFrontEndViewSet(viewsets.ViewSet):
     def list(self, request):
         return render(request, 'ticket_sale.html')
+
+
+class EventTicketSaleFrontEndViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            seller_id = request.GET.get('seller_id')
+            user_data = User.objects.filter(user_id=seller_id).first()
+            
+            company_logo = user_data.company_logo if user_data.company_logo else ""
+            
+            data = {
+                'company_logo': company_logo,
+            }
+        except:
+            data = {
+                'company_logo': "",
+            }    
+        return render(request, 'event_ticket_sale.html', data)
 
 
 class EventQrCodeFrontEndViewSet(viewsets.ViewSet):

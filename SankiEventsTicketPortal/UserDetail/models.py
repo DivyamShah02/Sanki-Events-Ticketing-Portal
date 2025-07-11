@@ -16,3 +16,4 @@ class User(AbstractUser):
     contact_number = models.CharField(max_length=15)
     profile_picture = models.ImageField(upload_to='profile_picture/', storage=S3Boto3Storage(), null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    company_logo = models.ImageField(upload_to='profile_picture/', storage=S3Boto3Storage(), null=True, blank=True)

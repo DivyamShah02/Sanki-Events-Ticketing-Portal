@@ -5,6 +5,7 @@ from .views import *
 
 router = DefaultRouter()
 router.register(r'ticket-api', TicketViewSet, basename='ticket-api')
+router.register(r'sell-event-ticket-api', EventTicketViewSet, basename='sell-event-ticket-api')
 
 router.register(r'get-all-ticket-api', AllTicketViewSet, basename='get-all-ticket-api')
 router.register(r'approve-ticket-api', ApproveTicketViewSet, basename='approve-ticket-api')
@@ -18,6 +19,8 @@ router.register(r'export-assigned-ticket-api', AdminExportAssignedTicketDataView
 
 router.register(r'ticket-pass-api', TicketPassViewSet, basename='ticket-pass-api')
 router.register(r'validate-ticket-pass-api', ValidateTicketPassViewSet, basename='validate-ticket-pass-api')
+
+router.register(r'export-ticket', TicketExportViewSet, basename='export-ticket')
 
 urlpatterns = [
     path('', include(router.urls))

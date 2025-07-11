@@ -511,7 +511,7 @@
 
         const queryString = new URLSearchParams(Params).toString();
 
-        const url = `{% url 'ticket-sale-event-data-api-list' %}?${queryString}`; // Construct the full URL with query params
+        const url = `{% url 'ticket-sale-event-date-data-api-list' %}?${queryString}`; // Construct the full URL with query params
 
         const [success, result] = await callApi("GET", url);
         if (success) {

@@ -549,8 +549,6 @@
       "event_date_id"
     );
 
-    document.getElementById('copy_sale_link').value = `https://${domain}/ticket_sale/?seller_id={{user}}&event_date_id=${event_date_id}`;
-
     function copyToClipboard(button, input, message) {
       // Select the text
       input.select();
@@ -591,7 +589,9 @@
     });
 
     window.onload = async function () {
-      fetchHodEventsData();
+      toggle_loader();
+      await fetchHodEventsData();
+      toggle_loader();
     };
 
     async function fetchHodEventsData() {
@@ -609,6 +609,9 @@
             console.log(data);
             event_data = data.event_data;
             event_date_data = data.event_date_data;
+
+            document.getElementById('copy_sale_link').value = `https://${domain}/event_ticket_sale/?seller_id={{user}}&event_id=${event_data.event_id}&reseller_name={{user.name}}`;
+
 
             assigned_tickets = event_data.assigned_tickets;
             total_event_ticket_sold = event_data.total_event_ticket_sold;

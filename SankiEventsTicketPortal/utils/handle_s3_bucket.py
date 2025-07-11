@@ -308,7 +308,7 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
             smtp.login(gmail_user, gmail_app_password)
             smtp.send_message(msg)
 
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         # Move files to 'Sent Tickets'
         for file_key in selected_files:
             sent_key = file_key.replace("Available Tickets", "Sent Tickets")

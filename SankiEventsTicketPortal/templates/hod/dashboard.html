@@ -148,9 +148,17 @@
           <div class="col-md-12 col-xl-4">
             <h5 class="mb-3">Actions</h5>
             <div class="card p-3 text-center">
-              <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal"
+              <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
+                data-bs-target="#punchTicketModal">
+                <i class="feather icon-plus-circle me-2"></i>Punch Ticket
+              </button>
+              <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
                 data-bs-target="#createEventModal">
                 <i class="feather icon-plus-circle me-2"></i>Create Event
+              </button>
+              <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
+                data-bs-target="#getTicketReport">
+                <i class="feather icon-plus-circle me-2"></i>Download report
               </button>
             </div>
             <h5 class="mt-1 text-start">Best Seller</h5>
@@ -321,6 +329,163 @@
   </div>
   <!-- [ Main Content ] end -->
   
+  <div class="modal fade" id="punchTicketModal" tabindex="-1" aria-labelledby="punchTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="punchTicketModalLabel">Punch ticket</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="punchTicketForm">
+            <div class="mb-3">
+              <label for="customerName" class="form-label">Customer Name</label>
+              <input type="text" class="form-control" id="customerName" required />
+            </div>
+            <div class="mb-3">
+              <label for="customerEmail" class="form-label">Customer Email</label>
+              <input type="text" class="form-control" id="customerEmail" required />
+            </div>            
+            <div class="mb-3">
+              <label for="customerNumber" class="form-label">Customer Number</label>
+              <input type="text" class="form-control" id="customerNumber" required />
+            </div>            
+            <div class="mb-3">
+              <label for="allSellers" class="form-label">All sellers</label>
+              <select class="form-select" id="allSellers" required>
+                <option value="" selected disabled>Select Seller</option>
+                {% for seller in sellers %}
+                <option value="{{ seller.user_id }}">{{ seller.name }}</option>
+                {% endfor %}
+              </select> 
+            </div>
+            <div class="mb-3">
+              <label for="allEvents" class="form-label">All Events</label>
+              <select class="form-select" id="allEvents" required>
+                <option value="" selected disabled>Select Event</option>
+                {% for event in events %}
+                <option value="{{ event.event_id }}">{{ event.event_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="date" class="form-label">Event Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="date" required />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="total-amount" class="form-label">Total Amount</label>
+              <input type="text" class="form-control" id="total-amount" required />
+            </div> 
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input type="text" class="form-control" id="quantity" required />
+            </div> 
+            <div class="modal-footer px-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Punch
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Thank You Modal -->
+  <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="thankYouModalLabel">Booking Confirmed!</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <i class="bi bi-check-circle-fill thank-you-icon"></i>
+          <h2 class="text-center">Thank You for Booking Tickets from Sanki Events!</h2>
+          <hr>            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="getTicketReport" tabindex="-1" aria-labelledby="getTicketReportLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getTicketReportLabel">Ticket Reports</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="getTicketForm">                      
+            <div class="mb-3">
+              <label for="allSellers_report" class="form-label">All sellers</label>
+              <select class="form-select" id="allSellers_report" required>
+                <option value="" selected disabled>Select Seller</option>
+                <option value="">All Seller</option>
+                {% for seller in sellers %}
+                <option value="{{ seller.user_id }}">{{ seller.name }}</option>
+                {% endfor %}
+              </select> 
+            </div>
+            <div class="mb-3">
+              <label for="allEvents_report" class="form-label">All Events</label>
+              <select class="form-select" id="allEvents_report" required>
+                <option value="" selected disabled>Select Event</option>
+                <option value="">All Events</option>                
+                {% for event in events %}
+                <option value="{{ event.event_id }}">{{ event.event_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="event_date" class="form-label">Event Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="event_date" />
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="from_date" class="form-label">From Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="from_date" />
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="to_date" class="form-label">To Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="to_date" />
+              </div>
+            </div>
+            <div class="modal-footer px-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" onclick="generateTicketReport()" class="btn btn-primary">
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {% include 'footer.html' %}
 
   <!-- [Page Specific JS] start -->
@@ -546,6 +711,79 @@
   
   </script>
 
+  <script>
+    document.getElementById("punchTicketForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const form = event.target;
+      if (!form.checkValidity()) {
+        alert('grebhaigraoreabhi riea grhibae o')
+        form.reportValidity();
+        return;
+      }
+      showModal(
+        "Confirm Action",
+        "<p>Are you sure you want to get event pass?</p>",
+        async () => {
+          toggle_loader();
+          // Extract values from form fields
+          let customerName = document.getElementById("customerName").value;
+          let seller_id = document.getElementById("allSellers").value;
+          let event_id = document.getElementById("allEvents").value;
+          let quantity = document.getElementById("quantity").value;
+          let customerNumber = document.getElementById("customerNumber").value;
+          let customerEmail = document.getElementById("customerEmail").value;
+          let totalAmount = document.getElementById("total-amount").value;
+          let event_date = document.getElementById("date").value;
+
+          const formData = new FormData();
+          // formData.append(`customer_payment_ss`, selectedFile);
+          formData.append('seller_id', seller_id);
+          formData.append('event_date', event_date);
+          formData.append('event_id', event_id);
+          formData.append('qty', quantity);
+          formData.append('amount', totalAmount);
+          formData.append('customer_name', customerName);
+          formData.append('customer_email', customerEmail);
+          formData.append('customer_number', customerNumber);
+
+          // Call the API
+          const [success, result] = await callApi(
+            "POST",
+            "{% url 'sell-event-ticket-api-list' %}",
+            formData,
+            "{{csrf_token}}",
+            true
+          );
+          toggle_loader();
+          if (success) {
+            if (result.success) {              
+              const thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+              thankYouModal.show();
+              // alert("Ticket booked successfully "); // Show a success message
+            } else {
+              alert("Unexpected Error occurred: " + result.error);
+            }
+          } else {
+            alert("Unable to book the ticket");
+          }
+        }
+      );
+    });
+  
+    function generateTicketReport() {
+      let allSellers_report = document.getElementById('allSellers_report').value;
+      let allEvents_report = document.getElementById('allEvents_report').value;
+      let event_date = document.getElementById('event_date').value;
+      let from_date = document.getElementById('from_date').value;
+      let to_date = document.getElementById('to_date').value;
+
+      let url = `/ticket/export-ticket/?seller_id=${allSellers_report}&event_id=${allEvents_report}&event_date=${event_date}&created_from=${from_date}&created_to=${to_date}`
+      console.log(url);
+      window.location.href = url;
+
+    };
+  </script>
 
 </body>
 <!-- [Body] end -->

@@ -275,7 +275,11 @@
   <header class="logo-header">
     <div class="container">
       <div class="d-flex justify-content-center">
+        {% if company_logo == "" %}        
         <img src="/static/assets/img/sanki_logo.png" alt="Sanki Logo" class="logo" />
+        {% else %}
+        <img src="https://sankievents.s3.amazonaws.com/{{company_logo}}" alt="Sanki Logo" class="logo" />
+        {% endif %}
       </div>
     </div>
   </header>
@@ -367,7 +371,7 @@
               <label for="date" class="form-label">Event Date</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                <input type="date" class="form-control" id="date" value="2025-03-11" />
+                <input type="date" class="form-control" id="date" value="2025-03-11" required />
               </div>
             </div>
           </div>
@@ -488,10 +492,9 @@
   <script>
     let event_data = null;
     let seller_data = null;
-    let event_date_data = null;
 
-    const event_date_id = new URLSearchParams(window.location.search).get(
-      "event_date_id"
+    const event_id = new URLSearchParams(window.location.search).get(
+      "event_id"
     );
 
     const seller_id = new URLSearchParams(window.location.search).get(
@@ -499,19 +502,21 @@
     );
 
     window.onload = async function () {
+      toggle_loader();
       await fetchHodEventsData();
+      toggle_loader();
     };
 
     async function fetchHodEventsData() {
       try {
         const Params = {
-          event_date_id: event_date_id,
+          event_id: event_id,
           seller_id: seller_id,
         };
 
         const queryString = new URLSearchParams(Params).toString();
 
-        const url = `{% url 'ticket-sale-event-date-data-api-list' %}?${queryString}`; // Construct the full URL with query params
+        const url = `{% url 'ticket-sale-event-data-api-list' %}?${queryString}`; // Construct the full URL with query params
 
         const [success, result] = await callApi("GET", url);
         if (success) {
@@ -521,7 +526,6 @@
             console.log(data);
             event_data = data.event_data;
             seller_data = data.seller_data;
-            event_date_data = data.event_date_data;
 
             if (event_data.is_rented_event) {
               document.getElementById('downloadTicket').style.display = "";
@@ -560,11 +564,11 @@
             });
 
             document.getElementById("soldBy").value = seller_data.name;
-            document.getElementById("date").value = event_date_data.date;
+            restrictDateInput(event_data.event_date_range, "date");
 
             document.getElementById('event-details-modal-event_banner').src = event_data.event_banner;
             document.getElementById("event-details-modal-event_name").innerText = event_data.event_name;
-            document.getElementById("event-details-modal-event_venue").innerText = `${event_data.event_venue}, ${formatDate(event_date_data.date)}`;
+            document.getElementById("event-details-modal-event_venue").innerText = `${event_data.event_venue}`;
             // document.getElementById('event-details-modal-event_details').innerText = '';
             document.getElementById("event-details-modal-event_date_range").innerText = event_data.event_date_range;
             document.getElementById("event-details-modal-event_days").innerHTML = date_html;
@@ -604,20 +608,24 @@
       }
     }
 
-    function restrictDatePicker(rangeStr) {
-        const [start, end] = rangeStr.split('|').map(d => d.trim());
-        const dateInput = document.getElementById('date');
-        
-        if (dateInput) {
-            dateInput.min = start;
-            dateInput.max = end;
+    function restrictDateInput(dateRangeStr, inputElementId) {
+        const [startDate, endDate] = dateRangeStr.split('|').map(date => date.trim());
 
-            // Optional: Clear existing value if it's outside the new range
-            if (dateInput.value && (dateInput.value < start || dateInput.value > end)) {
-                dateInput.value = '';
-            }
+        const input = document.getElementById(inputElementId);
+        if (!input) {
+            console.error(`Input element with ID "${inputElementId}" not found.`);
+            return;
+        }
+
+        input.min = startDate;
+        input.max = endDate;
+
+        // Optional: reset value if it's outside the range
+        if (input.value && (input.value < startDate || input.value > endDate)) {
+            input.value = '';
         }
     }
+
   </script>
 
   <script>
@@ -641,11 +649,13 @@
     });
 
     document.getElementById("customerRegistrationForm").addEventListener("submit", async (event) => {
+      console.log('eagrbheugoreabhgruoahreabh uegrhuob')
       console.log(event);
       event.preventDefault();
 
       const form = event.target;
       if (!form.checkValidity()) {
+        alert('grebhaigraoreabhi riea grhibae o')
         form.reportValidity();
         return;
       }
@@ -653,17 +663,19 @@
         "Confirm Action",
         "<p>Are you sure you want to get event pass?</p>",
         async () => {
+          toggle_loader();
           // Extract values from form fields
           let customerName = document.getElementById("fullName").value;
           let quantity = document.getElementById("quantity").value;
           let customerNumber = document.getElementById("phone").value;
           let customerEmail = document.getElementById("email").value;
           let totalAmount = document.getElementById("total-amount").value;
+          let event_date = document.getElementById("date").value;
 
           const formData = new FormData();
           formData.append(`customer_payment_ss`, selectedFile);
           formData.append('seller_id', seller_data.user_id);
-          formData.append('event_date_id', event_date_data.event_date_id);
+          formData.append('event_date', event_date);
           formData.append('event_id', event_data.event_id);
           formData.append('qty', quantity);
           formData.append('amount', totalAmount);
@@ -674,12 +686,12 @@
           // Call the API
           const [success, result] = await callApi(
             "POST",
-            "{% url 'ticket-api-list' %}",
+            "{% url 'sell-event-ticket-api-list' %}",
             formData,
             "{{csrf_token}}",
             true
           );
-
+          toggle_loader();
           if (success) {
             if (result.success) {
               if (event_data.is_rented_event) {
@@ -701,7 +713,8 @@
     const thankYouModal = document.getElementById('thankYouModal');
       thankYouModal.addEventListener('hidden.bs.modal', function () {
         location.reload(); // Reload the page when modal is closed
-      });
+    });
+
   </script>
 </body>
 
