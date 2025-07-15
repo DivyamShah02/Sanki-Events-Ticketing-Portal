@@ -126,7 +126,13 @@
           </div>
 
           <div class="col-md-12 col-xl-4">
-            
+            <h5 class="mb-3">Actions</h5>
+            <div class="card p-3 text-center">
+              <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
+                data-bs-target="#getTicketReport">
+                <i class="feather icon-plus-circle me-2"></i>Download report
+              </button>
+            </div>
             <h5 class="mt-1 text-start">Best Seller</h5>
             <div class="mt-1">
               <div class="card text-start">
@@ -220,6 +226,60 @@
     </div>
   </div>
   <!-- [ Main Content ] end -->
+
+  <div class="modal fade" id="getTicketReport" tabindex="-1" aria-labelledby="getTicketReportLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getTicketReportLabel">Ticket Reports</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="getTicketForm">            
+            <div class="mb-3">
+              <label for="allEvents_report" class="form-label">All Events</label>
+              <select class="form-select" id="allEvents_report" required>
+                <option value="" selected disabled>Select Event</option>
+                <option value="">All Events</option>                
+                {% for event in events %}
+                <option value="{{ event.event_id }}">{{ event.event_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="event_date" class="form-label">Event Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="event_date" />
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="from_date" class="form-label">From Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="from_date" />
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="to_date" class="form-label">To Date</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                <input type="date" class="form-control" id="to_date" />
+              </div>
+            </div>
+            <div class="modal-footer px-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" onclick="generateTicketReport()" class="btn btn-primary">
+                Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% include 'footer.html' %}
 
@@ -389,6 +449,19 @@
     }
   </script>
   
+  <script>
+    function generateTicketReport() {      
+      let allEvents_report = document.getElementById('allEvents_report').value;
+      let event_date = document.getElementById('event_date').value;
+      let from_date = document.getElementById('from_date').value;
+      let to_date = document.getElementById('to_date').value;
+
+      let url = `/ticket/export-ticket/?seller_id={{user.user_id}}&event_id=${allEvents_report}&event_date=${event_date}&created_from=${from_date}&created_to=${to_date}`
+      console.log(url);
+      window.location.href = url;
+
+    };
+  </script>
 </body>
 <!-- [Body] end -->
 

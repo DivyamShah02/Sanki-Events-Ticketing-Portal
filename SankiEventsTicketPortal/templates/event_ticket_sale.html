@@ -267,6 +267,61 @@
       white-space: nowrap;
       border-width: 0;
     }
+    .quantity-selector {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #e0e0e0;
+        border-radius: 25px;
+        padding: 8px 16px;
+        background-color: white;
+        max-width: 140px;
+    }
+    
+    .quantity-btn {
+        background: none;
+        border: none;
+        color: #dc3545;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 4px 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .quantity-btn:hover {
+        background-color: #f8f9fa;
+        color: #c82333;
+    }
+    
+    .quantity-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .quantity-display {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        min-width: 30px;
+        text-align: center;
+        margin: 0 8px;
+        user-select: none;
+    }
+    
+    .quantity-btn:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .quantity-btn:disabled:hover {
+        background-color: transparent;
+        color: #ccc;
+    }
   </style>
 </head>
 
@@ -324,10 +379,10 @@
                 </p>
               </div>
 
-              <div class="col-md-6 d-flex align-items-center mb-3">
+              <!-- <div class="col-md-6 d-flex align-items-center mb-3">
                 <i class="ti ti-x me-2" id="event-details-modal-event_digital_pass"></i>
                 <p class="mb-0">Digital Pass</p>
-              </div>
+              </div> -->
 
               <div class="col-md-6 d-flex align-items-center mb-3">
                 <i class="ti ti-clock me-2"></i>
@@ -413,11 +468,16 @@
             </h4>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="quantity" class="form-label">Quantity<br><small class="text-muted" style="font-weight: 200;"> (You may request up to 10 tickets at a time. To purchase more, kindly submit the form again.)</small></label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
-                  <input type="number" class="form-control" id="quantity" min="1"  max="10" value="1" required />
+                <label for="quantity" class="form-label">Quantity<br><small class="text-muted" style="font-weight: 200;"> (You may request up to 4 tickets at a time. To purchase more, kindly submit the form again.)</small></label>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" id="decreaseBtn" onclick="changeQuantity(-1)">−</button>
+                    <span class="quantity-display" id="quantity">1</span>
+                    <button class="quantity-btn" id="increaseBtn" onclick="changeQuantity(1)">+</button>
                 </div>
+                <!-- <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                  <input type="number" class="form-control" id="quantity" min="1"  max="4" value="1" required />
+                </div>                 -->
               </div>
               <div class="col-md-6 mb-3" id="total-amount-section">
                 <label for="total-amount" class="form-label">Total Amount<br><small class="text-muted" style="font-weight: 200;"> (Provide the full amount submitted for this purchase)</small></label>
@@ -574,7 +634,7 @@
             document.getElementById("event-details-modal-event_days").innerHTML = date_html;
             document.getElementById("event-details-modal-event_city").innerText = `${event_data.city}, ${event_data.state}`;
 
-            document.getElementById("event-details-modal-event_digital_pass").className = event_data.digital_pass === true ? "ti ti-check me-2" : "ti ti-x me-2";
+            // document.getElementById("event-details-modal-event_digital_pass").className = event_data.digital_pass === true ? "ti ti-check me-2" : "ti ti-x me-2";
             document.getElementById("event-details-modal-event_address").innerText = event_data.event_address;
           }
           else {
@@ -666,7 +726,7 @@
           toggle_loader();
           // Extract values from form fields
           let customerName = document.getElementById("fullName").value;
-          let quantity = document.getElementById("quantity").value;
+          let quantity = document.getElementById("quantity").innerText;
           let customerNumber = document.getElementById("phone").value;
           let customerEmail = document.getElementById("email").value;
           let totalAmount = document.getElementById("total-amount").value;
@@ -716,6 +776,53 @@
     });
 
   </script>
+
+  <script>
+        function changeQuantity(change, elementId = 'quantity') {
+            const display = document.getElementById(elementId);
+            let currentValue = parseInt(display.textContent);
+            let newValue = currentValue + change;
+            
+            // Prevent negative values
+            if (newValue < 1) {
+                newValue = 1;
+            }
+            
+            // Optional: Set maximum value
+            const maxValue = 4;
+            if (newValue > maxValue) {
+                newValue = maxValue;
+            }
+            
+            display.textContent = newValue;
+            
+            // Update button states
+            updateButtonStates(elementId, newValue);
+        }
+        
+        function updateButtonStates(elementId, value) {
+            const container = document.getElementById(elementId).parentElement;
+            const decreaseBtn = container.querySelector('.quantity-btn:first-child');
+            const increaseBtn = container.querySelector('.quantity-btn:last-child');
+            
+            // Disable decrease button when value is 0
+            decreaseBtn.disabled = value <= 1;
+            
+            // Optional: Disable increase button at max value
+            const maxValue = 4;
+            increaseBtn.disabled = value >= maxValue;
+        }
+        
+        // Initialize button states on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update states for all quantity selectors
+            const displays = document.querySelectorAll('.quantity-display');
+            displays.forEach(display => {
+                const value = parseInt(display.textContent);
+                updateButtonStates(display.id, value);
+            });
+        });
+    </script>
 </body>
 
 </html>

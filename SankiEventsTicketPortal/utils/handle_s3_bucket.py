@@ -322,7 +322,7 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
     except Exception as e:
         return [], False, str(e)
 
-def send_approve_mail(event_name, date, recipient_email, qty):
+def send_approve_mail(customer_name, event_name, date, recipient_email, qty, price):
     """
     Sends `qty` tickets from 'Available Tickets' in S3 via Gmail, moves them to 'Sent Tickets' if successful.
 
@@ -345,17 +345,30 @@ def send_approve_mail(event_name, date, recipient_email, qty):
         msg['Subject'] = f"Your {qty} Ticket(s) for {event_name} on {str(date).replace(' 00:00:00', '')}"
         msg['From'] = gmail_user
         msg['To'] = recipient_email
-        msg.set_content(f'''
-Hi,
+        msg_text = f'''
+Hi {customer_name},
 
-Your booking for {event_name} on {str(date).replace(' 00:00:00', '')} has been successfully confirmed!
+We’re happy to let you know that your booking has been successfully confirmed!
+Here are your booking details:
 
-We’ll be sending your {qty} ticket(s) shortly in a separate email.
+Email: {recipient_email}
+Date of Booking: {str(date).replace(' 00:00:00', '')}
+Event: {event_name}
+Quantity: {qty}
+Total Price:*₹{price}
 
-Thank you for booking with us. Stay tuned!
+✅ Your tickets are on the way!
+You will receive them shortly via email or WhatsApp.
+
+Thank you for booking with Sanki Events!
+Feel free to reach out if you have any questions.
+
 
 Best regards,
-Team, Sanki Events''')
+Team, Sanki Events
+        
+'''
+        msg.set_content(msg_text)
 
         # Send email
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:

@@ -43,7 +43,10 @@ class DashboardFrontEndViewSet(viewsets.ViewSet):
             return render(request, 'hod/dashboard.html', data)
         
         elif user.role == 'reseller':
-            return render(request, 'reseller/dashboard.html')
+            data = {
+                'events': Event.objects.all().order_by('-event_id'),
+            }
+            return render(request, 'reseller/dashboard.html', data)
 
 
 class EventsFrontEndViewSet(viewsets.ViewSet):

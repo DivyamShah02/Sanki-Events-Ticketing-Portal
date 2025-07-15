@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantity Selector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .quantity-selector {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            padding: 8px 16px;
+            background-color: white;
+            max-width: 140px;
+        }
+        
+        .quantity-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 4px 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #f8f9fa;
+            color: #c82333;
+        }
+        
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-display {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            min-width: 30px;
+            text-align: center;
+            margin: 0 8px;
+            user-select: none;
+        }
+        
+        .quantity-btn:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .quantity-btn:disabled:hover {
+            background-color: transparent;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <h4 class="mb-4">Quantity Selector</h4>
+                
+                <!-- Quantity Selector Component -->
+                <div class="quantity-selector">
+                    <button class="quantity-btn" id="decreaseBtn" onclick="changeQuantity(-1)">−</button>
+                    <span class="quantity-display" id="quantityDisplay">1</span>
+                    <button class="quantity-btn" id="increaseBtn" onclick="changeQuantity(1)">+</button>
+                </div>
+                
+                <!-- Example with multiple selectors -->
+                <div class="mt-4">
+                    <h5>Multiple Selectors Example:</h5>
+                    <div class="d-flex gap-3 flex-wrap mt-3">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity(-1, 'qty1')">−</button>
+                            <span class="quantity-display" id="qty1">0</span>
+                            <button class="quantity-btn" onclick="changeQuantity(1, 'qty1')">+</button>
+                        </div>
+                        
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity(-1, 'qty2')">−</button>
+                            <span class="quantity-display" id="qty2">5</span>
+                            <button class="quantity-btn" onclick="changeQuantity(1, 'qty2')">+</button>
+                        </div>
+                        
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity(-1, 'qty3')">−</button>
+                            <span class="quantity-display" id="qty3">2</span>
+                            <button class="quantity-btn" onclick="changeQuantity(1, 'qty3')">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function changeQuantity(change, elementId = 'quantityDisplay') {
+            const display = document.getElementById(elementId);
+            let currentValue = parseInt(display.textContent);
+            let newValue = currentValue + change;
+            
+            // Prevent negative values
+            if (newValue < 0) {
+                newValue = 0;
+            }
+            
+            // Optional: Set maximum value
+            const maxValue = 99;
+            if (newValue > maxValue) {
+                newValue = maxValue;
+            }
+            
+            display.textContent = newValue;
+            
+            // Update button states
+            updateButtonStates(elementId, newValue);
+        }
+        
+        function updateButtonStates(elementId, value) {
+            const container = document.getElementById(elementId).parentElement;
+            const decreaseBtn = container.querySelector('.quantity-btn:first-child');
+            const increaseBtn = container.querySelector('.quantity-btn:last-child');
+            
+            // Disable decrease button when value is 0
+            decreaseBtn.disabled = value <= 0;
+            
+            // Optional: Disable increase button at max value
+            const maxValue = 99;
+            increaseBtn.disabled = value >= maxValue;
+        }
+        
+        // Initialize button states on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update states for all quantity selectors
+            const displays = document.querySelectorAll('.quantity-display');
+            displays.forEach(display => {
+                const value = parseInt(display.textContent);
+                updateButtonStates(display.id, value);
+            });
+        });
+    </script>
+</body>
+</html>

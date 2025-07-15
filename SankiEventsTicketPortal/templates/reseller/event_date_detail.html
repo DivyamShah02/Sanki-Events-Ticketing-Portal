@@ -793,6 +793,7 @@
         return;
       }
       try {
+        toggle_loader();
         const bodyData = {
           qty: qty,
           amount: amount,
@@ -800,6 +801,7 @@
         };
         const url = "{% url 'approve-ticket-api-list' %}";
         const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        toggle_loader();
         if (success) {
           if (result.success) {
             console.log("Tickets approved successfully:", result.data);
@@ -816,12 +818,15 @@
 
           } else {
             console.error("Error approving tickets:", result.error);
+            alert(`Error approving tickets: ${result.error}`);
           }
         } else {
           console.error("API call failed:", result.error);
+          alert(`API call failed: ${result.error}`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        alert(`Error fetching data: ${error}`);
       }
     }
 
