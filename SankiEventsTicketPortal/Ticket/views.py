@@ -992,22 +992,22 @@ class TicketExportViewSet(viewsets.ViewSet):
             if t.mail_sent:
                 status_ticket = 'Mail Sent'
             data.append({
+                "Customer Number": t.customer_number,
+                "Customer Name": t.customer_name,
+                "Customer Email": t.customer_email,
+                "Qty": t.qty,
+                "Event Date": event_date.strftime('%Y-%m-%d') if event_date else '',
+                "Day of Event": day_of_event,
+                "Weekday": weekday_name,
+                "Amount": t.amount,
+                "Status": status_ticket,
+                "Sold Date": t.sold_date.strftime('%Y-%m-%d'),
+                "Created At": t.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                "Seller ID": t.seller_id,
                 "Event Name": event_name,
                 "Event ID": t.event_id,
                 "Ticket ID": t.ticket_id,
                 "Event Date ID": t.event_date_id,
-                "Event Date": event_date.strftime('%Y-%m-%d') if event_date else '',
-                "Day of Event": day_of_event,
-                "Weekday": weekday_name,
-                "Seller ID": t.seller_id,
-                "Qty": t.qty,
-                "Amount": t.amount,
-                "Sold Date": t.sold_date.strftime('%Y-%m-%d'),
-                "Customer Name": t.customer_name,
-                "Customer Email": t.customer_email,
-                "Customer Number": t.customer_number,
-                "Status": status_ticket,
-                "Created At": t.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             })
 
         return pd.DataFrame(data)
