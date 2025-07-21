@@ -397,7 +397,8 @@ class ApproveTicketViewSet(viewsets.ViewSet):
                                     date=event_date_data_obj.date,
                                     recipient_email=ticket_data.customer_email,
                                     qty=ticket_data.qty,
-                                    price= ticket_data.amount)
+                                    price= ticket_data.amount,
+                                    venue=event_data_obj.event_venue)
 
         if mail_sent:
             ticket_data.save()
@@ -411,15 +412,15 @@ class ApproveTicketViewSet(viewsets.ViewSet):
                 "error": None
             }, status=status.HTTP_200_OK)
 
-    def send_mail(self, customer_name, event_name, date, recipient_email, qty, price):
+    def send_mail(self, customer_name, event_name, date, recipient_email, qty, price, venue):
         success = send_approve_mail(
                 customer_name=customer_name,
-                event_name=event_name,
-                # date="2025-05-20 00:00:00",
-                date=f"{date} 00:00:00",
+                event_name=event_name,                
+                date=date,
                 recipient_email=recipient_email,
                 qty=qty,
-                price=price
+                price=price,
+                venue=venue
             )
 
         if success:

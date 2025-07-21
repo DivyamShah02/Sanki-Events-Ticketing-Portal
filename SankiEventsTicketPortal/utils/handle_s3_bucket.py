@@ -6,6 +6,9 @@ import smtplib
 import tempfile
 from email.message import EmailMessage
 from botocore.exceptions import ClientError
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 
 
 def base64_to_text(b64_text):
@@ -322,7 +325,7 @@ def send_ticket_and_move(event_name, date, recipient_email, qty):
     except Exception as e:
         return [], False, str(e)
 
-def send_approve_mail(customer_name, event_name, date, recipient_email, qty, price):
+def send_approve_mail_dd(customer_name, event_name, date, recipient_email, qty, price):
     """
     Sends `qty` tickets from 'Available Tickets' in S3 via Gmail, moves them to 'Sent Tickets' if successful.
 
@@ -458,6 +461,367 @@ def resend_ticket(event_name, date, recipient_email, qty, sent_files):
     except Exception as e:
         return [], False, str(e)
 
+def send_approve_mail(customer_name, event_name, date, recipient_email, qty, price, venue):
+    try:
+        # recipient_email = 'divyamshah1234@gmail.com'
+        EMAIL = 'support@sankievents.in'
+        PASSWORD = "jxkf hdmb hjwf yrgv"
+
+        message = MIMEMultipart()
+        message['From'] = f"Sanki Events <{EMAIL}>"
+        message['To'] = recipient_email
+        # Bcc = ['divyam@dynamiclabz.net']
+        message['Subject'] = f"Your {qty} Ticket(s) for {event_name} on {str(date).replace(' 00:00:00', '')}"
+
+
+        # <tr>
+        #     <td style="padding: 20px;">
+        #         client_name - {client_name}<br>
+        #         client_number - {client_number}<br>
+        #         property_name - {property_name}<br>
+        #         unit_configuration - {unit_configuration}<br>
+        #         unit_type - {unit_type}<br>
+        #         unit_series - {unit_series}<br>
+        #     </td>
+        # </tr>
+
+        style = """
+body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #20b2aa 0%, #48d1cc 100%);
+            padding: 0;
+            text-align: left;
+            position: relative;
+        }
+        .logo {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .logo-subtitle {
+            color: white;
+            font-size: 12px;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        .content {
+            padding: 30px;
+            background-color: #f8f9fa;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .welcome-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .event-section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        .event-poster {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .event-details {
+            flex: 1;
+            margin-left: 5px;
+        }
+        .event-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .booking-details {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .booking-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .quantity {
+            color: #20b2aa;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .ticket-category {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .ticket-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .datetime-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .datetime-item {
+            color: #666;
+        }
+        .venue-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .venue-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .venue-location {
+            color: #666;
+            margin-top: 5px;
+        }
+        .directions-btn {
+            background-color: #20b2aa;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .customer-info {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .customer-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .thank-you {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .thank-you-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .sanki-brand {
+            color: #20b2aa;
+            font-weight: bold;
+        }
+        .emotion-text {
+            color: #666;
+            font-size: 16px;
+        }
+        .carnival-icons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .carnival-icons img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .whats-next {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .whats-next-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .next-steps {
+            color: #666;
+            line-height: 1.6;
+        }
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+        .instagram-section {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .instagram-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .instagram-text {
+            color: #666;
+            font-style: italic;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .event-section {
+                flex-direction: column;
+            }
+            .datetime-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .venue-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+"""
+
+        message_str = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanki Events - Ticket Confirmation</title>
+    <style>
+        {style}
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div style="position: relative; background: url('https://www.sankievents.in/static/mail_head_img.png') center/cover; min-height: 120px; display: flex; align-items: center; padding: 20px;">
+        <!-- The background image already contains the Sanki Events logo, so we can remove the text overlay -->
+    </div>
+</div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <h2 class="greeting">Hey {customer_name},</h2>
+            <p class="welcome-text">
+                We're thrilled to welcome you to <strong>{event_name}</strong> with <strong>Sanki Events!</strong><br>
+                Your offline pass has been successfully confirmed via our portal, and you're now officially ready for a dhamakedar experience!
+            </p>
+
+            <!-- Event Section -->
+            <div class="event-section">
+                <img src="https://sankievents.s3.amazonaws.com/event_banners/LOGO.jpg" alt="Event Poster" class="event-poster">
+                <div class="event-details">
+                    <p style="color: #666; margin-bottom: 5px;">Your ticket is booked for the following event</p>
+                    <h3 class="event-title">{event_name}</h3>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="booking-details">
+                <h3 class="booking-title">Booking Details</h3>
+                <div class="quantity">Quantity: {qty}</div>
+
+                <div class="datetime-row">
+                    <div class="datetime-item">
+                        <strong>Date:</strong> {date}
+                    </div>                   
+                </div>
+
+                <div class="venue-section">
+                    <div>
+                        <h4 class="venue-title">Venue</h4>
+                        <p class="venue-location">{venue}</p>
+                    </div>                    
+                </div>
+
+                <div class="customer-info">
+                    <strong>Purchased By:</strong><br>
+                    <span class="customer-name">{customer_name}</span>
+                </div>
+            </div>
+
+            <!-- Thank You Section -->
+            <div class="thank-you">
+                <p class="thank-you-text">Thank you for choosing <span class="sanki-brand">Sanki Events</span></p>
+                <p class="emotion-text">Because yeh sirf pass nahi, ek emotion hai! ❤️</p>
+                
+                <div class="carnival-icons">
+                    <img src="https://www.sankievents.in/static/mail_sec_img.png" alt="Carnival Attractions" style="width: 100%; max-width: 500px; height: auto; margin: 20px 0;">
+</div>
+            </div>
+
+            <!-- What's Next -->
+            <div class="whats-next">
+                <h3 class="whats-next-title">What's Next?</h3>
+                <ol class="next-steps">
+                    <li>You'll receive your pass shortly / Refer to the attach QR Code.</li>
+                    <li>Keep this email safe as proof of booking.</li>
+                    <li>For any support, just WhatsApp or call us: +91-7304-316-395 / +91-7304-376-355</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Instagram Section -->
+        <div class="instagram-section">
+            <div class="instagram-icon">📷</div>
+            <p class="instagram-text">
+                Follow us on Instagram to stay updated with artist announcements, giveaways, and all the Garba madness.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+        """.format(
+            style=style,
+            customer_name=customer_name,
+            event_name=event_name,
+            date=date,
+            qty=qty,
+            venue=venue
+        )
+
+        message.attach(MIMEText(message_str, 'html'))
+        
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(EMAIL, PASSWORD)
+            server.sendmail(EMAIL, recipient_email, message.as_string())
+            # server.sendmail(EMAIL, [recipient_email]+Bcc, message.as_string())
+
+        return True
+
+    except Exception as e:
+        print('error occured while sedngin mail')
+        print(e)
+        return False
+
+
 
 import boto3
 
@@ -496,6 +860,16 @@ def count_files_in_s3_folder(folder_path):
 
 
 if __name__ == '__main__':
+    print("hellop")
+    # send_approve_mail(
+    #     customer_name="Divyam Shah",
+    #     event_name="Aditya Ghadvi",
+    #     date="2025-05-20",
+    #     recipient_email="divyamshah1234@gmail.com",
+    #     qty=2,
+    #     price=2000,
+    #     venue="Nesco, Mumbai")
+    
     # Example usage:
     # bucket_name = "sankievents"
     # event_name = "Nesco"
@@ -516,14 +890,17 @@ if __name__ == '__main__':
     # else:
     #     print("Failed:", error[0])
 
-    files, success, *error = send_ticket_and_move(
-        event_name="Aditya ghadvi",
-        date="2025-05-20 00:00:00",
-        recipient_email="divyamshah1234@gmail.com",
-        qty=3
-    )
+    
+    # files, success, *error = send_ticket_and_move(
+    #     event_name="Aditya ghadvi",
+    #     date="2025-05-20 00:00:00",
+    #     recipient_email="divyamshah1234@gmail.com",
+    #     qty=3
+    # )
 
-    if success:
-        print("Sent files:", files)
-    else:
-        print("Failed:", error[0])
+    # if success:
+    #     print("Sent files:", files)
+    # else:
+    #     print("Failed:", error[0])
+
+
