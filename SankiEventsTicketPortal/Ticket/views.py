@@ -1024,3 +1024,43 @@ class TicketExportViewSet(viewsets.ViewSet):
         filename = f"{sheet_name}_Export_{timezone.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
         response['Content-Disposition'] = f'attachment; filename={filename}'
         return response
+
+
+class DeclineTicketViewSet(viewsets.ViewSet):
+
+    @handle_exceptions
+    @check_authentication()
+    def create(self, request):
+        ticket_id = request.data.get('ticket_id')
+        if not ticket_id:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "ticket_id not provided."
+                }, status=status.HTTP_404_NOT_FOUND)
+        
+        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        if not ticket_data:
+            return Response(
+                {
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": "Ticket not found."
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        ticket_data.delete()
+
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": {"ticket_id": ticket_id},
+                "error": None
+            }, status=status.HTTP_200_OK)
+    

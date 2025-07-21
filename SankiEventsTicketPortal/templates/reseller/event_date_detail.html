@@ -342,6 +342,59 @@
         </div>
       </div>
 
+      <!-- Decline Ticket Modal -->
+      <div class="modal fade " id="DeclineTicketModal" tabindex="-1" aria-labelledby="DeclineTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DeclineTicketModalLabel">
+                Decline Ticket
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Name</u>:</b>&nbsp; <span id="decline-ticket-customer-name">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Email</u>:</b>&nbsp; <span id="decline-ticket-customer-email">Loading.. </span>
+              </div>
+
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <b><u>Customer Number</u>:</b>&nbsp; <span id="decline-ticket-customer-number">Loading.. </span>
+              </div>
+
+              <h5 for="decline-ticket-customer-qty" class="form-label mt-3">Number of tickets</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="decline-ticket-customer-qty"
+                  placeholder="Number of tickets" />
+              </div>
+
+              <h5 for="decline-ticket-customer-amount" class="form-label mt-3">Total Amount</h5>
+              <div class="col-md-12 d-flex align-items-center mb-3">
+                <input type="text" class="form-control" id="decline-ticket-customer-amount"
+                  placeholder="Total Amount" />
+              </div>
+
+              <input type="hidden" class="form-control" id="decline-ticket-id">
+
+              <h6>Once a ticket is declined, it cannot be approved and will be deleted.</h6>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="decline-ticket-close-btn">
+                Close
+              </button>
+              <button type="button" class="btn btn-danger" id="decline-ticket-btn">
+                Decline Tickets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Send Ticket Mail Modal -->
       <div class="modal fade " id="SendTicketMailModal" tabindex="-1" aria-labelledby="SendTicketMailModalLabel"
         aria-hidden="true">
@@ -690,6 +743,7 @@
 
       paginatedTickets.forEach(ticket => {
         let actionBtn = "";
+        let declineBtn = "";
         let statusClass = "";
         const status = ticket.status.toLowerCase();
 
@@ -709,6 +763,8 @@
         } else {
           statusClass = "text-danger";
           actionBtn = `<button onclick="approveTicket('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-success text-nowrap"><i class="ti ti-check f-18"></i> Approve</button>`;
+
+          declineBtn = `<button onclick="declineTicket('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}')" class="btn btn-danger text-nowrap"><i class="ti ti-circle-x f-18"></i> Decline</button>`;
         }
 
         console.log(ticket)
@@ -722,6 +778,7 @@
           <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
         </td>
         <td class="text-center text-nowrap" id="action-btn-${ticket.ticket_id}">${actionBtn}</td>
+        <td class="text-center text-nowrap" id="action-btn-${ticket.ticket_id}">${declineBtn}</td>
       </tr>`;
 
         ticketTableBody.innerHTML += ticketRow;
@@ -815,6 +872,63 @@
             }
 
             $("#ApproveTicketModal").modal("hide");
+
+          } else {
+            console.error("Error approving tickets:", result.error);
+            alert(`Error approving tickets: ${result.error}`);
+          }
+        } else {
+          console.error("API call failed:", result.error);
+          alert(`API call failed: ${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert(`Error fetching data: ${error}`);
+      }
+    }
+
+    async function declineTicket(customer_name, customer_email, customer_number, qty, amount, ticket_id) {
+      toggle_loader();      
+      document.getElementById("decline-ticket-customer-name").innerText = ` ${customer_name}`;
+      document.getElementById("decline-ticket-customer-email").innerText = ` ${customer_email}`;
+      document.getElementById("decline-ticket-customer-number").innerText = ` ${customer_number}`;
+      document.getElementById("decline-ticket-customer-qty").value = qty;
+      document.getElementById("decline-ticket-customer-amount").value = amount;
+      document.getElementById("decline-ticket-id").value = ticket_id;
+
+      toggle_loader();
+      // Show the modal
+      $("#DeclineTicketModal").modal("show");
+
+      // Handle decline button click
+      document.getElementById("decline-ticket-btn").onclick = async function () {
+        const qty = document.getElementById("decline-ticket-customer-qty").value;
+        const amount = document.getElementById("decline-ticket-customer-amount").value;
+        const ticket_id = document.getElementById("decline-ticket-id").value;
+
+        // Call API to decline tickets (implement this function)
+        await declineTicketsAPI(customer_name, customer_email, customer_number, qty, amount, ticket_id);
+      };
+    }
+
+    async function declineTicketsAPI(customer_name, customer_email, customer_number, qty, amount, ticket_id) {      
+      try {
+        toggle_loader();
+        const bodyData = {
+          qty: qty,
+          amount: amount,
+          ticket_id: ticket_id,
+        };
+        const url = "{% url 'decline-ticket-api-list' %}";
+        const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+        toggle_loader();
+        if (success) {
+          if (result.success) {
+            console.log("Tickets Decline successfully:", result.data);
+            document.getElementById('action-btn-' + ticket_id).innerHTML = `No Action`;
+            document.getElementById('status-class-' + ticket_id).innerHTML = `<i class="fas fa-circle text-danger f-10 m-r-5"></i> Declined`;
+
+            $("#DeclineTicketModal").modal("hide");
 
           } else {
             console.error("Error approving tickets:", result.error);

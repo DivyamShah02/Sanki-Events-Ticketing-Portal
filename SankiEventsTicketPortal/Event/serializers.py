@@ -243,19 +243,23 @@ class ResellerEventsSerializer(serializers.ModelSerializer):
                     'event_date': f'{event_date.date.day}/{event_date.date.month}/{event_date.date.year}',        
                     'number_of_tickets': event_date.number_of_tickets,            
                     'tickets_sold': 0,
-                    'tickets_sold_amount': 0
+                    'tickets_sold_amount': 0,
+                    'unapproved_tickets': 0
                 }
                 all_dates.append(f'{event_date.date.day}/{event_date.date.month}')
                 
                 seller_assigned_tickets = AssignedTicket.objects.filter(event_date_id=event_date.event_date_id, reseller_id=seller_id).first()
                 number_of_tickets += seller_assigned_tickets.assigned_tickets if seller_assigned_tickets else 0
 
-                all_envents_tickets_sold_obj = Ticket.objects.filter(event_date_id=event_date.event_date_id, approved=True, seller_id=seller_id)
+                all_envents_tickets_sold_obj = Ticket.objects.filter(event_date_id=event_date.event_date_id, seller_id=seller_id)
                 all_envents_tickets_sold = QtyAmountTicketSerializer(all_envents_tickets_sold_obj, many=True).data
 
                 for ticket_sold in all_envents_tickets_sold:
-                    temp_event['tickets_sold']+=ticket_sold['qty']
-                    temp_event['tickets_sold_amount']+=ticket_sold['amount']
+                    if ticket_sold['approved'] == True:
+                        temp_event['tickets_sold']+=ticket_sold['qty']
+                        temp_event['tickets_sold_amount']+=ticket_sold['amount']
+                    else:
+                        temp_event['unapproved_tickets'] = ticket_sold['qty']
                 
                 final_event_dates_list.append(temp_event)
 

@@ -255,6 +255,7 @@
 
               let event_date_rows = "";
               event_data.event_dates_data.forEach((date) => {
+                console.log(date)
                 event_date_rows += `<a href="{% url 'event_date_detail-list' %}?event_date_id=${date.event_date_id}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
                           <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
@@ -263,7 +264,7 @@
                                 "en-IN"
                               )} | <span class="font-bold">Tickets Sold:</span> ${
                   date.tickets_sold
-                }</p>
+                } | <span class="font-bold">UnApproved Tickets: ${date.unapproved_tickets}</span></p>
                             </div>
                           </div>
                           <button class="btn btn-sm btn-outline-primary">Details</button>
