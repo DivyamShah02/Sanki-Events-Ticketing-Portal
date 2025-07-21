@@ -95,6 +95,10 @@
             <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
           </div>
           <div class="mb-3">
+            <label for="eventMaxPass" class="form-label">Event Max Salebale Pass</label>
+            <input type="number" class="form-control" id="eventMaxPass" value="10" required />
+          </div>
+          <div class="mb-3">
             <div class="file-upload-container">
               <label for="event_banner" class="file-upload-label">
                 <i class="fas fa-cloud-upload-alt"></i>
@@ -188,6 +192,7 @@
         let eventState = document.getElementById('eventState').value;
         let eventAddress = document.getElementById('eventAddress').value;
         let eventDetails = document.getElementById('eventDetails').value;
+        let eventMaxPass = document.getElementById('eventMaxPass').value;
         let digitalPass = document.getElementById('digitalPass').checked;
 
         const formData = new FormData();
@@ -198,6 +203,7 @@
         formData.append('event_address', eventAddress);
         formData.append('city', eventCity);
         formData.append('state', eventState);
+        formData.append('max_pass', eventMaxPass);
         formData.append('digital_pass', digitalPass);
         formData.append(`event_banner`, selectedFile);
 

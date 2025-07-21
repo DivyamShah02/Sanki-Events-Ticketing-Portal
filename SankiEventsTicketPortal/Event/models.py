@@ -7,7 +7,7 @@ class Event(models.Model):
     event_id = models.CharField(max_length=10, unique=True)
     hod_id = models.CharField(max_length=12)
     event_name = models.CharField(max_length=255)
-    event_details = models.TextField()
+    event_details = models.TextField(null=True, blank=True)
     event_venue = models.CharField(max_length=255)
     event_date_range = models.CharField(max_length=255)
     event_address = models.TextField()
@@ -19,6 +19,7 @@ class Event(models.Model):
     event_banner = models.ImageField(upload_to='event_banners/', storage=S3Boto3Storage(), null=True, blank=True)
     event_pass = models.ImageField(upload_to='event_banners/', storage=S3Boto3Storage(), null=True, blank=True)
     pass_qr_dimension = models.CharField(max_length=255, null=True, blank=True)
+    max_pass = models.IntegerField(null=True, blank=True)
 
     is_rented_event = models.BooleanField(default=False)
     is_payment_ss_needed = models.BooleanField(default=False)

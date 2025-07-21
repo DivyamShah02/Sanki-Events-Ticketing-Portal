@@ -24,6 +24,7 @@ class EventViewSet(viewsets.ViewSet):
         event_venue = request.data.get('event_venue')
         event_date_range = request.data.get('event_date_range')
         event_address = request.data.get('event_address')
+        max_pass = request.data.get('max_pass')
         city = request.data.get('city')
         state = request.data.get('state')
         digital_pass = request.data.get('digital_pass', False)
@@ -34,7 +35,7 @@ class EventViewSet(viewsets.ViewSet):
         elif str(digital_pass).lower() == 'false':
             digital_pass = False
 
-        if (event_name and event_details and event_venue and event_date_range and event_address and city and state) is None:
+        if (event_name and event_details and event_venue and event_date_range and event_address and city and state and max_pass) is None:
             return Response(
             {
                 "success": False,
@@ -73,6 +74,7 @@ class EventViewSet(viewsets.ViewSet):
             event_venue=event_venue,
             event_date_range=event_date_range,
             event_address=event_address,
+            max_pass=max_pass,
             city=city,
             state=state,
             digital_pass=digital_pass,

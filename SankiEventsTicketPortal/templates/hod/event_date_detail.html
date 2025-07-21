@@ -430,6 +430,10 @@
                   <input type="text" class="form-control" id="assigntickets" placeholder="Assign more tickets" />
                   <input type="hidden" id="assign-tickets-modal-reseller_id" />
                 </div>
+                <h5 for="assignticketsPerPrice" class="form-label mt-3">Enter per ticket price</h5>
+                <div class="col-md-12 d-flex align-items-center mb-3">
+                  <input type="number" class="form-control" id="assignticketsPerPrice" placeholder="Enter per ticket price" />
+                </div>
                 <h5 for="assignticketsPrice" class="form-label mt-3">Enter total price of ticket</h5>
                 <div class="col-md-12 d-flex align-items-center mb-3">
                   <input type="text" class="form-control" id="assignticketsPrice" placeholder="Enter total price of ticket" />
@@ -1440,6 +1444,18 @@
       $("#ViewCustomerModal").modal("show");
     }
 
+    document.getElementById('assignticketsPerPrice').addEventListener('input', function () {
+      const quantity = document.getElementById('assigntickets').value;
+      const perTicketPrice = this.value;
+      const totalAmountField = document.getElementById('assignticketsPrice');
+
+      if (quantity && perTicketPrice) {
+        const totalAmount = parseFloat(quantity) * parseFloat(perTicketPrice);
+        totalAmountField.value = totalAmount.toFixed(2); // Set total amount with 2 decimal places
+      } else {
+        totalAmountField.value = ''; // Clear total amount if inputs are not valid
+      }
+    });
   </script>
 
 </body>

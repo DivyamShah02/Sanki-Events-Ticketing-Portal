@@ -789,7 +789,7 @@
             }
             
             // Optional: Set maximum value
-            const maxValue = 4;
+            const maxValue = event_data.max_pass;
             if (newValue > maxValue) {
                 newValue = maxValue;
             }
@@ -809,7 +809,7 @@
             decreaseBtn.disabled = value <= 1;
             
             // Optional: Disable increase button at max value
-            const maxValue = 4;
+            const maxValue = event_data.max_pass;
             increaseBtn.disabled = value >= maxValue;
         }
         
