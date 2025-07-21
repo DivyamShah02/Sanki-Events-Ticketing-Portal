@@ -461,7 +461,7 @@ def resend_ticket(event_name, date, recipient_email, qty, sent_files):
     except Exception as e:
         return [], False, str(e)
 
-def send_approve_mail(customer_name, event_name, date, recipient_email, qty, price, venue):
+def send_approve_mail(customer_name, event_name, event_banner, date, recipient_email, qty, price, venue):
     try:
         # recipient_email = 'divyamshah1234@gmail.com'
         EMAIL = 'support@sankievents.in'
@@ -735,7 +735,7 @@ body {
 
             <!-- Event Section -->
             <div class="event-section">
-                <img src="https://sankievents.s3.amazonaws.com/event_banners/LOGO.jpg" alt="Event Poster" class="event-poster">
+                <img src="https://sankievents.s3.amazonaws.com/{event_banner}" alt="Event Poster" class="event-poster">
                 <div class="event-details">
                     <p style="color: #666; margin-bottom: 5px;">Your ticket is booked for the following event</p>
                     <h3 class="event-title">{event_name}</h3>
@@ -804,7 +804,8 @@ body {
             event_name=event_name,
             date=date,
             qty=qty,
-            venue=venue
+            venue=venue,
+            event_banner=event_banner
         )
 
         message.attach(MIMEText(message_str, 'html'))
