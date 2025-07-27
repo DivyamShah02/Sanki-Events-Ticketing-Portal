@@ -104,7 +104,7 @@ class HodEventsSerializer(serializers.ModelSerializer):
                         temp_event['tickets_sold']+=ticket_sold['qty']
                         temp_event['tickets_sold_amount']+=ticket_sold['amount']
                     else:
-                        temp_event['unapproved_tickets'] = ticket_sold['qty']
+                        temp_event['unapproved_tickets'] += ticket_sold['qty']
                 
                 final_event_dates_list.append(temp_event)
 
