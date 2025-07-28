@@ -12,7 +12,7 @@ from rest_framework.response import Response
 
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from utils.decorators import *
 from utils.handle_s3_bucket import *
@@ -832,6 +832,11 @@ class TicketPassViewSet(viewsets.ViewSet):
         qr_position = tuple(map(int, pass_qr_dimension.split('|')[1].strip().split(',')))
         text_position = tuple(map(int, pass_qr_dimension.split('|')[2].strip().split(',')))
 
+        # "151, 151 | 1775, 240 | 170, 120"
+        # qr_size = (151, 151)  
+        # qr_position = (1775, 240)  # (w, h)
+        # text_position = (170, 120)
+        # print(pass_path)
         buffer = generate_pass(ticket_id=ticket_id, name=ticket_data.customer_name, qr_size=qr_size, qr_position=qr_position, text_position=text_position, pass_path=pass_path)
         
         response = HttpResponse(buffer, content_type="image/png")
@@ -1067,3 +1072,17 @@ class DeclineTicketViewSet(viewsets.ViewSet):
                 "error": None
             }, status=status.HTTP_200_OK)
     
+class DownloadTicketsViewSet(viewsets.ViewSet):
+    @handle_exceptions
+    @check_authentication()
+    def list(self, request):
+        event_date_id = request.query_params.get('event_date_id')
+        print(event_date_id)
+        all_ticket = Ticket.objects.filter(event_date_id=event_date_id, approved=True)
+        ticket_data = []
+        if all_ticket:
+            for ticket_detail in all_ticket:
+                ticket_data.append(ticket_detail.ticket_id)
+        
+        return JsonResponse({"data": ticket_data})
+

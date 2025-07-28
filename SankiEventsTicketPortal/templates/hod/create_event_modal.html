@@ -94,6 +94,10 @@
             <input type="checkbox" class="form-check-input" id="digitalPass" />
             <label class="form-check-label" for="digitalPass">Enable Digital Pass</label>
           </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="rentedEvent" />
+            <label class="form-check-label" for="rentedEvent">Rented Event</label>
+          </div>
           <div class="mb-3">
             <label for="eventMaxPass" class="form-label">Event Max Salebale Pass</label>
             <input type="number" class="form-control" id="eventMaxPass" value="10" required />
@@ -172,7 +176,6 @@
   });
 
   document.getElementById("eventForm").addEventListener("submit", async (event) => {
-    toggle_loader();
     const form = event.target;
     event.preventDefault();
 
@@ -185,6 +188,7 @@
       'Confirm Action',
       '<p>Are you sure you want to create new event?</p>',
       async () => {
+        toggle_loader();
         let eventName = document.getElementById('eventName').value;
         let eventVenue = document.getElementById('eventVenue').value;
         let eventDateRange = document.getElementById('eventDateRange').value;
@@ -194,6 +198,7 @@
         let eventDetails = document.getElementById('eventDetails').value;
         let eventMaxPass = document.getElementById('eventMaxPass').value;
         let digitalPass = document.getElementById('digitalPass').checked;
+        let rentedEvent = document.getElementById('rentedEvent').checked;
 
         const formData = new FormData();
         formData.append('event_name', eventName);
@@ -205,10 +210,12 @@
         formData.append('state', eventState);
         formData.append('max_pass', eventMaxPass);
         formData.append('digital_pass', digitalPass);
+        formData.append('rented_event', rentedEvent);
         formData.append(`event_banner`, selectedFile);
 
         const url = "{% url 'event-api-list' %}";
         const [success, result] = await callApi("POST", url, formData, "{{csrf_token}}", true);
+        toggle_loader();
         if (success) {
           if (result.success) {
             location.reload();
@@ -221,6 +228,5 @@
         }
       }
     );
-    toggle_loader();
   });
 </script>

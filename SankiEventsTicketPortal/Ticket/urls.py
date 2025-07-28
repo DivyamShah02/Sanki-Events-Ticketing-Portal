@@ -23,6 +23,9 @@ router.register(r'validate-ticket-pass-api', ValidateTicketPassViewSet, basename
 
 router.register(r'export-ticket', TicketExportViewSet, basename='export-ticket')
 
+
+router.register(r'download-tickets-details', DownloadTicketsViewSet, basename='download-tickets-details')
+
 urlpatterns = [
     path('', include(router.urls))
 ]

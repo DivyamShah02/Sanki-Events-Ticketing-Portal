@@ -25,7 +25,7 @@ def generate_pass(ticket_id, name, qr_size, qr_position, text_position, pass_pat
     # text_position = (370, 1120)
     text_color = (0, 0, 0)  
 
-    draw.text(text_position, name, font=font, fill=text_color)
+    # draw.text(text_position, name, font=font, fill=text_color)
 
     buffer = BytesIO()
     base_img.save(buffer, format="PNG")

@@ -18,7 +18,7 @@ class Event(models.Model):
     s3_bucket_folder = models.CharField(max_length=255)
     event_banner = models.ImageField(upload_to='event_banners/', storage=S3Boto3Storage(), null=True, blank=True)
     event_pass = models.ImageField(upload_to='event_banners/', storage=S3Boto3Storage(), null=True, blank=True)
-    pass_qr_dimension = models.CharField(max_length=255, null=True, blank=True)
+    pass_qr_dimension = models.CharField(max_length=255, null=True, blank=True, default="151, 151 | 1775, 240 | 170, 120")
     max_pass = models.IntegerField(null=True, blank=True)
 
     is_rented_event = models.BooleanField(default=False)

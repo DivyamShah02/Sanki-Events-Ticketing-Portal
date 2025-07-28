@@ -28,12 +28,18 @@ class EventViewSet(viewsets.ViewSet):
         city = request.data.get('city')
         state = request.data.get('state')
         digital_pass = request.data.get('digital_pass', False)
+        rented_event = request.data.get('rented_event', False)
         event_banner = request.FILES.get('event_banner', None)
 
         if str(digital_pass).lower() == 'true':
             digital_pass = True
         elif str(digital_pass).lower() == 'false':
             digital_pass = False
+
+        if str(rented_event).lower() == 'true':
+            rented_event = True
+        elif str(rented_event).lower() == 'false':
+            rented_event = False
 
         if (event_name and event_details and event_venue and event_date_range and event_address and city and state and max_pass) is None:
             return Response(
@@ -78,11 +84,12 @@ class EventViewSet(viewsets.ViewSet):
             city=city,
             state=state,
             digital_pass=digital_pass,
+            is_rented_event=rented_event,
             s3_bucket_folder=s3_bucket_folder,
             event_banner=event_banner
         )
 
-        
+
         return Response(
             {
                 "success": True,
