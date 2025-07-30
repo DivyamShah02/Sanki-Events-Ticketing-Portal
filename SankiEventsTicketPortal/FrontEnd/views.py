@@ -35,16 +35,36 @@ class DashboardFrontEndViewSet(viewsets.ViewSet):
             return redirect('login-list')
             return HttpResponse('Not logged in')
         # if user.role == 'admin':
+        is_rented = False
         if user.role == 'hod':
+            if request.user.is_rented:
+                is_rented = True
+                event_id = request.user.rented_event_id
+                events_obj = Event.objects.filter(event_id=event_id)
+                seller_data = User.objects.filter(role='reseller', rented_event_id=event_id)
+            else:
+                events_obj = Event.objects.all()
+                seller_data = User.objects.filter(role='reseller')
+
             data = {
-                'sellers': User.objects.filter(role='reseller'),
-                'events': Event.objects.all().order_by('-event_id'),
+                'sellers': seller_data,
+                'events': events_obj.order_by('-event_id'),
+                'is_rented': is_rented
             }
             return render(request, 'hod/dashboard.html', data)
         
         elif user.role == 'reseller':
+            if request.user.is_rented:
+                is_rented = True
+                event_id = request.user.rented_event_id
+                events_obj = Event.objects.filter(event_id=event_id)
+            
+            else:
+                events_obj = Event.objects.all()
+
             data = {
-                'events': Event.objects.all().order_by('-event_id'),
+                'events': events_obj.order_by('-event_id'),
+                'is_rented': is_rented
             }
             return render(request, 'reseller/dashboard.html', data)
 

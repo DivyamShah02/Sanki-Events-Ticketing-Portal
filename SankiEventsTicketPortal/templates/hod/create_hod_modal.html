@@ -1,0 +1,101 @@
+<div class="modal fade" id="createHODModal" tabindex="-1" aria-labelledby="createHODModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="createHODModalLabel">
+        Create New HOD
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form id="hodForm">
+        <!-- Profile Photo Upload -->
+        <!-- <div class="mb-3 text-center">
+          <label for="hodPhoto" class="form-label d-block">Upload Photo</label>
+          <input type="file" class="form-control" id="hodPhoto" accept="image/*" required />
+        </div> -->
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="hodEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="hodEmail" required />
+        </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="hodName" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="hodName" required />
+        </div>
+
+        <!-- Number -->
+        <div class="mb-3">
+          <label for="hodNumber" class="form-label">Phone Number</label>
+          <input type="number" maxlength="10" max="9999999999" min="0000000000" class="form-control" id="hodNumber" required />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="hodPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="hodPassword" required />
+        </div>
+
+        <div class="modal-footer px-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Create HOD
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+document.getElementById("hodForm").addEventListener("submit", async (event) => {
+    toggle_loader();
+    const form = event.target;
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    showModal(
+        'Confirm Action',
+        '<p>Are you sure you want to create new hod?</p>',
+        async () => {
+            let hodName = document.getElementById('hodName').value;
+            let hodPassword = document.getElementById('hodPassword').value;
+            let hodNumber = document.getElementById('hodNumber').value;
+            let hodEmail = document.getElementById('hodEmail').value;
+
+            const bodyData = {
+              'name': hodName,
+              'password': hodPassword,
+              'contact_number': hodNumber,
+              'email': hodEmail,
+              'role': 'hod'
+            };
+
+            const url = "{% url 'user-api-list' %}";
+            const [success, result] = await callApi("POST", url, bodyData, "{{csrf_token}}");
+            if (success) {
+                if (result.success) {
+                    location.reload();
+                }
+                else {
+                    alert("Unexpected Error occured : " + result.error);
+                }
+            } else {
+                alert('Unable to create new hod');
+            }
+        }
+    );
+    toggle_loader();
+});
+
+</script>

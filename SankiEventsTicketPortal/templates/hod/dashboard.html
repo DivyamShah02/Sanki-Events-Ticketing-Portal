@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  
+
   <!-- [Google Font] Family -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
     id="main-font-link" />
-  
+
     <!-- [Tabler Icons] https://tablericons.com -->
   <link rel="stylesheet" href="/static/assets/fonts/tabler-icons.min.css" />
   <!-- [Feather Icons] https://feathericons.com -->
@@ -28,14 +28,14 @@
   <!-- [Template CSS Files] -->
   <link rel="stylesheet" href="/static/assets/css/style.css" id="main-style-link" />
   <link rel="stylesheet" href="/static/assets/css/style-preset.css" />
-  
+
   <!-- Include Bootstrap, jQuery, and Date Range Picker CSS & JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  
+
 </head>
 <!-- [Head] end -->
 
@@ -48,7 +48,7 @@
     </div>
   </div>
   <!-- [ Pre-loader ] End -->
- 
+
   <!-- [ Sidebar Menu ] start -->
   {% include 'hod/nav_bar.html' %}
   <!-- [ Sidebar Menu ] end -->
@@ -58,6 +58,9 @@
 
   <!-- Create Reseller Modal -->
   {% include 'hod/create_reseller_modal.html' %}
+
+    <!-- Create Reseller Modal -->
+  {% include 'hod/create_hod_modal.html' %}
 
   <!-- [ Header Topbar ] start -->
   {% include 'header.html' %}
@@ -146,6 +149,7 @@
           </div>
 
           <div class="col-md-12 col-xl-4">
+            {% if is_rented == False %}
             <h5 class="mb-3">Actions</h5>
             <div class="card p-3 text-center">
               <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
@@ -161,6 +165,7 @@
                 <i class="feather icon-plus-circle me-2"></i>Download report
               </button>
             </div>
+            {% endif %}
             <h5 class="mt-1 text-start">Best Seller</h5>
             <div class="mt-1">
               <div class="card text-start">
@@ -175,7 +180,7 @@
                     <div class="flex-grow-1 mx-3">
                       <h6 class="mb-1" id="event-best-seller-name"></h6>
                       <p class="text-muted text-sm mb-0" id="event-best-seller-date"></p>
-                    </div>                    
+                    </div>
                   </div>
                 </div>
                 <div class="card-body">
@@ -328,7 +333,7 @@
     </div>
   </div>
   <!-- [ Main Content ] end -->
-  
+
   <div class="modal fade" id="punchTicketModal" tabindex="-1" aria-labelledby="punchTicketModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -345,11 +350,11 @@
             <div class="mb-3">
               <label for="customerEmail" class="form-label">Customer Email</label>
               <input type="text" class="form-control" id="customerEmail" required />
-            </div>            
+            </div>
             <div class="mb-3">
               <label for="customerNumber" class="form-label">Customer Number</label>
               <input type="text" class="form-control" id="customerNumber" required />
-            </div>            
+            </div>
             <div class="mb-3">
               <label for="allSellers" class="form-label">All sellers</label>
               <select class="form-select" id="allSellers" required>
@@ -357,7 +362,7 @@
                 {% for seller in sellers %}
                 <option value="{{ seller.user_id }}">{{ seller.name }}</option>
                 {% endfor %}
-              </select> 
+              </select>
             </div>
             <div class="mb-3">
               <label for="allEvents" class="form-label">All Events</label>
@@ -374,7 +379,7 @@
                 <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                 <input type="date" class="form-control" id="date" required />
               </div>
-            </div>        
+            </div>
             <div class="mb-3">
               <label for="quantity" class="form-label">Quantity</label>
               <input type="text" class="form-control" id="quantity" required />
@@ -386,7 +391,7 @@
             <div class="mb-3">
               <label for="total-amount" class="form-label">Total Amount</label>
               <input type="text" class="form-control" id="total-amount" required />
-            </div>  
+            </div>
             <div class="modal-footer px-0">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
@@ -414,7 +419,7 @@
         <div class="modal-body">
           <i class="bi bi-check-circle-fill thank-you-icon"></i>
           <h2 class="text-center">Thank You for Booking Tickets from Sanki Events!</h2>
-          <hr>            
+          <hr>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -434,7 +439,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="getTicketForm">                      
+          <form id="getTicketForm">
             <div class="mb-3">
               <label for="allSellers_report" class="form-label">All sellers</label>
               <select class="form-select" id="allSellers_report" required>
@@ -443,13 +448,13 @@
                 {% for seller in sellers %}
                 <option value="{{ seller.user_id }}">{{ seller.name }}</option>
                 {% endfor %}
-              </select> 
+              </select>
             </div>
             <div class="mb-3">
               <label for="allEvents_report" class="form-label">All Events</label>
               <select class="form-select" id="allEvents_report" required>
                 <option value="" selected disabled>Select Event</option>
-                <option value="">All Events</option>                
+                <option value="">All Events</option>
                 {% for event in events %}
                 <option value="{{ event.event_id }}">{{ event.event_name }}</option>
                 {% endfor %}
@@ -557,7 +562,7 @@
           }
           const eventItem = `
                       <a href="{% url 'event_detail-list' %}?event_id=${event.event_id}" class="list-group-item list-group-item-action">
-                          <div class="d-flex">                              
+                          <div class="d-flex">
                               <div class="flex-grow-1">
                                   <h6 class="mb-1">${event.event_name}</h6>
                                   <p class="mb-0 text-muted">${event.event_date_range} | ${event.event_venue}</p>
@@ -621,7 +626,7 @@
             maxEvent.total_event_ticket_sold;
         }
 
-        //best Reseller 
+        //best Reseller
         if (maxReseller) {
           document.getElementById("reseller-best-seller-name").innerText =
             maxReseller.name;
@@ -712,7 +717,7 @@
 
       });
     }
-  
+
   </script>
 
   <script>
@@ -761,7 +766,7 @@
           );
           toggle_loader();
           if (success) {
-            if (result.success) {              
+            if (result.success) {
               const thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
               thankYouModal.show();
               // alert("Ticket booked successfully "); // Show a success message
@@ -774,7 +779,7 @@
         }
       );
     });
-  
+
     function generateTicketReport() {
       let allSellers_report = document.getElementById('allSellers_report').value;
       let allEvents_report = document.getElementById('allEvents_report').value;
@@ -787,7 +792,7 @@
       window.location.href = url;
 
     };
-  
+
     document.getElementById('per_ticket').addEventListener('input', function () {
       const quantity = document.getElementById('quantity').value;
       const perTicketPrice = this.value;
@@ -795,7 +800,8 @@
 
       if (quantity && perTicketPrice) {
         const totalAmount = parseFloat(quantity) * parseFloat(perTicketPrice);
-        totalAmountField.value = totalAmount.toFixed(2); // Set total amount with 2 decimal places
+        totalAmountField.value = Math.floor(totalAmount);
+        // totalAmountField.value = totalAmount.toFixed(2); // Set total amount with 2 decimal places
       } else {
         totalAmountField.value = ''; // Clear total amount if inputs are not valid
       }

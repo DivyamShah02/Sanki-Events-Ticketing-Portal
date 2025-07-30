@@ -43,7 +43,7 @@
               <span class="pc-mtext">Icons</span>
             </a>
           </li> -->
-
+          {% if is_rented == False %}
           <li class="pc-item pc-caption">
             <label>Actions</label>
             <i class="ti ti-settings"></i>
@@ -60,6 +60,13 @@
               <span class="pc-mtext">New Reseller</span>
             </a>
           </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link" data-bs-toggle="modal" data-bs-target="#createHODModal">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">New HOD</span>
+            </a>
+          </li>
+          {% endif %}
 
           <!-- <li class="pc-item pc-caption">
             <label>Other</label>

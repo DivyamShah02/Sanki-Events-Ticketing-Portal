@@ -338,8 +338,12 @@ class EventListViewSet(viewsets.ViewSet):
     @check_authentication()
     @handle_exceptions
     def list(self, request):
-        events_obj = Event.objects.all()
-        
+        if request.user.is_rented:
+            event_id = request.user.rented_event_id
+            events_obj = Event.objects.filter(event_id=event_id)
+        else:
+            events_obj = Event.objects.all()
+
         if request.user.role == 'reseller':
             events_data = ResellerEventsSerializer(events_obj, many=True, context={'seller_id': request.user}).data
         elif request.user.role == 'hod':
@@ -702,40 +706,76 @@ class TicketUpdateViewSet(viewsets.ViewSet):
 class HodDashboardDetailsViewSet(viewsets.ViewSet):
 
     @handle_exceptions
-    # @check_authentication(required_role='hod')
+    @check_authentication(required_role='hod')
     def list(self, request):
-        events_obj = Event.objects.all()
-        events_data = HodDashboardEventSerializer(events_obj, many=True).data
+        if request.user.is_rented:
+            event_id = request.user.rented_event_id
+            events_obj = Event.objects.filter(event_id=event_id)
+            events_data = HodDashboardEventSerializer(events_obj, many=True).data
 
-        reseller_obj = User.objects.filter(role='reseller')
-        reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
-        
-        all_ticket_obj = Ticket.objects.all()
-        all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+            reseller_obj = User.objects.filter(role='reseller', is_rented=True, rented_event_id=event_id)
+            reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
 
-        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
+            all_ticket_obj = Ticket.objects.filter(event_id=event_id)
+            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
-        all_tickets_sold = 0
-        all_tickets_sold_amount = 0
+            all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
-        for ticket_sold in all_ticket_data_qty_amt:
-            all_tickets_sold+=ticket_sold['qty']
-            all_tickets_sold_amount+=ticket_sold['amount']
+            all_tickets_sold = 0
+            all_tickets_sold_amount = 0
+
+            for ticket_sold in all_ticket_data_qty_amt:
+                all_tickets_sold+=ticket_sold['qty']
+                all_tickets_sold_amount+=ticket_sold['amount']
 
 
-        data = {
-            'events_data': events_data[::-1],
-            'len_events_data': len(events_data),
+            data = {
+                'events_data': events_data[::-1],
+                'len_events_data': len(events_data),
 
-            'reseller_data': reseller_data[::-1],
-            'len_reseller_data': len(reseller_data),
+                'reseller_data': reseller_data[::-1],
+                'len_reseller_data': len(reseller_data),
 
-            'all_ticket_data': all_ticket_data,
-            'len_all_ticket_data': len(all_ticket_data),
+                'all_ticket_data': all_ticket_data,
+                'len_all_ticket_data': len(all_ticket_data),
 
-            'all_tickets_sold': all_tickets_sold,
-            'all_tickets_sold_amount': all_tickets_sold_amount,
-        }
+                'all_tickets_sold': all_tickets_sold,
+                'all_tickets_sold_amount': all_tickets_sold_amount,
+            }
+
+        else:
+            events_obj = Event.objects.all()
+            events_data = HodDashboardEventSerializer(events_obj, many=True).data
+
+            reseller_obj = User.objects.filter(role='reseller')
+            reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
+
+            all_ticket_obj = Ticket.objects.all()
+            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+
+            all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
+
+            all_tickets_sold = 0
+            all_tickets_sold_amount = 0
+
+            for ticket_sold in all_ticket_data_qty_amt:
+                all_tickets_sold+=ticket_sold['qty']
+                all_tickets_sold_amount+=ticket_sold['amount']
+
+
+            data = {
+                'events_data': events_data[::-1],
+                'len_events_data': len(events_data),
+
+                'reseller_data': reseller_data[::-1],
+                'len_reseller_data': len(reseller_data),
+
+                'all_ticket_data': all_ticket_data,
+                'len_all_ticket_data': len(all_ticket_data),
+
+                'all_tickets_sold': all_tickets_sold,
+                'all_tickets_sold_amount': all_tickets_sold_amount,
+            }
 
 
         return Response(
@@ -753,32 +793,64 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
     @handle_exceptions
     # @check_authentication(required_role='hod')
     def list(self, request):
-        events_obj = Event.objects.all()
-        events_data = ResellerDashboardEventSerializer(events_obj, many=True, context={'seller_id': request.user}).data
+        if request.user.is_rented:
+            event_id = request.user.rented_event_id
 
-        all_ticket_obj = Ticket.objects.filter(seller_id=request.user)
-        all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+            events_obj = Event.objects.filter(event_id=event_id)
+            events_data = ResellerDashboardEventSerializer(events_obj, many=True, context={'seller_id': request.user}).data
 
-        all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
+            all_ticket_obj = Ticket.objects.filter(seller_id=request.user)
+            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
-        all_tickets_sold = 0
-        all_tickets_sold_amount = 0
+            all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
-        for ticket_sold in all_ticket_data_qty_amt:
-            all_tickets_sold+=ticket_sold['qty']
-            all_tickets_sold_amount+=ticket_sold['amount']
+            all_tickets_sold = 0
+            all_tickets_sold_amount = 0
+
+            for ticket_sold in all_ticket_data_qty_amt:
+                all_tickets_sold+=ticket_sold['qty']
+                all_tickets_sold_amount+=ticket_sold['amount']
 
 
-        data = {
-            'events_data': events_data,
-            'len_events_data': len(events_data),
+            data = {
+                'events_data': events_data,
+                'len_events_data': len(events_data),
 
-            'all_ticket_data': all_ticket_data,
-            'len_all_ticket_data': len(all_ticket_data),
+                'all_ticket_data': all_ticket_data,
+                'len_all_ticket_data': len(all_ticket_data),
 
-            'all_tickets_sold': all_tickets_sold,
-            'all_tickets_sold_amount': all_tickets_sold_amount,
-        }
+                'all_tickets_sold': all_tickets_sold,
+                'all_tickets_sold_amount': all_tickets_sold_amount,
+            }
+
+        else:
+
+            events_obj = Event.objects.all()
+            events_data = ResellerDashboardEventSerializer(events_obj, many=True, context={'seller_id': request.user}).data
+
+            all_ticket_obj = Ticket.objects.filter(seller_id=request.user)
+            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+
+            all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
+
+            all_tickets_sold = 0
+            all_tickets_sold_amount = 0
+
+            for ticket_sold in all_ticket_data_qty_amt:
+                all_tickets_sold+=ticket_sold['qty']
+                all_tickets_sold_amount+=ticket_sold['amount']
+
+
+            data = {
+                'events_data': events_data,
+                'len_events_data': len(events_data),
+
+                'all_ticket_data': all_ticket_data,
+                'len_all_ticket_data': len(all_ticket_data),
+
+                'all_tickets_sold': all_tickets_sold,
+                'all_tickets_sold_amount': all_tickets_sold_amount,
+            }
 
 
         return Response(

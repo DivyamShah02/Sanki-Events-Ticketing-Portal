@@ -2,8 +2,8 @@ import requests
 import datetime
 import os
 
-# DOMAIN = "http://127.0.0.1:8000"
-DOMAIN = "https://www.sankievents.in"
+DOMAIN = "http://127.0.0.1:8000"
+# DOMAIN = "https://www.sankievents.in"
 
 event_date_id = '2049580382'
 if not os.path.exists(event_date_id):
@@ -13,11 +13,11 @@ if not os.path.exists(event_date_id):
 session = requests.Session()
 
 
-def get_csrf_token():
+def custom_get_csrf_token():
     return session.cookies.get("csrftoken")
 
 
-def login(email, password):
+def custom_login(email, password):
     response = session.post(f"{DOMAIN}/user/login-api/", json={
         "email": email,
         "password": password
@@ -27,8 +27,8 @@ def login(email, password):
     return response.json()
 
 
-def set_headers():
-    csrf_token = get_csrf_token()
+def custom_set_headers():
+    csrf_token = custom_get_csrf_token()
     return {
         "X-CSRFToken": csrf_token
     }
@@ -52,6 +52,17 @@ def get_ticket(ticket_id, headers):
     else:
         print(f"Failed to fetch image. Status code: {response.status_code}")    
     
+def get_direct_ticket(ticket_id, headers):
+    response = session.get(f"{DOMAIN}/ticket/ticket-pass-api",params={"ticket_id": ticket_id}, headers=headers)
+    file_path = f"{ticket_id}.png"
+    print()
+    if response.status_code == 200:
+        with open(file_path, "wb") as f:
+            f.write(response.content)
+        print("Image saved successfully as Event_Pass.png")
+    else:
+        print(f"Failed to fetch image. Status code: {response.status_code}")    
+    return file_path    
 
 def logout(headers):
     response = session.post(f"{DOMAIN}/user/logout-api/", headers=headers)
@@ -60,8 +71,8 @@ def logout(headers):
 
 if __name__ == "__main__":
     print("\n🔐 Logging in as Admin...")
-    login("divyam@dynamiclabz.net", "12345")
-    headers = set_headers()
+    custom_login("divyam@dynamiclabz.net", "12345")
+    headers = custom_set_headers()
 
     data = get_tickets_details(event_date_data=event_date_id,headers=headers)
     print(data)

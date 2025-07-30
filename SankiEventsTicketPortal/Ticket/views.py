@@ -20,6 +20,7 @@ from utils.handle_s3_bucket import *
 from .models import *
 from .serializers import *
 from .generate_pass import generate_pass
+from .ticket_downloader import *
 
 from UserDetail.models import *
 from Event.models import *
@@ -390,6 +391,13 @@ class ApproveTicketViewSet(viewsets.ViewSet):
         ticket_data.approved = True
 
         event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
+        is_rented = event_data_obj.is_rented_event
+        if is_rented:
+            print("\n🔐 Logging in as Admin...")
+            custom_login("divyam@dynamiclabz.net", "12345")
+            headers = custom_set_headers()
+            file_path = get_direct_ticket(ticket_id=ticket_id, headers=headers)
+
         event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()        
 
         mail_sent = self.send_mail(customer_name=ticket_data.customer_name,
