@@ -20,7 +20,6 @@ from utils.handle_s3_bucket import *
 from .models import *
 from .serializers import *
 from .generate_pass import generate_pass
-from .ticket_downloader import *
 
 from UserDetail.models import *
 from Event.models import *
@@ -374,7 +373,7 @@ class ApproveTicketViewSet(viewsets.ViewSet):
                     "data": None,
                     "error": "ticket_id not provided."
                 }, status=status.HTTP_404_NOT_FOUND)
-        
+
         ticket_data = Ticket.objects.get(ticket_id=ticket_id)
         if not ticket_data:
             return Response(
@@ -392,11 +391,11 @@ class ApproveTicketViewSet(viewsets.ViewSet):
 
         event_data_obj = Event.objects.filter(event_id=ticket_data.event_id).first()        
         is_rented = event_data_obj.is_rented_event
-        if is_rented:
-            print("\n🔐 Logging in as Admin...")
-            custom_login("divyam@dynamiclabz.net", "12345")
-            headers = custom_set_headers()
-            file_path = get_direct_ticket(ticket_id=ticket_id, headers=headers)
+        # if is_rented:
+            # print("\n🔐 Logging in as Admin...")
+            # custom_login("divyam@dynamiclabz.net", "12345")
+            # headers = custom_set_headers()
+            # file_path = get_direct_ticket(ticket_id=ticket_id, headers=headers)
 
         event_date_data_obj = EventDate.objects.filter(event_date_id=ticket_data.event_date_id).first()        
 
@@ -852,12 +851,49 @@ class TicketPassViewSet(viewsets.ViewSet):
 
         return response
 
+class GenerateTicketPassViewSet(viewsets.ViewSet):
+
+    # @handle_exceptions
+    def list(self, request):
+        event_id = request.GET.get('event_id')
+        ticket_code = request.GET.get('ticket_id')
+        if not event_id:
+            return Response({
+                    "success": False,
+                    "user_not_logged_in": False,
+                    "user_unauthorized": False,
+                    "data": None,
+                    "error": f"All details are required."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        event_data = Event.objects.filter(event_id=event_id).first()
+        pass_qr_dimension = str(event_data.pass_qr_dimension)
+        pass_path = event_data.event_pass.url
+
+        qr_size = tuple(map(int, pass_qr_dimension.split('|')[0].strip().split(',')))
+        qr_position = tuple(map(int, pass_qr_dimension.split('|')[1].strip().split(',')))
+        text_position = tuple(map(int, pass_qr_dimension.split('|')[2].strip().split(',')))
+
+        # "151, 151 | 1775, 240 | 170, 120"
+        # qr_size = (151, 151)  
+        # qr_position = (1775, 240)  # (w, h)
+        # text_position = (170, 120)
+        # print(pass_path)
+        buffer = generate_pass(ticket_id=ticket_code, name='', qr_size=qr_size, qr_position=qr_position, text_position=text_position, pass_path=pass_path)
+        
+        response = HttpResponse(buffer, content_type="image/png")
+        response["Content-Disposition"] = 'attachment; filename="Event_Pass.png"'
+
+        return response
+
 
 class ValidateTicketPassViewSet(viewsets.ViewSet):
 
     @handle_exceptions
     def list(self, request):
         ticket_id = request.GET.get('ticket_id')
+        event_date_id = request.GET.get('event_date_id')
 
         if not ticket_id:
             data = {
@@ -872,7 +908,8 @@ class ValidateTicketPassViewSet(viewsets.ViewSet):
                     "error": f"All details are required."
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        # ticket_data = Ticket.objects.get(ticket_id=ticket_id)
+        ticket_data = Ticket.objects.get(ticket_sent_codes__contains=ticket_id, event_date_id=event_date_id)
         if not ticket_data:
             data = {
                 "isValid": False,

@@ -21,6 +21,8 @@ router.register(r'export-assigned-ticket-api', AdminExportAssignedTicketDataView
 router.register(r'ticket-pass-api', TicketPassViewSet, basename='ticket-pass-api')
 router.register(r'validate-ticket-pass-api', ValidateTicketPassViewSet, basename='validate-ticket-pass-api')
 
+router.register(r'generate-ticket-pass-api', GenerateTicketPassViewSet, basename='generate-ticket-pass-api')
+
 router.register(r'export-ticket', TicketExportViewSet, basename='export-ticket')
 
 

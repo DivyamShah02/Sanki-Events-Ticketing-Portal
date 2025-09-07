@@ -795,6 +795,7 @@
       async function validateTicket(ticketId) {
         const Params = {
             ticket_id: ticketId,
+            event_date_id:'{{event_date_id}}'
         };
 
         const url = "{% url 'validate-ticket-pass-api-list' %}?" + toQueryString(Params); // Construct the full URL with query params
@@ -818,8 +819,6 @@
         } else {
             showErrorScreen()
         }
-
-
 
         // This would be your actual API call
         // For demo purposes, we're using a mock API with setTimeout

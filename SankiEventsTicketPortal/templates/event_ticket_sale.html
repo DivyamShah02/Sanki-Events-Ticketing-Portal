@@ -455,7 +455,7 @@
                 <label for="phone" class="form-label">Phone Number <small class="text-muted" style="font-weight: 200;">(Enter the mobile number associated with your <b>District Account</b>. Do not include <b>'+91'</b> in the number)</small></label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                  <input type="tel" class="form-control" maxlength="10" id="phone" placeholder="Enter your phone number" required />
+                  <input type="tel" class="form-control" minlength="10" maxlength="10" id="phone" placeholder="Enter your phone number" required />
                 </div>
               </div>
             </div>
@@ -468,7 +468,7 @@
             </h4>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="quantity" class="form-label">Quantity<br><small class="text-muted" style="font-weight: 200;"> (You may request up to 4 tickets at a time. To purchase more, kindly submit the form again.)</small></label>
+                <label for="quantity" class="form-label">Quantity<br><small class="text-muted" style="font-weight: 200;" id="qty_label"> (You may request up to 4 tickets at a time. To purchase more, kindly submit the form again.)</small></label>
                 <div class="quantity-selector">
                     <button class="quantity-btn" id="decreaseBtn" onclick="changeQuantity(-1)">−</button>
                     <span class="quantity-display" id="quantity">1</span>
@@ -534,7 +534,7 @@
             <p>*Once your booking is approved, you will receive a confirmation email.</p>
             <hr>
 
-            <a type="button" class="btn btn-primary px-5 mt-3 w-100" id="downloadTicket" href="#" download="ticket.png">
+            <a type="button" class="btn btn-primary px-5 mt-3 w-100" id="downloadTicket" href="#" download="ticket.png" style="display: none;">
               <i class="fas fa-download me-2"></i> Download Pass
             </a>
           </div>
@@ -588,6 +588,8 @@
             console.log(data);
             event_data = data.event_data;
             seller_data = data.seller_data;
+
+            document.getElementById("qty_label").textContent = ` (You may request up to ${event_data.max_pass} tickets at a time. To purchase more, kindly submit the form again.)`
 
             if (event_data.is_rented_event) {
               // document.getElementById('downloadTicket').style.display = "";

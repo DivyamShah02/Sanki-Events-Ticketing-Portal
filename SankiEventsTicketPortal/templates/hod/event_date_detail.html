@@ -266,7 +266,7 @@
 
                 <div id="status_message"></div>
                 
-                <a class="btn btn-outline-primary mt-2" href="{% url 'event_qr_scanner-list' %}" id="event-details-modal-event_qr_scanner" style="display: none;">
+                <a class="btn btn-outline-primary mt-2" href="{% url 'event_qr_scanner-list' %}?event_date_id={{event_date_id}}" id="event-details-modal-event_qr_scanner" style="display: none;">
                   <b>Scan tickets</b>
                 </a>
               </div>

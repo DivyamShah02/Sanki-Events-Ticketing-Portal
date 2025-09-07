@@ -111,16 +111,16 @@ class EventDateDetailFrontEndViewSet(viewsets.ViewSet):
 
         if not request.GET.get('event_date_id'):
             return redirect('events-list')
-        
+
         event_data = EventDate.objects.filter(event_date_id=request.GET.get('event_date_id')).first()
         if not event_data:
             return redirect('events-list')
 
         if user.role == 'hod':
-            return render(request, 'hod/event_date_detail.html')
-        
+            return render(request, 'hod/event_date_detail.html', {"event_date_id": request.GET.get('event_date_id')})
+
         elif user.role == 'reseller':
-            return render(request, 'reseller/event_date_detail.html')
+            return render(request, 'reseller/event_date_detail.html', {"event_date_id": request.GET.get('event_date_id')})
 
 
 class TicketSaleFrontEndViewSet(viewsets.ViewSet):
@@ -153,7 +153,7 @@ class EventQrCodeFrontEndViewSet(viewsets.ViewSet):
             return redirect('login-list')
 
         if user.role == 'hod':
-            return render(request, 'hod/event_qr_scanner.html')
+            return render(request, 'hod/event_qr_scanner.html', {"event_date_id": request.GET.get('event_date_id')})
         
         elif user.role == 'reseller':
             return render(request, 'reseller/event_date_detail.html')
