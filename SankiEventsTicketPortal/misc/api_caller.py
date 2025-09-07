@@ -4,7 +4,8 @@ import random
 from datetime import datetime, timedelta
 
 fake = Faker()
-base_url = 'http://127.0.0.1:8000/'
+# base_url = 'http://127.0.0.1:8000/'
+base_url = 'https://www.sankievents.in/'
 
 def create_admin_user():
     url = base_url + 'user/user-api/'

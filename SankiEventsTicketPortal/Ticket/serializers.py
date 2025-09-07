@@ -17,7 +17,7 @@ class QtyAmountTicketSerializer(serializers.ModelSerializer):
 class HodTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket        
-        fields = '__all__'
+        fields = ["event_id", "qty", "amount", "seller_id", "event_date_id", "mail_sent", "approved"]
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)

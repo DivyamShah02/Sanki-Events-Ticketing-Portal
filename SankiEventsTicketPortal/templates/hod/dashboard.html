@@ -319,6 +319,7 @@
                       <tr>
                         <th>CUSTOMER NAME</th>
                         <th>EVENT NAME</th>
+                        <th>EVENT DATE</th>
                         <th>QUANTITY</th>
                         <th>STATUS</th>
                         <th class="text-end">TOTAL AMOUNT</th>
@@ -652,8 +653,10 @@
         const ticketTableBody = document.getElementById(
           "ticket-sales-table-body"
         );
-        ticketTableBody.innerHTML = "";
+        ticketTableBody.innerHTML = "";        
+        console.log(data.all_ticket_data)
         data.all_ticket_data.forEach((ticket) => {
+          let event_week_day = formatDate_event_date(ticket.event_date)
           let statusClass =
             ticket.status.toLowerCase() === "approved"
               ? "text-success"
@@ -665,6 +668,7 @@
               <tr>
                   <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
                   <td>${ticket.event_name}</td>
+                  <td>${event_week_day}</td>
                   <td>${ticket.qty}</td>
                   <td>
                        <span class="d-flex align-items-center gap-2">
@@ -679,6 +683,15 @@
         console.error("Error fetching data:", error);
       }
     }
+
+    const formatDate_event_date = d => {
+      const date = new Date(d);
+      const day = date.getDate();
+      const suffix = (n => ["th","st","nd","rd"][n%10>3||[11,12,13].includes(n%100)?0:n%10])(day);
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+      const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      return `${day}${suffix} ${months[date.getMonth()]} ${date.getFullYear()}, ${weekdays[date.getDay()]}`;
+    };
 
     function handleDashboardFuncitonality() {
       // Select the cards
