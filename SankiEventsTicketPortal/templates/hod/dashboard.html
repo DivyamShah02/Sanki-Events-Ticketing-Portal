@@ -152,6 +152,8 @@
             {% if is_rented == False %}
             <h5 class="mb-3">Actions</h5>
             <div class="card p-3 text-center">
+              {% if request.user.email in "viewing.portal1@sankievents.in,viewing.portal2@sankievents.in" %}
+              {% else %}
               <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
                 data-bs-target="#punchTicketModal">
                 <i class="feather icon-plus-circle me-2"></i>Punch Ticket
@@ -160,6 +162,7 @@
                 data-bs-target="#createEventModal">
                 <i class="feather icon-plus-circle me-2"></i>Create Event
               </button>
+              {% endif %}
               <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
                 data-bs-target="#getTicketReport">
                 <i class="feather icon-plus-circle me-2"></i>Download report

@@ -40,7 +40,7 @@ def create_user(name, contact_number, email):
 
     data = {
         'name': name,
-        'password': 'Sanki.Events',
+        'password': 'Dynamiclabz@best',
         'contact_number': contact_number,
         'email': email,
         'role': 'hod',
@@ -167,7 +167,11 @@ if __name__ == '__main__':
     #     new_sale = create_sale(seller_id, event_date_id, event_id, sale['qty'], sale['amount'], sale['sold_date'], sale['customer_name'], sale['customer_email'], sale['customer_number'])
 
 
-    created_user = create_user(name='Sanki Events', contact_number='0000000000', email='sanki.events@sankievents.in')
+    created_user = create_user(name='Viewing Portal 1', contact_number='1236875492', email='viewing.portal1@sankievents.in')
+    print(created_user.text)
+
+
+    created_user = create_user(name='Viewing Portal 2', contact_number='3236875492', email='viewing.portal2@sankievents.in')
     print(created_user.text)
 
     import pdb; pdb.set_trace()

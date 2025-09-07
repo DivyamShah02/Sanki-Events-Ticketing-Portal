@@ -287,12 +287,14 @@
               <h6 class="mb-4" id="event-details-modal-event_total_sales">
                 Loading...
               </h6>
-
+              {% if request.user.email in "viewing.portal1@sankievents.in,viewing.portal2@sankievents.in" %}
+              {% else %}
               <div class="mt-4 card-footer px-0 py-2">
                 <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#AddAvailableTickets">
                   <b>Update available tickets</b>
                 </button>
               </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -878,11 +880,18 @@
                   <td class="text-center">${reseller.email}</td>
                   <td class="text-center">${reseller.total_tickets_sold_seller} ( ₹${reseller.total_tickets_sold_seller_amount.toLocaleString("en-IN")} )</td>
                   <td class="text-center">${reseller.available_tickets}</td>
+                  {% if request.user.email in "viewing.portal1@sankievents.in,viewing.portal2@sankievents.in" %}
+                  <td class="text-center">
+                    <button type="button" class="btn btn-danger text-nowrap"                    
+                    >Not Authorized</button>
+                  </td>
+                  {% else %}
                   <td class="text-center">
                     <button type="button" class="btn btn-primary text-nowrap"
                     onclick="handleAssignTicketsModal('${reseller.name}', '${reseller.email}', '${event_data.event_name}', '${event_date_data.date}', '${reseller.assigned_tickets}', '${reseller.available_tickets}', '${reseller.user_id}')"
                     >Assign Tickets</button>
                   </td>
+                  {% endif %}
               </tr>`;
               resellerTable.innerHTML += ticketRow;
             });

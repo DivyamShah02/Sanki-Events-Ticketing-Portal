@@ -146,11 +146,14 @@
                   Loading...
                 </h6>
               </li>
+              {% if request.user.email in "viewing.portal1@sankievents.in,viewing.portal2@sankievents.in" %}
+              {% else %}
               <div class="mt-4 card-footer px-0 py-2">
                 <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateEventModal">
                   <b>Update details</b>
                 </button>
               </div>
+              {% endif %}
             </div>
           </div>
         </div>

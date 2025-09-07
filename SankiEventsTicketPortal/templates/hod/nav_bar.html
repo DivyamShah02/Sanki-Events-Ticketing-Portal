@@ -43,6 +43,8 @@
               <span class="pc-mtext">Icons</span>
             </a>
           </li> -->
+          {% if request.user.email in "viewing.portal1@sankievents.in,viewing.portal2@sankievents.in" %}
+          {% else %}
           {% if is_rented == False %}
           <li class="pc-item pc-caption">
             <label>Actions</label>
@@ -66,6 +68,7 @@
               <span class="pc-mtext">New HOD</span>
             </a>
           </li>
+          {% endif %}
           {% endif %}
 
           <!-- <li class="pc-item pc-caption">
