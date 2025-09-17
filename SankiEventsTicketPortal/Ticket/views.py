@@ -221,7 +221,8 @@ class EventTicketViewSet(viewsets.ViewSet):
             customer_payment_ss=request.FILES.get('customer_payment_ss', None),
             approved=False,
             mail_sent=False,
-            ticket_sent_codes=""
+            ticket_sent_codes="",
+            remarks=request.data.get('remarks', '')
         )
 
         return Response({

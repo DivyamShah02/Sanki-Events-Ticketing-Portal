@@ -366,6 +366,7 @@
                           <th>RESELLER NAME</th>
                           <th class="text-center">CUSTOMER NAME</th>
                           <th class="text-center">CUSTOMER EMAIL</th>
+                          <th class="text-center">REMARKS</th>
                           <th class="text-center">QUANTITY</th>
                           <th class="text-center">AMOUNT</th>
                           <th class="text-center">STATUS</th>
@@ -1057,6 +1058,7 @@
                     <td>${ticket.seller_name}</td>
                     <td onclick="viewCustomerModalHandler('${ticket.customer_name}', '${ticket.customer_email}', '${ticket.customer_number}', '${ticket.qty}', '${ticket.amount}', '${ticket.ticket_id}', '${ticket.customer_payment_ss}', '${ticket.id}')"><a href="#" class="text-muted" id="view-customer-${ticket.ticket_id}">${ticket.customer_name}</a></td>
                     <td class="text-center">${ticket.customer_email}</td>
+                    <td class="text-center">${ticket.remarks}</td>
                     <td class="text-center">${ticket.qty}</td>
                     <td class="text-center">₹${ticket.amount.toLocaleString("en-IN")}</td>
                     <td class="text-center text-nowrap" id="status-class-${ticket.ticket_id}">

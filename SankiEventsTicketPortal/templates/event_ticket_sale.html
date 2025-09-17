@@ -486,6 +486,15 @@
                   <input type="number" class="form-control" id="total-amount" required />
                 </div>
               </div>
+              <div class="col-md-12 mb-3">
+                <label for="remarks" class="form-label">
+                  Remarks<br>
+                  <small class="text-muted" style="font-weight: 200;">(Not compulsory)</small>
+                </label>
+                <div class="input-group">
+                  <textarea class="form-control" id="remarks" rows="3"></textarea>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -734,6 +743,7 @@
           let customerNumber = document.getElementById("phone").value;
           let customerEmail = document.getElementById("email").value;
           let totalAmount = document.getElementById("total-amount").value;
+          let remarks = document.getElementById("remarks").value;
           let event_date = document.getElementById("date").value;
 
           const formData = new FormData();
@@ -743,6 +753,7 @@
           formData.append('event_id', event_data.event_id);
           formData.append('qty', quantity);
           formData.append('amount', totalAmount);
+          formData.append('remarks', remarks);
           formData.append('customer_name', customerName);
           formData.append('customer_email', customerEmail);
           formData.append('customer_number', customerNumber);
