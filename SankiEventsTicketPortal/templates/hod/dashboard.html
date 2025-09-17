@@ -311,6 +311,40 @@
         <div id="tickets-section" style="display:none">
           <div class="col-md-12 col-xl-12" id>
             <h5 class="mb-3">Ticket Status</h5>
+            
+            <!-- Added filters section for tickets -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label for="event-filter" class="form-label">Event</label>
+                    <select class="form-select" id="event-filter">
+                      <option value="">All Events</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="seller-filter" class="form-label">Seller</label>
+                    <select class="form-select" id="seller-filter">
+                      <option value="">All Sellers</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="status-filter" class="form-label">Status</label>
+                    <select class="form-select" id="status-filter">
+                      <option value="">All Status</option>
+                      <option value="approved">Approved</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary" onclick="applyFilters()">
+                      <i class="ti ti-filter me-2"></i>Apply Filters
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card tbl-card">
               <div class="card-body">
                 <div class="table-responsive">
@@ -329,6 +363,18 @@
                       <!-- Dynamic ticket sales data will be populated here -->
                     </tbody>
                   </table>
+                </div>
+                
+                <!-- Added pagination section -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <div id="pagination-info">
+                    <!-- Pagination info will be populated here -->
+                  </div>
+                  <nav aria-label="Ticket pagination">
+                    <ul class="pagination mb-0" id="pagination-controls">
+                      <!-- Pagination controls will be populated here -->
+                    </ul>
+                  </nav>
                 </div>
               </div>
             </div>
@@ -520,6 +566,15 @@
 
   <!--scripts for dynamic data-->
   <script>
+    let currentFilters = {
+      event_id: '',
+      seller_id: '',
+      status: '',
+      page: 1,
+      page_size: 10
+    };
+    let filterOptions = {};
+
     window.onload = async function () {
       toggle_loader();
       await fetchHodDashboardData();
@@ -649,39 +704,158 @@
             maxReseller.total_tickets_sold_seller;
         }
 
-        // Populate ticket sales table dynamically
-        const ticketTableBody = document.getElementById(
-          "ticket-sales-table-body"
-        );
-        ticketTableBody.innerHTML = "";        
-        console.log(data.all_ticket_data)
-        data.all_ticket_data.forEach((ticket) => {
-          let event_week_day = formatDate_event_date(ticket.event_date)
-          let statusClass =
-            ticket.status.toLowerCase() === "approved"
-              ? "text-success"
-              : "text-danger";
-          if (ticket.status.toLowerCase() === "mail sent") {
-            statusClass = "text-primary";
-          }
-          const ticketRow = `
-              <tr>
-                  <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
-                  <td>${ticket.event_name}</td>
-                  <td>${event_week_day}</td>
-                  <td>${ticket.qty}</td>
-                  <td>
-                       <span class="d-flex align-items-center gap-2">
-                                <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
-                        </span>
-                  </td>
-                  <td class="text-end">₹${ticket.amount.toLocaleString('en-IN')}</td>
-              </tr>`;
-          ticketTableBody.innerHTML += ticketRow;
-        });
+        // Initial load of tickets with filters will be handled by loadFilteredTickets function
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+    }
+
+    async function loadFilteredTickets() {
+      try {
+        const params = new URLSearchParams();
+        if (currentFilters.event_id) params.append('event_id', currentFilters.event_id);
+        if (currentFilters.seller_id) params.append('seller_id', currentFilters.seller_id);
+        if (currentFilters.status) params.append('status', currentFilters.status);
+        params.append('page', currentFilters.page);
+        params.append('page_size', currentFilters.page_size);
+
+        const response = await fetch(`{% url 'hod-filtered-tickets-api-list' %}?${params}`);
+        const result = await response.json();
+        console.log(result);
+        if (result.success) {
+          const data = result.data;
+          
+          // Store filter options for dropdowns
+          filterOptions = data.filter_options;
+          
+          // Populate filter dropdowns
+          populateFilterDropdowns();
+          
+          // Populate tickets table
+          populateTicketsTable(data.tickets);
+          
+          // Update pagination
+          updatePagination(data.pagination);
+        }
+      } catch (error) {
+        console.error("Error fetching filtered tickets:", error);
+      }
+    }
+
+    function populateFilterDropdowns() {
+      // Populate events dropdown
+      const eventFilter = document.getElementById('event-filter');
+      eventFilter.innerHTML = '<option value="">All Events</option>';
+      filterOptions.events.forEach(event => {
+        const option = document.createElement('option');
+        option.value = event.event_id;
+        option.textContent = event.event_name;
+        if (event.event_id === currentFilters.event_id) option.selected = true;
+        eventFilter.appendChild(option);
+      });
+
+      // Populate sellers dropdown
+      const sellerFilter = document.getElementById('seller-filter');
+      sellerFilter.innerHTML = '<option value="">All Sellers</option>';
+      filterOptions.resellers.forEach(reseller => {
+        const option = document.createElement('option');
+        option.value = reseller.user_id;
+        option.textContent = reseller.name;
+        if (reseller.user_id === currentFilters.seller_id) option.selected = true;
+        sellerFilter.appendChild(option);
+      });
+
+      // Set status filter
+      const statusFilter = document.getElementById('status-filter');
+      statusFilter.value = currentFilters.status;
+    }
+
+    function populateTicketsTable(tickets) {
+      const ticketTableBody = document.getElementById("ticket-sales-table-body");
+      ticketTableBody.innerHTML = "";
+      
+      tickets.forEach((ticket) => {
+        let event_week_day = formatDate_event_date(ticket.event_date);
+        let statusClass =
+          ticket.status.toLowerCase() === "approved"
+            ? "text-success"
+            : "text-danger";
+        if (ticket.status.toLowerCase() === "mail sent") {
+          statusClass = "text-primary";
+        }
+        const ticketRow = `
+            <tr>
+                <td><a href="#" class="text-muted">${ticket.customer_name}</a></td>
+                <td>${ticket.event_name}</td>
+                <td>${event_week_day}</td>
+                <td>${ticket.qty}</td>
+                <td>
+                     <span class="d-flex align-items-center gap-2">
+                              <i class="fas fa-circle ${statusClass} f-10 m-r-5"></i> ${ticket.status}
+                      </span>
+                </td>
+                <td class="text-end">₹${ticket.amount.toLocaleString('en-IN')}</td>
+            </tr>`;
+        ticketTableBody.innerHTML += ticketRow;
+      });
+    }
+
+    function updatePagination(pagination) {
+      // Update pagination info
+      const paginationInfo = document.getElementById('pagination-info');
+      paginationInfo.innerHTML = `
+        Showing ${pagination.start_index} to ${pagination.end_index} of ${pagination.total_count} entries
+      `;
+
+      // Update pagination controls
+      const paginationControls = document.getElementById('pagination-controls');
+      paginationControls.innerHTML = '';
+
+      // Previous button
+      if (pagination.has_previous) {
+        paginationControls.innerHTML += `
+          <li class="page-item">
+            <a class="page-link" href="#" onclick="changePage(${pagination.current_page - 1})">Previous</a>
+          </li>
+        `;
+      }
+
+      // Page numbers
+      const startPage = Math.max(1, pagination.current_page - 2);
+      const endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+
+      for (let i = startPage; i <= endPage; i++) {
+        const activeClass = i === pagination.current_page ? 'active' : '';
+        paginationControls.innerHTML += `
+          <li class="page-item ${activeClass}">
+            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+          </li>
+        `;
+      }
+
+      // Next button
+      if (pagination.has_next) {
+        paginationControls.innerHTML += `
+          <li class="page-item">
+            <a class="page-link" href="#" onclick="changePage(${pagination.current_page + 1})">Next</a>
+          </li>
+        `;
+      }
+    }
+
+    function applyFilters() {
+      currentFilters.event_id = document.getElementById('event-filter').value;
+      currentFilters.seller_id = document.getElementById('seller-filter').value;
+      currentFilters.status = document.getElementById('status-filter').value;
+      currentFilters.page = 1; // Reset to first page when applying filters
+      
+      loadFilteredTickets();
+    }
+
+    function changePage(page) {
+      currentFilters.page = page;
+      loadFilteredTickets();
     }
 
     const formatDate_event_date = d => {
@@ -732,7 +906,11 @@
       totalTicketsCard.addEventListener("click", function () {
         hideAllSections();
         ticketsSection.style.display = "block"; // Show Tickets List
-
+        
+        // Load filtered tickets when section is shown
+        if (Object.keys(filterOptions).length === 0) {
+          loadFilteredTickets();
+        }
       });
     }
 

@@ -144,7 +144,7 @@ class EventViewSet(viewsets.ViewSet):
         data = {
             "event_data": event_data,
             "event_dates_data": event_dates_data,
-            "len_event_dates_data": event_dates_data
+            "len_event_dates_data": len(event_dates_data)
         }
 
         return Response(
@@ -202,7 +202,7 @@ class EventViewSet(viewsets.ViewSet):
     @check_authentication(required_role='hod')
     def delete(self, request):
         event_id = request.data.get('event_id')
-        if not event:
+        if not event_id:
             return Response(
                 {
                     "success": False,
@@ -717,7 +717,7 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
             reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
 
             all_ticket_obj = Ticket.objects.filter(event_id=event_id)
-            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+            # all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
             all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
@@ -736,8 +736,8 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
                 'reseller_data': reseller_data[::-1],
                 'len_reseller_data': len(reseller_data),
 
-                'all_ticket_data': all_ticket_data,
-                'len_all_ticket_data': len(all_ticket_data),
+                # 'all_ticket_data': all_ticket_data,
+                # 'len_all_ticket_data': len(all_ticket_data),
 
                 'all_tickets_sold': all_tickets_sold,
                 'all_tickets_sold_amount': all_tickets_sold_amount,
@@ -751,7 +751,7 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
             reseller_data = HodDashboardUserSerializer(reseller_obj, many=True).data
 
             all_ticket_obj = Ticket.objects.all()
-            all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
+            # all_ticket_data = HodTicketSerializer(all_ticket_obj, many=True).data
 
             all_ticket_data_qty_amt = QtyAmountTicketSerializer(all_ticket_obj, many=True).data
 
@@ -770,8 +770,8 @@ class HodDashboardDetailsViewSet(viewsets.ViewSet):
                 'reseller_data': reseller_data[::-1],
                 'len_reseller_data': len(reseller_data),
 
-                'all_ticket_data': all_ticket_data,
-                'len_all_ticket_data': len(all_ticket_data),
+                # 'all_ticket_data': all_ticket_data,
+                # 'len_all_ticket_data': len(all_ticket_data),
 
                 'all_tickets_sold': all_tickets_sold,
                 'all_tickets_sold_amount': all_tickets_sold_amount,
@@ -812,6 +812,7 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
                 all_tickets_sold_amount+=ticket_sold['amount']
 
 
+
             data = {
                 'events_data': events_data,
                 'len_events_data': len(events_data),
@@ -841,6 +842,7 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
                 all_tickets_sold_amount+=ticket_sold['amount']
 
 
+
             data = {
                 'events_data': events_data,
                 'len_events_data': len(events_data),
@@ -862,3 +864,95 @@ class ResellerDashboardDetailsViewSet(viewsets.ViewSet):
                 "error": None
             }, status=status.HTTP_200_OK)
 
+
+class HodFilteredTicketsViewSet(viewsets.ViewSet):
+    
+    @handle_exceptions
+    @check_authentication(required_role='hod')
+    def list(self, request):
+        # Get filter parameters
+        event_id = request.GET.get('event_id', '')
+        seller_id = request.GET.get('seller_id', '')
+        status_filter = request.GET.get('status', '')
+        page = int(request.GET.get('page', 1))
+        page_size = int(request.GET.get('page_size', 10))
+        
+        # Base queryset
+        if request.user.is_rented:
+            rented_event_id = request.user.rented_event_id
+            all_ticket_obj = Ticket.objects.filter(event_id=rented_event_id)
+        else:
+            all_ticket_obj = Ticket.objects.all()
+        
+        # Apply filters
+        if event_id:
+            all_ticket_obj = all_ticket_obj.filter(event_id=event_id)
+        
+        if seller_id:
+            all_ticket_obj = all_ticket_obj.filter(seller_id=seller_id)
+        
+        if status_filter:
+            if status_filter.lower() == 'approved':
+                all_ticket_obj = all_ticket_obj.filter(approved=True)
+            elif status_filter.lower() == 'pending':
+                all_ticket_obj = all_ticket_obj.filter(approved=False)
+        
+        # Order by latest first
+        all_ticket_obj = all_ticket_obj.order_by('-created_at')
+        
+        # Calculate pagination
+        total_count = all_ticket_obj.count()
+        start_index = (page - 1) * page_size
+        end_index = start_index + page_size
+        
+        # Get paginated results
+        paginated_tickets = all_ticket_obj[start_index:end_index]
+        ticket_data = HodTicketSerializer(paginated_tickets, many=True).data
+        
+        # Calculate pagination info
+        total_pages = (total_count + page_size - 1) // page_size
+        has_next = page < total_pages
+        has_previous = page > 1
+        
+        # Get filter options for dropdowns
+        if request.user.is_rented:
+            events_for_filter = Event.objects.filter(event_id=request.user.rented_event_id)
+            resellers_for_filter = User.objects.filter(role='reseller', is_rented=True, rented_event_id=request.user.rented_event_id)
+        else:
+            events_for_filter = Event.objects.all()
+            resellers_for_filter = User.objects.filter(role='reseller')
+        
+        events_options = [{'event_id': event.event_id, 'event_name': event.event_name} for event in events_for_filter]
+        resellers_options = [{'user_id': reseller.user_id, 'name': reseller.name} for reseller in resellers_for_filter]
+        
+        data = {
+            'tickets': ticket_data,
+            'pagination': {
+                'current_page': page,
+                'total_pages': total_pages,
+                'total_count': total_count,
+                'page_size': page_size,
+                'has_next': has_next,
+                'has_previous': has_previous,
+                'start_index': start_index + 1 if total_count > 0 else 0,
+                'end_index': min(end_index, total_count)
+            },
+            'filter_options': {
+                'events': events_options,
+                'resellers': resellers_options,
+                'status_options': [
+                    {'value': '', 'label': 'All Status'},
+                    {'value': 'approved', 'label': 'Approved'},
+                    {'value': 'pending', 'label': 'Pending'}
+                ]
+            }
+        }
+        
+        return Response(
+            {
+                "success": True,
+                "user_not_logged_in": False,
+                "user_unauthorized": False,
+                "data": data,
+                "error": None
+            }, status=status.HTTP_200_OK)

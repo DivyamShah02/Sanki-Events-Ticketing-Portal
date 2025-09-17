@@ -1045,14 +1045,14 @@ class TicketExportViewSet(viewsets.ViewSet):
             if t.mail_sent:
                 status_ticket = 'Mail Sent'
             data.append({
-                "Customer Number": t.customer_number,
                 "Customer Name": t.customer_name,
                 "Customer Email": t.customer_email,
+                "Customer Number": t.customer_number,
                 "Qty": t.qty,
                 "Event Date": event_date.strftime('%Y-%m-%d') if event_date else '',
                 "Day of Event": day_of_event,
-                "Weekday": weekday_name,
                 "Amount": t.amount,
+                "Weekday": weekday_name,
                 "Status": status_ticket,
                 "Sold Date": t.sold_date.strftime('%Y-%m-%d'),
                 "Created At": t.created_at.strftime('%Y-%m-%d %H:%M:%S'),
